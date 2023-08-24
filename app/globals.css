@@ -8,20 +8,91 @@
   --background-end-rgb: 255, 255, 255;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-}
+/*@media (prefers-color-scheme: dark) {*/
+/*  :root {*/
+/*    --foreground-rgb: 255, 255, 255;*/
+/*    --background-start-rgb: 0, 0, 0;*/
+/*    --background-end-rgb: 0, 0, 0;*/
+/*  }*/
+/*}*/
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+/*body {*/
+/*  color: rgb(var(--foreground-rgb));*/
+/*  background: linear-gradient(*/
+/*      to bottom,*/
+/*      transparent,*/
+/*      rgb(var(--background-end-rgb))*/
+/*    )*/
+/*    rgb(var(--background-start-rgb));*/
+/*}*/
+
+@layer components{
+  /*styles for xs*/
+  .text-xs-light {
+    @apply text-xs text-black-primary dark:text-white font-normal
+  }
+  .text-xs-bold {
+    @apply text-xs text-black-primary dark:text-white font-semibold
+  }
+  .text-xs-light-gray {
+    @apply text-xs text-gray-primary dark:text-gray-primary-dark font-normal
+  }
+  .text-xs-bold-gray {
+    @apply text-xs text-gray-primary dark:text-gray-primary-dark font-semibold
+  }
+  .text-xs-light-gray-secondary {
+    @apply text-xs text-gray-secondary dark:text-gray-secondary-dark font-normal
+  }
+  .text-xs-bold-gray-secondary {
+    @apply text-xs text-gray-secondary dark:text-gray-secondary-dark font-semibold
+  }
+
+  /*styles for base*/
+  .text-base-light {
+    @apply text-base text-black-primary dark:text-white font-normal
+  }
+  .text-base-bold {
+    @apply text-base text-black-primary dark:text-white font-semibold
+  }
+  .text-base-light-gray {
+    @apply text-base text-gray-primary dark:text-gray-primary-dark font-normal
+  }
+  .text-base-bold-gray {
+    @apply text-base text-gray-primary dark:text-gray-primary-dark font-semibold
+  }
+  .text-base-light-gray-secondary {
+    @apply text-base text-gray-secondary dark:text-gray-secondary-dark font-normal
+  }
+  .text-base-bold-gray-secondary {
+    @apply text-base text-gray-secondary dark:text-gray-secondary-dark font-semibold
+  }
+
+
+  /*styles for lg*/
+
+  .text-xl-light {
+    @apply text-xl text-black-primary dark:text-white font-normal
+  }
+  .text-xl-bold {
+    @apply text-xl text-black-primary dark:text-white font-semibold
+  }
+  .text-xl-light-gray {
+    @apply text-xl text-gray-primary dark:text-gray-primary-dark font-normal
+  }
+  .text-xl-bold-gray {
+    @apply text-xl text-gray-primary dark:text-gray-primary-dark font-semibold
+  }
+  .text-xl-light-gray-secondary {
+    @apply text-xl text-gray-secondary dark:text-gray-secondary-dark font-normal
+  }
+  .text-xl-bold-gray-secondary {
+    @apply text-xl text-gray-secondary dark:text-gray-secondary-dark font-semibold
+  }
+
+
+
+  /*custom styles*/
+  .flex-center {
+    @apply flex justify-center items-center
+  }
 }
