@@ -1,0 +1,159 @@
+@tailwind components;
+
+@layer components {
+    .text-xs-light {
+        @apply text-xs text-black-primary dark:text-white font-normal
+    }
+
+    .text-xs-bold {
+        @apply text-xs text-black-primary dark:text-white font-semibold
+    }
+
+    .text-xs-light-gray {
+        @apply text-xs text-gray-primary dark:text-gray-primary-dark font-normal
+    }
+
+    .text-xs-bold-gray {
+        @apply text-xs text-gray-primary dark:text-gray-primary-dark font-semibold
+    }
+
+    .text-xs-light-gray-secondary {
+        @apply text-xs text-gray-secondary dark:text-gray-secondary-dark font-normal
+    }
+
+    .text-xs-bold-gray-secondary {
+        @apply text-xs text-gray-secondary dark:text-gray-secondary-dark font-semibold
+    }
+
+    /*styles for base*/
+    .text-base-light {
+        @apply text-base text-black-primary dark:text-white font-normal
+    }
+
+    .text-base-bold {
+        @apply text-base text-black-primary dark:text-white font-semibold
+    }
+
+    .text-base-light-gray {
+        @apply text-base text-gray-primary dark:text-gray-primary-dark font-normal
+    }
+
+    .text-base-bold-gray {
+        @apply text-base text-gray-primary dark:text-gray-primary-dark font-semibold
+    }
+
+    .text-base-light-gray-secondary {
+        @apply text-base text-gray-secondary dark:text-gray-secondary-dark font-normal
+    }
+
+    .text-base-bold-gray-secondary {
+        @apply text-base text-gray-secondary dark:text-gray-secondary-dark font-semibold
+    }
+
+
+    /*styles for lg*/
+    .text-xl-light {
+        @apply text-xl text-black-primary dark:text-white font-normal
+    }
+
+    .text-xl-bold {
+        @apply text-xl text-black-primary dark:text-white font-semibold
+    }
+
+    .text-xl-light-gray {
+        @apply text-xl text-gray-primary dark:text-gray-primary-dark font-normal
+    }
+
+    .text-xl-bold-gray {
+        @apply text-xl text-gray-primary dark:text-gray-primary-dark font-semibold
+    }
+
+    .text-xl-light-gray-secondary {
+        @apply text-xl text-gray-secondary dark:text-gray-secondary-dark font-normal
+    }
+
+    .text-xl-bold-gray-secondary {
+        @apply text-xl text-gray-secondary dark:text-gray-secondary-dark font-semibold
+    }
+
+    /*styles for 2xl*/
+
+    .text-2xl-light {
+        @apply text-xl text-black-primary dark:text-white font-normal
+    }
+
+    .text-2xl-bold {
+        @apply text-xl text-black-primary dark:text-white font-semibold
+    }
+
+    .text-2xl-light-gray {
+        @apply text-xl text-gray-primary dark:text-gray-primary-dark font-normal
+    }
+
+    .text-2xl-bold-gray {
+        @apply text-xl text-gray-primary dark:text-gray-primary-dark font-semibold
+    }
+
+    .text-2xl-light-gray-secondary {
+        @apply text-xl text-gray-secondary dark:text-gray-secondary-dark font-normal
+    }
+
+    .text-2xl-bold-gray-secondary {
+        @apply text-xl text-gray-secondary dark:text-gray-secondary-dark font-semibold
+    }
+
+
+    /*styles for xl*/
+    .text-3xl-light {
+        @apply text-[2rem] leading-10 text-black-primary dark:text-white font-normal
+    }
+
+    .text-3xl-bold {
+        @apply text-[2rem] leading-10 text-black-primary dark:text-white font-semibold
+    }
+
+    .text-3xl-light-gray {
+        @apply text-[2rem] leading-10 text-gray-primary dark:text-gray-primary-dark font-normal
+    }
+
+    .text-3xl-bold-gray {
+        @apply text-[2rem] leading-10 text-gray-primary dark:text-gray-primary-dark font-semibold
+    }
+
+    .text-3xl-light-gray-secondary {
+        @apply text-[2rem] leading-10 text-gray-secondary dark:text-gray-secondary-dark font-normal
+    }
+
+    .text-xl-bold-gray-secondary {
+        @apply text-xl text-gray-secondary dark:text-gray-secondary-dark font-semibold
+    }
+
+    /*styles for xl*/
+    .text-4xl-light {
+        @apply text-[2.5rem] leading-10 text-black-primary dark:text-white font-normal
+    }
+
+    .text-4xl-bold {
+        @apply text-[2.5rem] leading-10 text-black-primary dark:text-white font-semibold
+    }
+
+    .text-4xl-light-gray {
+        @apply text-[2.5rem] leading-10 text-gray-primary dark:text-gray-primary-dark font-normal
+    }
+
+    .text-4xl-bold-gray {
+        @apply text-[2.5rem] leading-10 text-gray-primary dark:text-gray-primary-dark font-semibold
+    }
+
+    .text-4xl-light-gray-secondary {
+        @apply text-[2.5rem] leading-10 text-gray-secondary dark:text-gray-secondary-dark font-normal
+    }
+
+    .text-xl-bold-gray-secondary {
+        @apply text-xl text-gray-secondary dark:text-gray-secondary-dark font-semibold
+    }
+
+    .flex-center {
+        @apply flex justify-center items-center
+    }
+}

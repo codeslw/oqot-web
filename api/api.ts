@@ -7,7 +7,22 @@ const axiosParams = {
 
 const axiosInstance = axios.create(axiosParams);
 // Main api function
-const api = (axios: AxiosInstance) => {
+
+
+axiosInstance.interceptors.request.use((config) => {
+
+    const token = localStorage.getItem("accessToken")
+    config.headers["authorization"] = `Bearer ${token}`
+
+    return config;
+},
+    (error) => {
+    if(error.response?.status === 401){
+        const unsubscribe = window.addEventListener("authenticationRequired", () => {})
+    }
+})
+
+const api : any = (axios: AxiosInstance) => {
     return {
         get: <T>(url: string, config: AxiosRequestConfig = {}) =>
             axios.get<T>(url, config),

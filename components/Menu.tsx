@@ -26,7 +26,7 @@ export const Menu : React.FC<IMenu> = ({id, open, children,...rest}) => {
             {...rest}
             slotProps = {{
                 paper : {
-                    className : "rounded-2xl mt-3 shadow-lg"
+                    className : "rounded-2xl mt-3 shadow-modal"
                 }
             }}
         >

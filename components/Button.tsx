@@ -1,10 +1,15 @@
-import {Button as MuiButton, ButtonProps, ButtonTypeMap, ExtendButtonBase} from "@mui/material";
+import {Button as MuiButton, ButtonProps, ButtonTypeMap, CircularProgress, ExtendButtonBase} from "@mui/material";
 import {Icon} from "@mui/material";
+import {useMemo} from "react";
 
 interface IButton extends  ButtonProps{
     theme: "primary" | "secondary" | "tertiary" | "ghost";
     state?: "default" | "focus" | "light";
+    loading?: boolean;
+    extraClasses? : string;
     text: string;
+    textClasses?:string;
+    SuffixIcon?:string;
 }
 
 
@@ -13,21 +18,29 @@ type IButtonProps  = IButton & ButtonProps
 
 
 export const Button : React.FC<IButton> = ({
-         theme, state, text, ...rest
+                                               theme,
+                                               loading,
+                                               state,
+                                               text,
+                                               textClasses,
+                                               extraClasses, ...rest
                        }) => {
+
     return (
         <MuiButton
+            {...rest}
+            className={`${(theme === "primary") ? "btn-primary" 
+             : theme === "secondary" ? "btn-secondary" 
+             : theme === "tertiary"  ?  "btn-tertiary" 
+                     : "btn-ghost"}
+                     btn-default ${extraClasses ?? ""}
+            `}
 
-         className={`${(theme === "primary") ? "bg-blue-default hover:bg-blue-focus disabled:bg-blue-focus text-base-bold text-black-primary disabled:text-white" 
-             : theme === "secondary" ? "bg-red-default hover:bg-red-focus disabled:bg-red-disabled text-base-bold text-white" 
-             : theme === "tertiary"  ?  "bg-gray-background  hover:bg-gray-focus disabled:bg-gray-disabled text-base-bold disabled:text-gray-secondary dark:bg-gray-background-dark dark:hover:bg-gray-background-focus-dark" 
-                     : "bg-transparent text-base-bold hover:text-blue-text disabled:text-gray-secondary"}
-                     flex items-center rounded-2xl space-x-3 px-6 py-4 lowercase capitalize sm:space-x-0 xs:px-3  lg:min-w-max 
-         `}
-         {...rest}
         >
             {/*{StartIcon ? <StartIcon className={"dark:fill-white fill-black-primary"}/> : null}*/}
-            <div>{text}</div>
+
+            <div className={`text-base-bold mr-4 ${theme === "secondary" ? "text-white"  : ""} ${textClasses}`}>{text}</div>
+                {loading ? <CircularProgress size={20} className={"text-white"}/> : null}
             {/*{EndIcon ? <EndIcon className={"dark:fill-white fill-black-primary"}/> : null}*/}
         </MuiButton>
     );

@@ -1,0 +1,107 @@
+{
+  "HomeContent" : {
+    "more" : "Ещё"
+  },
+  "Authentication" : {
+    "Authentication" : "Аутентификация",
+    "Authentication_text" : "Чтобы войти или зарегистрироваться, используйте свой номер телефона",
+    "PhoneNumber" : "Номер телефона",
+    "Continue" : "Продолжить",
+    "Confirm PhoneNumber" : "Подтвердите номер",
+    "Resend Code" : "Отправить код снова",
+    "SendCode_text" : "Код отправлен на номер",
+    "Code" : "Код",
+    "Confirm" : "Подтвердить",
+    "ConfirmCode_text" : "Подтвердите код",
+    "ResendCode_text" : "Отправить код снова",
+    "ResendCode" : "Отправить код снова",
+    "WrongCode" : "Неверный код",
+    "Registration" : "Регистрация",
+    "Register" : "Зарегистрироваться",
+    "Upload a photo" : "Загрузить фото",
+    "Registration_text" : "Быстрее оформляйте заказы, отслеживайте и находите любимые продукты в OQ-OT",
+    "FirstName" : "Имя",
+    "LastName" : "Фамилия",
+    "Birthday" : "Дата рождения",
+    "Required" : "Обязательное поле"
+  },
+  "Date": {
+    "Su" : "Вс",
+    "Mo" : "Пн",
+    "Tu" : "Вт",
+    "We" : "Ср",
+    "Th" : "Чт",
+    "Fr" : "Пт",
+    "Sa" : "Сб"
+  },
+  "Cart" : {
+    "Cart" : "Корзина",
+    "Clear cart" : "Очистить корзину",
+    "Main" : "Главная",
+    "In your order" : "В вашем заказе",
+    "Total" : "Всего",
+    "sum" : "сум",
+    "Create order" : "Оформить заказ",
+    "Delivery info_text" : "Доставка 30-40 минут",
+    "Discount" : "Скидка",
+    "goods" : "товаров",
+    "good" : "товар",
+    "gooda" : "товара",
+    "Delivery" : "Доставка",
+    "Free": "Бесплатно",
+    "Cart is empty now" : "В корзине пока пусто",
+    "Cart empty_text" : "Перейдите в каталог, чтобы оформить новый заказ",
+    "Go to purchases" : "Перейти к покупкам",
+    "Favourites" : "Избранное"
+  },
+  "CreateOrder" : {
+    "Create order" : "Оформить заказ",
+    "Main" : "Главная",
+    "Appartment" : "Кв/Оффис",
+    "Entrance" : "Подъезд",
+    "Floor" : "Этаж",
+    "Domophone" : "Домофон",
+    "App/Office" : "Кв/Оффис",
+    "Choose address" : "Выберите адрес",
+    "Choose address_text" : "Выберите адрес",
+    "Private home" : "Частный дом",
+    "Delivery address" : "Адрес доставки",
+    "Comment" : "Комментарий ",
+    "Call" : "Позвонить",
+    "Chat" : "Чат",
+    "Don't call" : "Не звонить",
+    "Payment" : "Оплата",
+    "Payment_text" : "Заморозим сумму заказа на вашей карте и спишем после доставки",
+    "Choose payment method" : "Выберите метод оплаты",
+    "Apply" : "Применить",
+    "Support" : "Служба поддержки",
+    "Support_text" : "Если у вас остались вопроы, свяжитесь с нам",
+    "Delivery date and time" : "Дата и время доставки",
+    "Date" : "Дата",
+    "Time" :  "Время",
+    "Promocode" : "Промокод",
+    "My addresses" : "Мои адреса",
+    "Add Address" : "Добавить Адрес",
+    "Apartment" : "Кварита",
+    "Pickup point" : "Пункт самовывоза",
+    "Tashkent" : "Ташкент"
+  },
+  "Common" : {
+    "More" : "Больше",
+    "Tashkent" : "Ташкент",
+    "Pickup point" : "Пункт самовывоза",
+    "Choose address" : "Выберите адрес"
+  },
+  "Payment" : {
+
+  },
+  "Product" : {
+    "You may need" : "Что ещё пригодится",
+    "More" : "Больше",
+    "Add to Cart" : "Добавить в корзину",
+    "sum" : "сум"
+  },
+  "Category" : {
+    "Main" : "Главная"
+  }
+}

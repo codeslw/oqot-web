@@ -8,5 +8,6 @@ export  const  useQueryApi = <TData=any, TError = any, TSelect = TData, TKey = a
     params : any,
     options : Omit<UseQueryOptions<AxiosResponse<TData>, TError, TSelect, any>, "queryFn" | "queryKey">
 ) => {
+    //@ts-ignore
     return useQuery<AxiosResponse<TData>, TError, TSelect, any>([url, {...params}],  () => api.get<TData>(url, {params}), options)
 }

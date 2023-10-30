@@ -7,9 +7,9 @@ interface IPromo {
 }
 export const Promo : React.FC<IPromo> = ({photoPath, text}) => {
     return (
-        <div className={"w-full aspect-[268/200] rounded-[20px] py-5 px-6 relative overflow-hidden"}>
-            <div className="text-xl-bold text-white relative z-30">{text}</div>
-            <Image src={photoPath} alt={""} fill objectFit={"cover"} className={"filter backdrop-saturate-100 brightness-75"}/>
+        <div className={"min-w-[170px] max-w-[170px] aspect-[268/200] rounded-[20px] py-5 px-6 relative overflow-hidden cursor-pointer "}>
+            <div className="text-[15px] font-semibold text-white relative z-30 keep-all">{text}</div>
+            <Image src={photoPath} alt={""} fill objectFit={""} className={"filter brightness-75"}/>
         </div>
     );
 };

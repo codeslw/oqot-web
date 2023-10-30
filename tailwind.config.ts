@@ -6,19 +6,23 @@ const config: Config = {
     './components/**/*.{js,ts,jsx,tsx,mdx}',
     './app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
+  important : `#__next`,
   theme: {
+    breakpoints : {
+      "sm" : "576px",
+      "md": "768px",
+      "lg" : "1024px",
+      "xl" : "1280px"
+
+    },
     extend: {
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
+
       breakPoints : {
-        "xs" : "375px",
-        "sm" : "640px",
-        "md": "820px",
-        "lg" : "1024px",
-        "xl" : "1210px"
       },
       colors : {
         'black-primary' : '#0C0C1B',
@@ -50,6 +54,10 @@ const config: Config = {
         'green-background' : '#B3B700',
         'green-text' : '#537000',
         'green-background-light' : '#537000'
+      },
+      boxShadow : {
+        "modal" : "box-shadow: -4px 4px 20px 0px rgba(0, 0, 0, 0.12)",
+        "button" : "box-shadow: -4px 4px 12px 0px rgba(0, 0, 0, 0.12)"
       }
     },
   },

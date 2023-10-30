@@ -1,0 +1,22 @@
+@tailwind components;
+
+@layer components {
+
+    .btn-default {
+        @apply flex items-center rounded-2xl space-x-3 sm:px-6 py-4 normal-case sm:space-x-0 px-3  min-w-max cursor-pointer !important
+    }
+    .btn-primary {
+        @apply bg-blue-default hover:bg-blue-focus disabled:bg-blue-focus text-black-primary disabled:text-white !important
+    }
+    .btn-secondary {
+        @apply bg-red-default hover:bg-red-focus disabled:bg-red-disabled text-white !important
+    }
+
+    .btn-tertiary {
+        @apply bg-gray-background  hover:bg-gray-focus disabled:bg-gray-disabled disabled:text-gray-secondary dark:bg-gray-background-dark dark:hover:bg-gray-background-focus-dark !important
+    }
+
+    .btn-ghost {
+        @apply bg-transparent hover:text-blue-text disabled:text-gray-secondary !important
+    }
+}

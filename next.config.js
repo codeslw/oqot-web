@@ -1,7 +1,17 @@
 /** @type {import('next').NextConfig} */
+
+const withNextIntl = require('next-intl/plugin')('./i18n.ts');
+
 const nextConfig = {
+    reactStrictMode : false,
     images : {
         domains : ["images.adsttc.com", "devapi.oqot.uz", "api.oqot.uz"]
+    },
+    //revalidate : 60,
+    styleResources : {
+        css : [
+            "./tailwind.config.ts"
+        ]
     },
     webpack(config , { isServer } ) {
         // Configures webpack to handle SVG files with SVGR. SVGR optimizes and transforms SVG files
@@ -34,4 +44,4 @@ const nextConfig = {
     },
 }
 
-module.exports = nextConfig
+module.exports = withNextIntl(nextConfig)
