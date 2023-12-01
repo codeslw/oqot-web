@@ -23,7 +23,9 @@ export interface ICategory {
     children:                 string[];
 }
 
-export type TCategories = PagedResponseDataWrapper<ICategory>
+export type TCategories = {
+    mainCategories : ICategory[]
+}
 
 
 export interface IRegisterPayload {

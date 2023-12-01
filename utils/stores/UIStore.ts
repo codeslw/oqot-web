@@ -2,16 +2,17 @@ import {makeAutoObservable} from "mobx";
 
 
 
-type TActivePaymentStage = "list" | "addCard" | "verify"
+type TActivePaymentStage = "list" | "addCard" | "verify" | "close"
 
 class UIStore {
 
     //States
     isMobileAddressPopupOpen = false;
     isMobileLanguagePopupOpen = false;
+    isTokenWrong = false;
 
     activePaymentStage : null | TActivePaymentStage = null
-
+    isPickAddressModalOpen = false;
 
     constructor() {
         makeAutoObservable(this)
@@ -34,6 +35,14 @@ class UIStore {
 
     setActivePaymentStage(stage: TActivePaymentStage | null) {
         this.activePaymentStage = stage;
+    }
+
+    setIsPickAddressModalOpen(isOpen: boolean) {
+        this.isPickAddressModalOpen = isOpen;
+    }
+
+    setIsTokenWrong(isWrong: boolean) {
+        this.isTokenWrong = isWrong
     }
 
 }

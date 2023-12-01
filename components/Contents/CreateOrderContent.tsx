@@ -1,5 +1,16 @@
 "use client";
-import {FormControl, FormGroup, FormLabel, Grid, Stack, Switch} from "@mui/material";
+import {
+    Alert,
+    AlertColor,
+    FormControl,
+    FormGroup,
+    FormLabel,
+    Grid,
+    IconButton, Slide,
+    Snackbar,
+    Stack,
+    Switch
+} from "@mui/material";
 import BreadCrumbsIcon from "@/public/icons/right-chevron-mini.svg";
 import cartStore, {ICartState} from "@/utils/stores/CartStore";
 import TrashIcon from "@/public/icons/trashbin.svg";
@@ -23,10 +34,22 @@ import {AddressListModalContent} from "@/components/Puzzles/AddressListModalCont
 import {observer} from "mobx-react-lite";
 import AddressStore from "@/utils/stores/AddressStore";
 import {getAddressDetailsText} from "@/utils/services";
-import {useMutationApi} from "@/hooks/useMutationApi";
+import {useMutationApi, useMutationApiAdvanced} from "@/hooks/useMutationApi";
 import api from "@/api/api";
 import {Modal} from "@/components/Modal";
 import {AddCard} from "@/components/Puzzles/PaymentMethodsContentModal/AddCard";
+import {PaymentMethodsContentModal} from "@/components/Puzzles/PaymentMethodsContentModal/PaymentMethodsContentModal";
+import {usePayment} from "@/hooks/usePayment";
+import {PaymentMethodCardContent} from "@/components/Puzzles/PaymentMethodCardContent";
+import PaymentStore from "@/utils/stores/PaymentStore";
+import UIStore from "@/utils/stores/UIStore";
+import {AddressModalContent} from "@/components/Puzzles/AddressModalContent";
+import {AnimateModalContentWrapper} from "@/components/Wrappers/AnimateModalContentWrapper";
+import {ICalculatePricePayload, ICalculatePriceResponse, ICreateOrder} from "@/types/Order";
+import {format} from "date-fns";
+import CartStore from "@/utils/stores/CartStore";
+import {useCart} from "@/hooks/useCart";
+import {useRouter} from "next/navigation";
 
 
 export const CreateOrderContent = observer(() => {
@@ -37,42 +60,33 @@ export const CreateOrderContent = observer(() => {
     const [openAddressList, setOpenAddressList] = useState(false);
     const [promoStatus, setPromoStatus] = useState("");
     const [promoMessage, setPromoMessage] = useState("");
-    const [openPaymentMethods, setOpenPaymentMethods] = useState(true);
+    const [openPaymentMethods, setOpenPaymentMethods] = useState(false);
+    const [deliverySoon, setDeliverySoon] = useState(false);
+    const [calculatedTotalPrice, setCalculatedTotalPrice] = useState<null | number>(null);
+    const [calculatedTotalDiscount, setCalculatedTotalDiscount] = useState<null | number>(null);
+    const [calculatedTotalGoodPrice, setCalculatedTotalGoodPrice] = useState<null | number>(null);
+    const [calculatedTotalGoodCount, setCalculatedTotalGoodCount] = useState<null | number>(null);
+    const [calculatedTotalShippingPrice, setCalculatedTotalShippingPrice] = useState<null | number>(null);
+    const router = useRouter();
+    const [toast, setToast] = useState<{
+        message: string,
+        open: boolean,
+        status : AlertColor
+    } | null>()
+    //mutations
+    const calculatePrice = useMutationApi<ICalculatePriceResponse, ICalculatePricePayload>('/order/calculateprice', "post", {});
+    const checkpromo = useMutationApiAdvanced('promo/checkpromo', "get", {});
+    const createOrder = useMutationApi<string, ICreateOrder>('/order', "post", {});
+
     //watch
     const promocode = watch("promocode");
 
-    const checkPromocode = async () => {
-        try {
-            const response = await api.get(`/promo/checkpromo/${promocode}`);
-            if (response.status === 200 && response.data.isValid) {
-                setPromoStatus("success");
-                setPromoMessage(response.data.message);
-            }
-            else if(!response.data?.isValid) {
-                setPromoStatus("error");
-                setPromoMessage(response.data.message);
-                setError("promocode", {message: response.data.message});
-            }
-        } catch (e) {
-            setPromoStatus("error");
-        }
 
-    };
-
-    useEffect(() => {
-        setPromoMessage("");
-        setPromoStatus("");
-        const timer = setTimeout(() => {
-            if(promocode){
-                checkPromocode();
-            }
-        }, 800);
+    //actions
+    const {clearCart} = useCart()
 
 
-        return () => {
-            clearTimeout(timer);
-        };
-    }, [promocode]);
+
 
     const addressDetails = useMemo(() => {
         return [
@@ -106,20 +120,20 @@ export const CreateOrderContent = observer(() => {
 
 
     const totalDiscountPrice = useMemo(() => {
-        return cartStore.cart?.reduce((acc : number, item : ICartState) => {
+        return calculatedTotalDiscount ??  cartStore.cart?.reduce((acc : number, item : ICartState) => {
             return acc + (item.goodPrice * item.goodDiscount);
         }, 0);
-    }, [cartStore.cart]);
+    }, [cartStore.cart, calculatedTotalDiscount]);
 
     const totalGoodPrice = useMemo(() => {
-        return cartStore.cart?.reduce((acc : number, item : ICartState) => {
+        return calculatedTotalGoodPrice ?? cartStore.cart?.reduce((acc : number, item : ICartState) => {
             return acc + item.goodPrice * item.count;
         },0);
-    }, [cartStore.cart]);
+    }, [cartStore.cart, calculatedTotalGoodPrice]);
 
     const totalPrice = useMemo(() => {
-        return totalGoodPrice - totalDiscountPrice + deliveryPrice;
-    }, [cartStore.cart, totalGoodPrice, totalDiscountPrice]);
+        return calculatedTotalGoodPrice ?? (totalGoodPrice - totalDiscountPrice + deliveryPrice);
+    }, [cartStore.cart, totalGoodPrice, totalDiscountPrice, calculatedTotalPrice]);
 
     const totalGoodCount = useMemo(() => {
         return cartStore.cart?.reduce((acc : number, item : ICartState) => {
@@ -128,8 +142,122 @@ export const CreateOrderContent = observer(() => {
     }, [cartStore.cart]);
 
 
+    const handleClosePaymentMethodsModal = () => {
+        if(PaymentStore.paymentMethod === 2 && !PaymentStore.paymentCardId) {
+            PaymentStore.setPaymentMethod(null)
+        }
+        setOpenPaymentMethods(false)
+        UIStore.setActivePaymentStage("list");
+    }
+
+    const handleApplyPromocode = async () => {
+        if(promocode) {
+            try {
+                const response : any = await checkpromo.mutateAsync({
+                    slug : `/${promocode}`
+                });
+                if(response.status < 400 && response.data?.success) {
+                    setPromoStatus("success");
+                    handleCalculatePrice()
+                }
+                else if (!response.data.success) {
+                    setPromoStatus("error");
+                    setPromoMessage(response.data.message);
+                }
+            }
+            catch (e) {
+                setPromoStatus("error");
+            }
+        }
+    }
+
+
+    const handleCalculatePrice = async () => {
+
+            try {
+                const response = await calculatePrice.mutateAsync({
+                    toLatitude : AddressStore.activeAddress?.latitude ?? 0,
+                    toLongitude : AddressStore.activeAddress?.longitude ?? 0,
+                    goodToOrders : cartStore?.cart?.map(item => ({
+                        goodId : item.goodId,
+                        count : item.count
+                    })),
+                    promo : promocode ?? "",
+                    isPickup : AddressStore.activeAddress?.addressType === 0  ? true : false,
+
+                });
+
+                if (response.status < 400) {
+                    setCalculatedTotalPrice(response.data.totalPrice);
+                    setCalculatedTotalGoodPrice(response.data.sellingPrice);
+                    setCalculatedTotalDiscount(response.data.sellingPriceDiscount + response.data.shippingPriceDiscount);
+                    setCalculatedTotalShippingPrice(response.data.shippingPrice);
+                }
+
+            }
+            catch (e) {
+
+            }
+
+    }
+
+    const handleOpenAddressList = () => {
+        setOpenAddressList(true)
+    }
+
+    const handleCloseToast = () => {
+        setToast(null)
+    }
+
+    const handleCreateOrder = () => {
+        handleSubmit(async (data) => {
+            console.log(data, " data to submit");
+            const date = data.date ? format(data.date, "YYYY-MM-DD") : null;
+            const time  = data.time ?  format(data.time, "HH:mm:ss.SSS") : null;
+            const formatedDate = `${date}T${time}Z`
+            try {
+                const response = await createOrder.mutateAsync({
+
+                    "comment": data.comment ?? "",
+                    "dontCallWhenDelivered": AddressStore.dontCall ?? true,
+                    "apartment": data.apartment ?? "",
+                    "floor": data.floor ?? "",
+                    "entrance": data.entrance,
+                    "address": AddressStore.activeAddress?.address ?? "",
+                    "toLongitude": AddressStore.activeAddress?.longitude ?? 0,
+                    "toLatitude": AddressStore.activeAddress?.latitude ?? 0,
+                    "isPickup": AddressStore.activeAddress?.addressType === 0 ? true : false,
+                    "paymentType": PaymentStore.paymentMethod ?? 0,
+                    "promo": data.promocode ?? "",
+                    "deliverAt": deliverySoon ? null : formatedDate,
+                    "goodToOrders": CartStore.cart.map(item => ({
+                        goodId : item.goodId,
+                        count : item.count
+                    }))
+
+                })
+
+                if(response.status < 400) {
+                    clearCart()
+                    setToast({
+                        message : t("OrderCreated"),
+                        open : true,
+                        status : "success"
+                    })
+                    router.push(`/order/${response.data}`)
+
+                }
+            }
+            catch (e) {
+
+            }
+
+        })()
+    }
+
+
     return  <Grid container>
-        <Grid xs={12} lg={9} xl={8}>
+        <Grid xs={12} lg={8} xl={8}>
            <Stack spacing={7}>
                <Stack spacing={3}>
                    <div className="flex items-center space-x-2">
@@ -219,15 +347,21 @@ export const CreateOrderContent = observer(() => {
                     <div className="text-3xl-bold">
                         {t("Delivery date and time")}
                     </div>
-                   <div className="w-full flex space-x-4">
+                   <div className="flex space-x-4 items-center">
+                       <CustomSwitch checked={deliverySoon} onChange={(e) => setDeliverySoon(prev => !prev)}/>
+                       <div className="text-base-bold">
+                           {t("Delivery soon")}
+                       </div>
+                   </div>
+                   {!deliverySoon && (<div className="w-full flex space-x-4">
                        <div className="w-full flex flex-col space-y-2">
                            <Controller
                                control={control}
                                name={"date"}
-                               render={({field, fieldState : {error}}) => (
+                               render={({field, fieldState: {error}}) => (
                                    <FormControl className={"flex flex-col space-y-2"}>
-                                        <div className="text-base-bold-gray">{t("Date")}</div>
-                                        <CustomDatePicker errorMessage={""} placeholder={t("Choose date")} {...field}/>
+                                       <div className="text-base-bold-gray">{t("Date")}</div>
+                                       <CustomDatePicker errorMessage={""} placeholder={t("Choose date")} {...field}/>
                                    </FormControl>
                                )}/>
                        </div>
@@ -235,14 +369,15 @@ export const CreateOrderContent = observer(() => {
                            <Controller
                                control={control}
                                name={"time"}
-                               render={({field, fieldState : {error}}) => (
+                               render={({field, fieldState: {error}}) => (
                                    <FormControl className={"flex flex-col space-y-2"}>
-                                        <div className="text-base-bold-gray">{t("Time")}</div>
-                                        <CustomTimePicker errorMessage={""} placeholder={t("Choose time")} {...field}/>
+                                       <div className="text-base-bold-gray">{t("Time")}</div>
+                                       <CustomTimePicker errorMessage={""} placeholder={t("Choose time")} {...field}/>
                                    </FormControl>
                                )}/>
                        </div>
-                   </div>
+                   </div>)}
+
                </Stack>
                <Stack spacing={3}>
                    <Stack spacing={2}>
@@ -251,10 +386,10 @@ export const CreateOrderContent = observer(() => {
                        </div>
                        <div className="text-xs-light-gray">{t("Payment_text")}</div>
                    </Stack>
-                   <div className="w-full rounded-2xl border border-gray-default px-6 py-4 flex">
-                       <div className="text-base-light-gray">
-                           {t("Choose payment method")}
-                       </div>
+                   <div
+                       onClick={() =>setOpenPaymentMethods(true)}
+                       className="w-full rounded-2xl max-h-[58px] border border-gray-default pl-6 pr-4 py-4  cursor-pointer">
+                       <PaymentMethodCardContent/>
                    </div>
                    <div className="w-full flex space-x-2 items-start">
                        <div className="w-full">
@@ -265,7 +400,7 @@ export const CreateOrderContent = observer(() => {
                                    <FormControl className={"w-full"}>
                                        <Input placeholder={t("Promocode")}
                                               type={"text"}
-                                              errorMessage={promoStatus ==="error" ? promoMessage : ""}
+                                              errorMessage={promoStatus === "error" ? promoMessage : ""}
                                               variant={"filled"}
                                               {...field}/>
                                        {promoStatus === "success" && <div className={"text-xs-bold mt-1 text-green-text"}>{t("Promo is applied")}</div>}
@@ -273,7 +408,7 @@ export const CreateOrderContent = observer(() => {
                                )}
                            />
                        </div>
-                       <Button theme={"tertiary"} text={t("Apply")} extraClasses={"!max-h-[56px]"}/>
+                       <Button onClick={handleApplyPromocode} theme={"tertiary"} text={t("Apply")} extraClasses={"!max-h-[56px]"}/>
                    </div>
                </Stack>
                <Stack spacing={3}>
@@ -306,19 +441,38 @@ export const CreateOrderContent = observer(() => {
                </Stack>
            </Stack>
         </Grid>
-       <Grid xs={12} lg={3} xl={4}>
+       <Grid xs={12} lg={4} xl={4}>
             <CartPriceInfoPanel goodCount={totalGoodCount}
                                 totalGoodPrice={totalGoodPrice}
                                 discount={totalDiscountPrice}
                                 deliveryPrice={deliveryPrice}
-                                totalPrice={totalPrice}/>
+                                totalPrice={totalPrice}
+                                handleClickCreateOrder={handleCreateOrder}
+            />
         </Grid>
 
         <AddressListModalContent open={openAddressList} onClose={() => setOpenAddressList(false)}/>
-        <Modal open={openPaymentMethods} onCloseIconClicked={() => setOpenPaymentMethods(false)}>
-            <AddCard/>
+        <PaymentMethodsContentModal open={openPaymentMethods} onClose={handleClosePaymentMethodsModal}/>
+        <Modal onCloseIconClicked={() => UIStore.setIsPickAddressModalOpen(false)} open={UIStore.isPickAddressModalOpen}>
+            <AnimateModalContentWrapper>
+                <AddressModalContent
+                    onOpenAddressList={handleOpenAddressList}
+                    onClose={() => UIStore.setIsPickAddressModalOpen(false)}/>
+            </AnimateModalContentWrapper>
         </Modal>
 
+        <Snackbar
+            anchorOrigin={{vertical : 'top', horizontal : 'right'}}
+            resumeHideDuration={2000}
+            TransitionComponent={Slide}
+            TransitionProps={{
+                dir: 'left'
+            }}
+            open={toast?.open ?? false} autoHideDuration={2000} onClose={handleCloseToast}>
+            <Alert onClose={handleCloseToast} severity={toast?.status ?? "success"} sx={{ width: '100%' }}>
+                {t(toast?.message)}
+            </Alert>
+        </Snackbar>
 
     </Grid>;
 });

@@ -93,7 +93,19 @@
     "Choose address" : "Выберите адрес"
   },
   "Payment" : {
-
+    "Payment methods" : "Способ оплаты",
+    "Cash to courier" : "Наличными курьеру",
+    "Terminal" : "Терминал",
+    "Online card" : "Картой онлайн",
+    "Add card" :  "Добавить карту",
+    "Adding Card" : "Добавление карты",
+    "Add Card_text" : "Добавьте карту Uzcard или Humo, для быстрой оплаты заказов",
+    "Save for next purchases" : "Сохранить для следующих покупок",
+    "mm/yy" : "мм / гг",
+    "Add" :  "Добавить карту",
+    "Save" : "Сохранить",
+    "Card Number" : "Номер карты",
+    "expiryDate" : "Срок действия"
   },
   "Product" : {
     "You may need" : "Что ещё пригодится",
@@ -103,5 +115,13 @@
   },
   "Category" : {
     "Main" : "Главная"
+  },
+  "Footer" : {
+    "Accessible in" : "Доступно в",
+    "Google Play" : "Google Play",
+    "App Store" : "App Store",
+    "OQ-OT 2023_text" : "© OQ-OT. Все права защищены 2023",
+    "Tech support"  : "Служба поддержки"
+
   }
 }

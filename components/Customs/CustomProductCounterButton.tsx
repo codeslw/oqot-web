@@ -3,8 +3,8 @@ import PlusIcon from "@/public/icons/plus.svg"
 import MinusIcon from "@/public/icons/minus.svg"
 
 interface ICustomProductCounterButton {
-    handleIncrement : () => void;
-    handleDecrement : () => void;
+    handleIncrement : (e : any) => void;
+    handleDecrement : (e : any) => void;
     count : number;
     forCart?:boolean
 }
@@ -14,7 +14,7 @@ export const CustomProductCounterButton : React.FC<ICustomProductCounterButton> 
            <div onClick={handleDecrement} className="flex justify-center items-centered">
                <MinusIcon w={20} h={20}  className={"fill-black-primary"}/>
            </div>
-            <div className="w-8 h-6 flex justify-center items-center text-base-bold">
+            <div className="w-8 h-6 flex justify-center items-center text-base-bold dark:text-black-primary">
                 {count}
             </div>
             <div onClick={handleIncrement} className="flex justify-center items-centered">

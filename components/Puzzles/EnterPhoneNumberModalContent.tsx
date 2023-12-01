@@ -63,7 +63,9 @@ export const EnterPhoneNumberModalContent : React.FC<IEnterPhoneNumberModalConte
                                   variant={"filled"}
                                   StartIcon={FlagUzIcon}
                                   startIconClasses={"rounded-full"}
-                                  lightBackground/>}
+                                  lightBackground
+
+                    />}
                 </InputMask>
             </Stack>
             <Button type={"submit"} theme={"primary"} text={t("Continue")} onClick={onSendCodeClick}/>

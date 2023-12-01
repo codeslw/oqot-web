@@ -1,11 +1,13 @@
 import {useMemo, useState} from "react";
 import CashIcon from "@/public/icons/cash.svg";
 import CreditCardIcon from "@/public/icons/credit-card.svg";
+import UzcardIcon from "@/public/icons/Uzcard_logo.svg";
 import TerminalIcon from "@/public/icons/terminal.svg";
 import {useTranslations} from "use-intl";
 import {useQueryApi} from "@/hooks/useQueryApi";
 import {AxiosResponse} from "axios";
 import {useMutationApi} from "@/hooks/useMutationApi";
+
 
 
 
@@ -24,32 +26,70 @@ interface IPSPCard {
 
 }
 
+interface IPaymentMethod {
+    isMethod: boolean,
+    id : string | number,
+    title : string,
+    Icon: any
+
+}
+
 export const usePayment = () => {
     const t = useTranslations("Payment");
 
     const [verificationError, setVerificationError] = useState(false);
     const [phoneNumber, setPhoneNumber] = useState("");
+    const [cardId, setCardId] = useState('');
 
     const cards = useQueryApi<AxiosResponse<IPSPCard[]>>("/psp/cards/",{}, {});
-    const addCard = useMutationApi("/psp", "post", {});
+    const addCard = useMutationApi("/psp/cards/register", "post", {});
+    const confirmCard = useMutationApi("/psp/cards/confirm", "post", {});
 
-    const paymentMethods = useMemo(() => {
+
+
+    const paymentMethods : IPaymentMethod[] = useMemo(() => {
+
+        const creditCards = cards?.data?.data?.map((card) => ({
+            title : `${card.pan}`,
+            Icon : UzcardIcon,
+            id : card.id,
+            isMethod : false
+        })) ?? [];
         return [
+            ...creditCards,
             {
                 title : t("Cash to courier"),
-                Icon : CashIcon
+                Icon : CashIcon,
+                id : 0,
+                isMethod : true,
             },
             {
                 title : t("Online card"),
                 Icon : CreditCardIcon,
+                id: 2,
+                isMethod : true,
             },
-            {
-                title : t("Terminal"),
-                Icon : TerminalIcon
-            },
+
 
         ];
-    }, []);
+    }, [cards]);
 
-    return {verificationError, cards,paymentMethods, phoneNumber};
+    const handleFailVerification = (isError : boolean) => {
+        setVerificationError(isError);
+    }
+    const handleStartVerification = (id : string) => {
+        setCardId(id);
+    }
+
+    return {
+        verificationError,
+        cards,
+        paymentMethods,
+        phoneNumber,
+        confirmCard,
+        addCard,
+        cardId,
+        handleStartVerification,
+        handleFailVerification
+    };
 };

@@ -12,6 +12,8 @@ import ThemeRegistry from "@/components/Wrappers/MuiCacheProvider";
 import {DateLocalizationWrapper} from "@/components/Wrappers/DateLocalizationWrapper";
 import React from "react";
 import {PageChangeListener} from "@/components/Puzzles/PageChangeListener";
+import {AuthWrapper} from "@/components/Wrappers/AuthWrapper";
+import {Footer} from "@/components/Layout/Footer";
 
 
 const inter = Inter({ subsets: ['latin'] })
@@ -23,18 +25,18 @@ export const metadata: Metadata = {
 
 
 
-const getCategories = async () => {
-    try {
-        const mainCategories = await fetch(`${process.env.NEXT_PUBLIC_URL}/category`);
-        const response = await mainCategories.json();
-        return response.categories;
-    }
-    catch (e) {
-
-    }
-
-
-}
+// const getCategories = async () => {
+//     try {
+//         const mainCategories = await fetch(`${process.env.NEXT_PUBLIC_URL}/category`);
+//         const response = await mainCategories.json();
+//         return response.categories;
+//     }
+//     catch (e) {
+//
+//     }
+//
+//
+// }
 
 
 export default async function RootLayout({
@@ -46,7 +48,7 @@ export default async function RootLayout({
 
     let messages;
 
-    let categories = await getCategories();
+//    let categories = await getCategories();
 
     try {
         messages = (await import(`../../messages/${params.locale}.json`)).default
@@ -58,15 +60,22 @@ export default async function RootLayout({
     <html lang={params.locale}>
 
     <ThemeRegistry>
-      <body className={`${inter.className} dark:bg-black-primary`} id={"__next"}>
+      <body className={`${inter.className} dark:!bg-black-primary`} id={"__next"}>
       <QueryProvider>
           <PageChangeListener />
             <NextIntlClientProvider locale={params.locale} messages={messages}>
                 <DateLocalizationWrapper>
-                    <Header categories = {categories}/>
-                    <div className={"px-4 md:px-0 xs:w-full md:w-[90%] xl:w-[1124px] mx-auto mt-[56px]"}>
-                        {children}
+                <AuthWrapper>
+                    <div className="w-screen dark:bg-black-primary">
+                        <Header categories = {[]}/>
+                        <div className={"px-4 md:px-0 xs:w-full md:w-[90%] xl:w-[1124px] mx-auto dark:bg-black-primary"}>
+                            <div className={"mt-[9rem]"}></div>
+                            {children}
+                            <div className={"mb-20"}></div>
+                        </div>
+                        <Footer/>
                     </div>
+                </AuthWrapper>
                 </DateLocalizationWrapper>
             </NextIntlClientProvider>
       </QueryProvider>

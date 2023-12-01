@@ -29,12 +29,11 @@ import {ProductContent} from "@/components/Contents/ProductContent";
 import {GoodListWrapper} from "@/components/Wrappers/GoodListWrapper";
 
 interface  IHomeContent {
-    goods : any,
     categories : TCategories,
     promoCategoryGoods : IPromoCategoryGoods
 }
 
-export const HomeConent : React.FC<IHomeContent> = observer(({goods, categories, promoCategoryGoods}) => {
+export const HomeConent : React.FC<IHomeContent> = observer(({categories, promoCategoryGoods}) => {
 
     const t = useTranslations("HomeContent");
 
@@ -68,9 +67,9 @@ export const HomeConent : React.FC<IHomeContent> = observer(({goods, categories,
 
     return (
         <>
-            <div className={"flex items-center mt-20 overflow-x-auto justify-between"}>
+            <div className={"flex items-center mt-20 overflow-x-auto justify-between no-scrollbar"}>
                 <TabCategory id={""} photoPath={""} name={"Все"} all={true} isActive={activeTab === ""}/>
-                {categories.data?.slice(0, 5).map((item : ICategory) => {
+                {categories.mainCategories?.slice(0, 4).map((item : ICategory) => {
                     return  <TabCategory id={item.id} photoPath={item.imageUrl} isActive={activeTab === item.id} name={item.name} all={item.id === null}/>;
                 })}
                 <div
@@ -80,7 +79,7 @@ export const HomeConent : React.FC<IHomeContent> = observer(({goods, categories,
                     <ChervonDownIcon className={"fill-gray-secondary dark:fill-gray-secondary-dark"}/>
                 </div>
                 <Menu onClose={handleClosePopover} open={!!anchorEl} id={"location"}  elevation={1} anchorEl={anchorEl} disableRestoreFocus>
-                    <CategoriesMenuContent data={categories?.data}/>
+                    <CategoriesMenuContent data={categories?.mainCategories}/>
                 </Menu>
             </div>
             <div className="flex flex-col space-y-14 mt-14">
@@ -127,9 +126,9 @@ export const HomeConent : React.FC<IHomeContent> = observer(({goods, categories,
                 onCloseIconClicked={() => uistore.closeMobileAddressPopup()}
                 onClose={() => uistore.closeMobileAddressPopup()}
             >
-            <AddressModalContent/>
+            <AddressModalContent onClose={() => uistore.closeMobileAddressPopup()}/>
             </Modal>
-            <ProductContent open={!!activeGoodId} onClose={() => setActiveGoodId(null)} goodId={activeGoodId ?? ""}/>
+            {!!activeGoodId && <ProductContent open={!!activeGoodId} onClose={() => setActiveGoodId(null)} goodId={activeGoodId ?? ""}/>}
         </>
     );
 });

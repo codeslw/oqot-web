@@ -24,7 +24,11 @@ export const GET_GOOD_BY_CATEGORY = "/good/category"
 
 export const GET_SUB_CATEGORIES_BY_CATEGORY = "/good/subcategory/category"
 
+export const ADDRESS_LIST_URL = "/addresstoclient"
 //OPTIONS
+
+
+export  const YANDEX_MAPS_SEARCH_URL = `https://search-maps.yandex.ru/v1/?apikey=897ef55a-69ad-4232-9fd1-f5f01f1145b1&lang=ru_Ru&ll=69.241553,41.311533&spn=0.138252,0.086425`
 
 
 export const languageOptions =  [
@@ -37,8 +41,11 @@ export const languageOptions =  [
 //DEFAULTS
 
 export const ACCESS_TOKEN_KEY = "accessToken"
+export const PICKUP_COORDINATES = [41.318495, 69.287357]
 
+export const  SUPPORT_PHONE_NUMBER = "+998 (00) 000-00-00"
 
-
-
-
+export const PaymentTypes : {[key : number] : string} = {
+    0 : 'Cash',
+    2 : 'Olnline by Card'
+}

@@ -1,8 +1,12 @@
-import {Box, Stack} from "@mui/material";
+import {Box, Snackbar, Stack} from "@mui/material";
 import {useTranslations} from "use-intl";
-import {useCallback, useMemo} from "react";
+import {useCallback, useMemo, useState} from "react";
 import {formatPrice} from "@/utils/services";
 import {Button} from "@/components/Button";
+import {useRouter} from "next/navigation";
+import cartStore from "@/utils/stores/CartStore";
+import UIStore from "@/utils/stores/UIStore";
+import Link from "next/link";
 
 interface ICartPriceInfoPanel {
     goodCount : number;
@@ -10,9 +14,16 @@ interface ICartPriceInfoPanel {
     discount : number;
     deliveryPrice : number;
     totalPrice : number;
+    handleClickCreateOrder? : () => void;
 }
-export const CartPriceInfoPanel:React.FC<ICartPriceInfoPanel> = ({goodCount, totalGoodPrice, discount, deliveryPrice, totalPrice}) => {
+export const CartPriceInfoPanel:React.FC<ICartPriceInfoPanel> = ({goodCount, totalGoodPrice, discount, deliveryPrice, totalPrice, handleClickCreateOrder}) => {
     const t = useTranslations("Cart");
+    const [showCartEmptyNotification, setShowCartEmptyNotification] = useState(false);
+    const router = useRouter();
+
+    const handleClickContinue = () => {
+        router.push("/create_order");
+    }
 
     const generateGoodCountText = useCallback((count : number) => (count === 1  ? `${count} ${t("good")}`
                 : count === 0 || count > 4 ?`${count} ${t("goods")}`
@@ -29,7 +40,7 @@ export const CartPriceInfoPanel:React.FC<ICartPriceInfoPanel> = ({goodCount, tot
     }, [t, generateGoodCountText, goodCount, totalGoodPrice, deliveryPrice, discount, totalPrice, deliveryPrice]);
 
 
-    return <Box className={"w-[87%] ml-auto p-8 rounded-3xl border border-gray-default spacing"}>
+    return <Box className={"w-full mt-20 xl:mt-0 xl:w-[87%] ml-auto p-8 rounded-3xl border border-gray-default spacing sticky top-[88px]"}>
         <Stack spacing={3}>
             <div className="text-xl-bold">
                 {t("In your order")}
@@ -52,10 +63,21 @@ export const CartPriceInfoPanel:React.FC<ICartPriceInfoPanel> = ({goodCount, tot
                     </div>
                 </div>
             </div>
-            <Button theme={"primary"} text={t('Create order')}/>
+                <Button onClick={ handleClickCreateOrder ?? handleClickContinue} theme={"primary"} text={t('Create order')}/>
             <div className="text-base-light-gray text-center">
                 {t("Delivery info_text")}
             </div>
         </Stack>
-    </Box>;
+        <Snackbar
+         open={showCartEmptyNotification}
+         onClose={() => setShowCartEmptyNotification(false)}
+         anchorOrigin={{
+             vertical: 'top',
+             horizontal: 'left',
+         }}
+         className={``}
+         message  = {t("Your cart is empty")}
+        />
+    </Box>
+
 };

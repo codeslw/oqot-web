@@ -12,38 +12,43 @@ import {PaymentMethodsList} from "@/components/Puzzles/PaymentMethodsContentModa
 import {AddCard} from "@/components/Puzzles/PaymentMethodsContentModal/AddCard";
 import {VerifyCard} from "@/components/Puzzles/PaymentMethodsContentModal/VerifyCard";
 import {usePayment} from "@/hooks/usePayment";
+import {observer} from "mobx-react-lite";
+import {AnimatePresence ,motion} from "framer-motion";
+import {AnimateModalContentWrapper} from "@/components/Wrappers/AnimateModalContentWrapper";
 
 interface IPaymentMethodsContentModal {
     open : boolean,
     onClose : () => void
 }
 
-export const PaymentMethodsContentModal : React.FC<IPaymentMethodsContentModal> = ({open, onClose}) => {
+export const PaymentMethodsContentModal : React.FC<IPaymentMethodsContentModal> = observer(({open, onClose}) => {
 
     const t = useTranslations("Payment");
-    const {phoneNumber} = usePayment()
+    const {phoneNumber,cardId, handleStartVerification} = usePayment()
 
 
     const handleStartAddCard = () => {
         UIStore.setActivePaymentStage("addCard");
     }
 
-    const handleSaveCard = (data : any) => {
-
+    const handleSaveCard = (cardId : string) => {
+        handleStartVerification(cardId);
         UIStore.setActivePaymentStage("verify");
     }
 
 
     const handleFinishCardAdding = () => {
-
         UIStore.setActivePaymentStage("list");
     }
 
     const renderContent = () => {
         switch (UIStore.activePaymentStage) {
             case "list" : return <PaymentMethodsList handleStartAddCard={handleStartAddCard}/>;
-            case "addCard" : return <AddCard handleAddCardSave={handleSaveCard}/>;
-            case "verify" : return <VerifyCard phoneNumber={phoneNumber} handleContinue={handleFinishCardAdding}/>;
+            case "addCard" : return  <AddCard handleAddCardSave={handleSaveCard}/>;
+            case "verify" : return <VerifyCard cardId={cardId} phoneNumber={phoneNumber} handleContinue={handleFinishCardAdding}/>;
+            case "close" :
+                onClose();
+                return <></>;
             default : return <PaymentMethodsList handleStartAddCard={handleStartAddCard}/>;
         }
 
@@ -52,8 +57,8 @@ export const PaymentMethodsContentModal : React.FC<IPaymentMethodsContentModal> 
 
 
     return (
-        <Modal onCloseIconClicked={onClose} open ={open}>
-            {renderContent()}
+        <Modal onCloseIconClicked={onClose} open ={open} isSmall>
+                    {renderContent()}
         </Modal>
     );
-};
+});

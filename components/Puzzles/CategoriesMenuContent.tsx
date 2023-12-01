@@ -11,7 +11,7 @@ export const CategoriesMenuContent : React.FC<ICategoriesMenuContent> = ({data})
     return (
         <>
             <div className={"flex flex-col space-y-1 p-3"}>
-                {data?.slice(5, 1000).map((item : any) => {
+                {data?.slice(4, 1000).map((item : any) => {
                     return  (<div className={"px-3 py-2 rounded-lg hover:bg-gray-background cursor-pointer flex space-x-3 items-center"}>
                         <div className="w-6 h-6 relative">
                             <Image src={item.imageUrl} alt={""} fill/>

@@ -22,7 +22,7 @@ export const useSynchronizeCart = () => {
         cacheTime : 10000000000,
         staleTime : 1000000000,
         onSuccess : (data) => {
-            enabled : JSON.parse(history!)?.length === "0" || !history;
+            enabled : JSON?.parse(history ? history : "[]")?.length === "0" || !history;
             const formattedCartItems = data?.data?.goodToCarts?.map((item : ICart) => ({...item, clientId : undefined, id : undefined}));
             cartStore.setCart(formattedCartItems);
         }
@@ -33,7 +33,7 @@ export const useSynchronizeCart = () => {
     const updateCart = async () => {
         console.log("updateCart triggered")
         try {
-            const payload = cartStore.cart.map((item) => ({id : item.goodId, count : item.count}));
+            const payload = cartStore?.cart?.map((item) => ({id : item.goodId, count : item.count}));
             const response = await replaceCartItems.mutateAsync(payload);
             if (response.status < 400) {
                 getCartItems.refetch();

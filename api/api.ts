@@ -1,4 +1,5 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
+import UIStore from "@/utils/stores/UIStore";
 // Default config for the axios instance
 const axiosParams = {
     baseURL: process.env.NEXT_PUBLIC_URL,
@@ -18,7 +19,16 @@ axiosInstance.interceptors.request.use((config) => {
 },
     (error) => {
     if(error.response?.status === 401){
-        const unsubscribe = window.addEventListener("authenticationRequired", () => {})
+        console.log("I am sending wrong")
+        UIStore.setIsTokenWrong(true)
+    }
+})
+
+axiosInstance.interceptors.response.use((config) => config, (error) => {
+    console.log("Here is error", error)
+    if (error.response.status === 401) {
+        console.log("I am sending wrong")
+        UIStore.setIsTokenWrong(true)
     }
 })
 

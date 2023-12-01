@@ -10,6 +10,8 @@ import PlusIcon from "@/public/icons/plus.svg";
 import CircleIcon from "@/public/icons/circle.svg"
 import {observer} from "mobx-react-lite";
 import AddressStore from "@/utils/stores/AddressStore";
+import {Empty} from "@/components/Shared/Empty";
+import UIStore from "@/utils/stores/UIStore";
 
 interface IAddressListModalContent {
     open: boolean,
@@ -18,28 +20,35 @@ interface IAddressListModalContent {
 
 export const AddressListModalContent : React.FC<IAddressListModalContent> = observer(({open, onClose}) => {
     const t = useTranslations("CreateOrder");
-    const addressList = useQueryApi<AxiosResponse<IAddressToClientData>>("/addresstoclient", {} , {});
+    const addressList = useQueryApi<AxiosResponse<IAddressToClientData>>("/addresstoclient", {} , {
+        refetchOnMount : true,
+    });
 
+    const handleStartAddAddress = () => {
+        UIStore.setIsPickAddressModalOpen(true);
+        onClose();
+    }
 
     return <Modal onCloseIconClicked={onClose} onClose={onClose} open={open}>
         <Stack spacing={3}>
             <div className="text-3xl-bold">
                 {t('My addresses')}
             </div>
-            <Stack spacing={0}>
+            {addressList?.data?.data?.addressToClients?.length ? <Stack spacing={0}>
                 {addressList?.data?.data?.addressToClients?.map((item, index) => {
                     return (
                         <div onClick={() => {
                             AddressStore.setActiveAddress(item)
                         }} className={"w-full px-3 py-4 flex justify-between space-x-4 items-center cursor-pointer"}>
                             <div className="flex space-x-4 items-center">
-                                <CircleIcon className={`fill-gray-secondary ${AddressStore.activeAddress?.id === item.id ? "fill-orange-default stroke-1" :""}`}/>
+                                <CircleIcon
+                                    className={`fill-gray-secondary ${AddressStore.activeAddress?.id === item.id ? "fill-orange-default stroke-1" : ""}`}/>
                                 <Stack spacing={0}>
                                     <div className="text-base-bold">
                                         {item.address}
                                     </div>
                                     <div className="text-xs-light-gray">
-                                        {item.addressType === 0 ?  (item.apartment ?`${t("Apartment")} ${item.apartment}` : t("Tashkent")) : t("Pickup point")}
+                                        {item.addressType === 0 ? (item.apartment ? `${t("Apartment")} ${item.apartment}` : t("Tashkent")) : t("Pickup point")}
                                     </div>
                                 </Stack>
                             </div>
@@ -47,8 +56,8 @@ export const AddressListModalContent : React.FC<IAddressListModalContent> = obse
                         </div>
                     )
                 })}
-            </Stack>
-            <Button theme={"primary"} text={t("Add Address")} startIcon={<PlusIcon className={"fill-black-primary"}/>}/>
+            </Stack> : <Empty title={t("No addresses found")} message={t('No addresses found_text')}/>}
+            <Button onClick={handleStartAddAddress} theme={"primary"} text={t("Add Address")} startIcon={<PlusIcon className={"fill-black-primary"}/>}/>
         </Stack>
     </Modal>
 })

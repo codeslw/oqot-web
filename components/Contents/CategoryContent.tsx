@@ -8,6 +8,7 @@ import {ICategory} from "@/types/common";
 import {TabCategory} from "@/components/Customs/TabCategory";
 import {GoodListWrapper} from "@/components/Wrappers/GoodListWrapper";
 import {Product} from "@/components/Customs/Product";
+import {element} from "prop-types";
 
 
 interface ICategoryContent {
@@ -34,44 +35,59 @@ export const CategoryContent : React.FC<ICategoryContent> = ({title, data}) => {
             }
         ];
     }, [t]);
-    useEffect(() => {
-        setActiveTab(`category-${data?.categories[0]?.id}`);
-    }, []);
 
     useEffect(() => {
+        if(data?.categories?.length  > 0 && activeTab === null) {
+            setActiveTab(`category-${data?.categories[0]?.id}`);
+        }
+    }, [data?.categories]);
 
-    }, []);
+    useEffect(() => {
 
-    function handleIntersection(entries : any[], observer : any) {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                // The target element is in view
-                const targetElement = entry.target;
+        const elements = document.querySelectorAll('[id^="category-"]');
+        console.log(elements, " elements");
+        const timeouts: { [key: string] : any } = [];
 
-                // Scroll to the target element
-                targetElement.scrollIntoView({ behavior: "smooth" });
-
-                // Unobserve the target element so it doesn't trigger again
-                observer.unobserve(targetElement);
-            }
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    console.log("intersecting")
+                   timeouts[entry.target.id] = setTimeout(() => {
+                       setActiveTab(entry.target.id);
+                   },500)
+                }
+                else if (!entry.isIntersecting) {
+                    clearTimeout(timeouts[entry.target.id]);
+                }
+                // observer.unobserve(entry.target);
+            });
+        }, {
+            root: null,
+            rootMargin: "0px",
+            threshold: 1,
         });
-    }
+
+        elements.forEach((element) => {
+            observer.observe(element);
+        });
+
+
+    }, []);
 
 
 
     const handleScrollToElement = (id : string) => {
           const element = document.getElementById(id);
-          element?.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
+          element?.scrollIntoView({behavior: "smooth", block: "center", inline: "start"});
     };
 
-    useEffect(() => {
-        if(!!activeTab) handleScrollToElement(activeTab);
-    },[activeTab]);
 
-
-    const handleTabClick = useCallback((id : string) => {
-        setActiveTab(id);
-    }, [activeTab]);
+    //@ts-ignore
+    const handleTabClick = (e : MouseEvent<HTMLAnchorElement, MouseEvent> ,id : string) => {
+        e.preventDefault();
+        setActiveTab(`category-${id}`);
+        handleScrollToElement(`category-${id}`);
+    }
 
     return <Stack spacing={7} className={"container"}>
         <Stack spacing={4}>
@@ -79,22 +95,26 @@ export const CategoryContent : React.FC<ICategoryContent> = ({title, data}) => {
                 <CustomBreadCrumb options={breadCrumbOptions}/>
                 <h1 className={"text-4xl-bold"}>{title}</h1>
             </Stack>
-            <div className="flex w-full space-x-1 ">
-                {data?.categories.slice(0, 5).map((item ) => {
+        </Stack>
+            <div id={"tab-category"} className="flex w-full space-x-1 mt-6 py-2 -mb-2 sticky top-[88px] z-50 bg-white">
+                {data?.categories.slice(0, 6).map((item ) => {
                     return  <TabCategory id={item.id}
-                                         isActive={activeTab === item.id}
+                                         key = {item.id}
+                                         isSubcategory
+                                         isActive={activeTab === `category-${item.id}`}
                                          name={item.name}
-                                         handleClick={() => handleTabClick(item.id)}
+                                         handleClick={(e) => handleTabClick(e,item.id)}
                                          all={item.id === null}/>;
                 })}
             </div>
-        </Stack>
+
         {data?.categories?.map((category ) => {
-            return <GoodListWrapper id={`category-${category.id}`} title={category.nameRu} path={""}>
+            return <GoodListWrapper key={category.id} id={`category-${category.id}`} title={category.nameRu} path={""}>
                 {
                     category?.goods?.slice(0, 5)?.map((good ) => {
                         return <Product id={good.id}
                                         name={good.nameRu}
+                                        key={good.id}
                                         photoPath={good.photoPath}
                                         price={good.sellingPrice}
                                         discountedPrice={good.sellingPrice * (1 - good.discount)}

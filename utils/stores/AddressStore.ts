@@ -3,6 +3,8 @@ import {AddressToClient} from "@/types/common";
 
 
 
+export type AddressType = 'Delivery' | 'Pickup'
+
 class AddressStore {
 
     //States
@@ -10,6 +12,8 @@ class AddressStore {
     activeAddress : null | AddressToClient = null;
     isPrivateHome = false;
     dontCall = false;
+    addressType = 'Delivery';
+
     constructor() {
         makeAutoObservable(this)
     }
@@ -30,6 +34,10 @@ class AddressStore {
 
     setDontCall = (dontCall: boolean) => {
         this.dontCall = dontCall
+    }
+
+    setAddressType = (addressType: AddressType) => {
+        this.addressType = addressType
     }
 
 

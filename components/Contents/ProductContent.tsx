@@ -21,6 +21,7 @@ import {ProductContentSkeleton} from "@/components/Skeletons/ProductContentSkele
 import {GET_GOOD_BY_CATEGORY} from "@/utils/constants";
 import {Product} from "@/components/Customs/Product";
 import Link from "next/link";
+import {AnimatePresence, motion} from "framer-motion";
 
 interface IProductContent {
     open : boolean,
@@ -36,7 +37,10 @@ export const ProductContent : React.FC<IProductContent> = ({open, onClose, goodI
     const t = useTranslations("Product");
 
     const good = useQueryApi<IGood, any, IGood>(`/good/${goodId}`, {}, {
-        select : (data) => data.data
+        onSuccess : (data : IGood) => {
+            console.log(data)
+        },
+         select : (data) => data.data
     });
 
     const recommendeds = useQueryApi<IRecommended, any, IRecommended>(`${GET_GOOD_BY_CATEGORY}/${good?.data?.categories?.[1]?.id}`,
@@ -68,8 +72,9 @@ export const ProductContent : React.FC<IProductContent> = ({open, onClose, goodI
 
 
 
-    return <Modal open={open} onCloseIconClicked={onClose} extraClassName={'p-10 max-w-[928px] w-[928px]'}>
-        {good.isLoading ? <ProductContentSkeleton/> : <Stack direction={"column"} spacing={7}>
+    return <AnimatePresence>
+        <Modal open={open} onCloseIconClicked={onClose} extraClassName={'p-10 max-w-[928px] w-[928px]'}>
+            {good.isLoading ? <ProductContentSkeleton/> : <Stack direction={"column"} spacing={7}>
             <Grid container>
                 <Grid item xs={12} md={6} lg={4}>
                     <div className={"w-[320px] h-[320px] relative p-2"}>
@@ -88,17 +93,17 @@ export const ProductContent : React.FC<IProductContent> = ({open, onClose, goodI
                         <div className="flex space-y-5 flex-col">
                             <div className="flex space-y-3 flex-col">
                                 <CustomBreadCrumb options={breadCumbOptions}/>
-                                <h1 className="text-3xl-bold">
+                                <h1 className="text-3xl-bold dark:text-black-primary">
                                     {good?.data?.nameRu ?? ""}
                                 </h1>
                             </div>
                             <div
                                 className="w-max rounded-2xl bg-green-background text-base-bold text-white flex-center px-3 py-0.5">
-                                {good?.data?.categories[0]?.nameRu ? "Выпечка" : ""}
+                                {good?.data?.categories[0]?.nameRu ?? ""}
                             </div>
                         </div>
                         <div className="flex space-x-3 items-end">
-                            <div className={`text-2xl-bold ${good?.data?.discount ? "text-orange-default" : ""}`}>
+                            <div className={`text-2xl-bold dark:text-black-primary ${good?.data?.discount ? "text-orange-default" : ""}`}>
                                 {`${formatPrice(good?.data?.sellingPrice! * (1 - good?.data?.discount!))} ${t("sum")}`}
                             </div>
                             {good?.data?.discount ? <div
@@ -111,11 +116,11 @@ export const ProductContent : React.FC<IProductContent> = ({open, onClose, goodI
                             <div className="text-base-light-gray">
                                 {t("Contains")}
                             </div>
-                            <p className={"text-base-light"}>
+                            <p className={"text-base-light dark:text-black-primary"}>
                                 {good?.data?.descriptionRu ?? ""}
                             </p>
                         </div>
-                        <div className="text-base-light">
+                        <div className="text-base-light dark:text-black-primary">
                             {good?.data?.unitRu ?? ""}
                         </div>
                         {good?.data?.noteRu ? <div className="p-4 bg-red-background flex space-x-3 max-w-[70%]">
@@ -132,7 +137,7 @@ export const ProductContent : React.FC<IProductContent> = ({open, onClose, goodI
                     <h2 className="text-3xl-bold">
                         {t("You may need")}
                     </h2>
-                    <Link href={`/category/${good?.data?.categories[good?.data?.categories?.length - 1]?.id}`}  className="text-base-bold-gray flex items-center space-x-2 cursor-pointer">
+                    <Link href={`/category/${good?.data?.categories?.[good?.data?.categories?.length - 1]?.id}`}  className="text-base-bold-gray flex items-center space-x-2 cursor-pointer">
                         <div>
                             {t("More")}
                         </div>
@@ -147,13 +152,13 @@ export const ProductContent : React.FC<IProductContent> = ({open, onClose, goodI
                                         price={item.sellingPrice}
                                         discountedPrice={item.sellingPrice * (1 - item.discount)}
                                         availableCount={item.count}
+                                        lightBackground
                                         discountPercent={item.discount}/>
                     })}
                 </div>
-
             </Stack>
-
         </Stack>}
-    </Modal>;
+    </Modal>
+    </AnimatePresence>;
 
 };

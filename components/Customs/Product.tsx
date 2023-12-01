@@ -23,7 +23,7 @@ interface  IProduct {
     availableCount : number,
     discountPercent : number,
     onClick?: () => void;
-
+    lightBackground?: boolean;
 }
 
 
@@ -35,6 +35,7 @@ export const Product :React.FC<IProduct>  = memo(observer(({
                                                             discountedPrice,
                                                             discountPercent,
                                                             availableCount,
+                                                            lightBackground,
                                                             onClick
 
                                              }) => {
@@ -42,13 +43,15 @@ export const Product :React.FC<IProduct>  = memo(observer(({
     const [innerCount, setInnerCount] = useState(cartStore?.cart?.find((item) => item.goodId === id)?.count ?? 0);
     const [isLiked, setIsLiked] = useState(false);
     const [updateStarted, setUpdateStarted] = useState(false);
-    const handleIncrement = () => {
+    const handleIncrement = (e : any) => {
+        e.stopPropagation();
         if(innerCount < availableCount){
         setInnerCount(prev => prev  + 1);
         }
     };
 
-    const handleDecrement = () => {
+    const handleDecrement = (e : any) => {
+        e.stopPropagation()
         if(innerCount > 0){
         setInnerCount(prev => prev - 1);
         }
@@ -130,11 +133,12 @@ export const Product :React.FC<IProduct>  = memo(observer(({
                     className : "text-white"
                 }
             }} title={name}>
-            <div className="font-normal text-xs   dark:text-white md:text-sm xl:text-base text-center max-w-[80%] h-8 md:h-10 xl:min-h-12 xl:max-h-12 xl:h-12  break-all overflow-hidden">
+            <div className={`font-normal text-xs   ${ lightBackground ? "dark:text-black-primary" : "dark:text-white"} md:text-sm xl:text-base text-center max-w-[80%] h-8 md:h-10 xl:min-h-12 xl:max-h-12 xl:h-12  break-all overflow-hidden`}>
                 {name}
             </div>
             </Tooltip>
-            <div className={`font-semibold text-sm md:text-base xl:text-xl-bold text-center ${discountPercent ? "text-orange-default" : "text-black-primary dark:text-white"}`}>
+            <div className={`font-semibold text-sm md:text-base xl:text-xl-bold text-center ${discountPercent ? "text-orange-default" : `${lightBackground ? "text-black-primary dark:text-black-primary" : "text-black-primary dark:text-white"} `}`}>
+
                 {discountedPrice ?
                     `${formatPrice(discountedPrice)} сум`
                     : `${formatPrice(price) } cум`}

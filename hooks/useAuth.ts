@@ -6,10 +6,10 @@ import {assertAwaitExpression} from "@babel/types";
 import {useMutationApi} from "@/hooks/useMutationApi";
 import {AxiosResponse} from "axios";
 import {IRegisterPayload} from "@/types/common";
+import UIStore from "@/utils/stores/UIStore";
 
 
-
-interface  IVerifyPayload {
+interface IVerifyPayload {
 
     verificationCode: string,
     phoneNumber: string
@@ -17,8 +17,7 @@ interface  IVerifyPayload {
 }
 
 
-
-interface  IVerifyResponseData {
+interface IVerifyResponseData {
     tokenType: string,
     token: string,
     expiresAt: string,
@@ -29,9 +28,10 @@ interface  IVerifyResponseData {
 type AuthStage = "enterPhone" | "enterCode" | "registration" | "success" | "failure" | "cancelled";
 
 export const useAuth = () => {
-    let token : string | null = "";
 
-    const [isUserAuthenticated, setIsUserAuthenticated] = useState(!!token);
+    let token: string | null = "";
+
+    const [isUserAuthenticated, setIsUserAuthenticated] = useState<boolean | null>(null);
     const [verificationSend, setVerificationSend] = useState(false);
     const [isVerified, setIsVerified] = useState(false);
     const [phoneNumberError, setPhoneNumberError] = useState(false);
@@ -39,67 +39,69 @@ export const useAuth = () => {
     const [phoneNumber, setPhoneNumber] = useState("");
     const [verificationError, setVerificationError] = useState(false);
     const [registrationError, setRegistrationError] = useState(false);
-    const sendCode = useMutation([USER_SEND_CODE_URL], (data : string) => SendCode(data), {});
-    const verify  = useMutation([USER_SEND_CODE_URL], (data: IVerifyPayload) => VerifyPhoneNumber(data.verificationCode, data.phoneNumber), {});
-    const register = useMutationApi<IVerifyResponseData, IRegisterPayload>(REGISTER_URL, "post", {}, {baseURL : AUTH_BASE_URL});
+    const sendCode = useMutation([USER_SEND_CODE_URL], (data: string) => SendCode(data), {});
+    const verify = useMutation([USER_SEND_CODE_URL], (data: IVerifyPayload) => VerifyPhoneNumber(data.verificationCode, data.phoneNumber), {});
+    const register = useMutationApi<IVerifyResponseData, IRegisterPayload>(REGISTER_URL, "post", {}, {baseURL: AUTH_BASE_URL});
 
 
     useEffect(() => {
         token = localStorage.getItem(ACCESS_TOKEN_KEY);
+        setIsUserAuthenticated(!!token)
     }, []);
 
-    const handleAuth  = async (phoneNumber: string) => {
+    const handleAuth = async (phoneNumber: string) => {
         setPhoneNumber(phoneNumber);
         try {
-            const response : any = await sendCode.mutateAsync(phoneNumber.replace(/\s/g, ""));
+            const response: any = await sendCode.mutateAsync(phoneNumber.replace(/\s/g, ""));
             if (response.status < 400) {
                 setVerificationSend(true);
                 setCurrentAuthStage("enterCode");
             }
-        }
-        catch (e) {
+        } catch (e) {
             setPhoneNumberError(true);
         }
     };
 
-    const handleVerify = async (phoneNumber : string, verificationCode : string) => {
+    useEffect(() => {
+        if (UIStore.isTokenWrong)
+            setIsUserAuthenticated(false);
+    }, [UIStore.isTokenWrong])
+
+    const handleVerify = async (phoneNumber: string, verificationCode: string) => {
 
         try {
-            const response : any = await  verify.mutateAsync({
-                phoneNumber : phoneNumber.replace(/\s/g, ""),
+            const response: any = await verify.mutateAsync({
+                phoneNumber: phoneNumber.replace(/\s/g, ""),
                 verificationCode
             });
             if (response.status < 400 && response.data.token) {
                 setCurrentAuthStage("success");
-               // setIsVerified(true);
+                // setIsVerified(true);
                 localStorage.setItem("accessToken", response.data.token);
-            }
-            else if (response.status < 400 && !response?.data?.token) {
+            } else if (response.status < 400 && !response?.data?.token) {
                 setCurrentAuthStage("registration");
                 setIsVerified(true);
             }
-        }
-        catch (e) {
+        } catch (e) {
             setIsVerified(false);
             setVerificationError(true);
         }
     };
 
 
-    const handleRegister = async (data : IRegisterPayload) => {
+    const handleRegister = async (data: IRegisterPayload) => {
         try {
-            const response  = await register.mutateAsync(data);
+            const response = await register.mutateAsync(data);
             if (response.status < 400 && response.data.token) {
                 setCurrentAuthStage("success");
                 setRegistrationError(false);
             }
-        }
-        catch (e) {
+        } catch (e) {
             setRegistrationError(true);
         }
     };
 
-    const handleChangeAuthStage = (stage : AuthStage) => {
+    const handleChangeAuthStage = (stage: AuthStage) => {
         setCurrentAuthStage(stage);
     };
 
@@ -114,10 +116,6 @@ export const useAuth = () => {
     };
 
 
-
-
-
-
     return {
         isUserAuthenticated,
         handleVerify,
@@ -129,7 +127,7 @@ export const useAuth = () => {
         currentAuthStage,
         phoneNumber,
         handleRegister,
-        registerLoading : register.isLoading,
+        registerLoading: register.isLoading,
         verificationError,
         cancelVerificationOrRegistration
     };
