@@ -119,7 +119,7 @@ export const YandexMap : React.FC<IYandexMap> = observer(({handleAddressChange, 
             }}
             width={"100%"}
             height={"100%"}
-            onClick={isStatic ? changeCords : undefined}
+            onClick={!isStatic ? changeCords : undefined}
             instanceRef={mapRef}
             modules={["control.ZoomControl", "control.FullscreenControl", "control.GeolocationControl"]}
         >

@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 interface ITabCategory {
-    id : string,
+    id : string | number | null,
     photoPath? : string,
     name : string,
     all: boolean,

@@ -12,6 +12,8 @@ import {observer} from "mobx-react-lite";
 import AddressStore from "@/utils/stores/AddressStore";
 import {Empty} from "@/components/Shared/Empty";
 import UIStore from "@/utils/stores/UIStore";
+import {useQueryClient} from "@tanstack/react-query";
+import {useMutationApi, useMutationApiAdvanced} from "@/hooks/useMutationApi";
 
 interface IAddressListModalContent {
     open: boolean,
@@ -23,10 +25,26 @@ export const AddressListModalContent : React.FC<IAddressListModalContent> = obse
     const addressList = useQueryApi<AxiosResponse<IAddressToClientData>>("/addresstoclient", {} , {
         refetchOnMount : true,
     });
+    const deleteAddress = useMutationApiAdvanced("/addresstoclient", "delete", {})
 
     const handleStartAddAddress = () => {
         UIStore.setIsPickAddressModalOpen(true);
         onClose();
+    }
+
+    const handleDelete = async (e : React.MouseEvent<HTMLDivElement>, id : string) => {
+        e.stopPropagation()
+        try {
+            const response = await deleteAddress.mutateAsync({
+                slug : `/${id}`
+            });
+            if (response.status < 400) {
+                addressList.refetch()
+            }
+        }
+        catch (e) {
+            console.log("Something went wrong")
+        }
     }
 
     return <Modal onCloseIconClicked={onClose} onClose={onClose} open={open}>
@@ -34,7 +52,8 @@ export const AddressListModalContent : React.FC<IAddressListModalContent> = obse
             <div className="text-3xl-bold">
                 {t('My addresses')}
             </div>
-            {addressList?.data?.data?.addressToClients?.length ? <Stack spacing={0}>
+
+            {addressList?.data?.data?.addressToClients?.length ? <Stack spacing={0} className={"max-h-[30rem] overflow-y-auto"}>
                 {addressList?.data?.data?.addressToClients?.map((item, index) => {
                     return (
                         <div onClick={() => {
@@ -52,7 +71,9 @@ export const AddressListModalContent : React.FC<IAddressListModalContent> = obse
                                     </div>
                                 </Stack>
                             </div>
-                            <XIcon className={"fill-gray-primary"}/>
+                            <div onClick={(e) =>  handleDelete(e, item.id)}>
+                                <XIcon  className={"fill-gray-primary"}/>
+                            </div>
                         </div>
                     )
                 })}

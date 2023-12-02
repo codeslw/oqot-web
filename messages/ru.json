@@ -84,7 +84,9 @@
     "Add Address" : "Добавить Адрес",
     "Apartment" : "Кварита",
     "Pickup point" : "Пункт самовывоза",
-    "Tashkent" : "Ташкент"
+    "Tashkent" : "Ташкент",
+    "Delivery soon" : "Ближайшее время"
+
   },
   "Common" : {
     "More" : "Больше",
@@ -105,7 +107,8 @@
     "Add" :  "Добавить карту",
     "Save" : "Сохранить",
     "Card Number" : "Номер карты",
-    "expiryDate" : "Срок действия"
+    "expiryDate" : "Срок действия",
+    "Choose payment method" : "Выберите метод оплаты"
   },
   "Product" : {
     "You may need" : "Что ещё пригодится",

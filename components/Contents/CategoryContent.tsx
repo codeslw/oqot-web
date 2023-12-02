@@ -95,7 +95,6 @@ export const CategoryContent : React.FC<ICategoryContent> = ({title, data}) => {
                 <CustomBreadCrumb options={breadCrumbOptions}/>
                 <h1 className={"text-4xl-bold"}>{title}</h1>
             </Stack>
-        </Stack>
             <div id={"tab-category"} className="flex w-full space-x-1 mt-6 py-2 -mb-2 sticky top-[88px] z-50 bg-white">
                 {data?.categories.slice(0, 6).map((item ) => {
                     return  <TabCategory id={item.id}
@@ -107,6 +106,8 @@ export const CategoryContent : React.FC<ICategoryContent> = ({title, data}) => {
                                          all={item.id === null}/>;
                 })}
             </div>
+        </Stack>
+
 
         {data?.categories?.map((category ) => {
             return <GoodListWrapper key={category.id} id={`category-${category.id}`} title={category.nameRu} path={""}>

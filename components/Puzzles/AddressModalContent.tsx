@@ -11,6 +11,7 @@ import {Menu} from "@/components/Menu";
 import AddressStore, {AddressType} from "@/utils/stores/AddressStore";
 import {observer} from "mobx-react-lite";
 import {useMutationApi} from "@/hooks/useMutationApi";
+import {useQueryClient} from "@tanstack/react-query";
 
 
 interface  IAddressModalContent {
@@ -33,6 +34,7 @@ export const AddressModalContent : React.FC<IAddressModalContent> = observer(({o
     const search = useQueryApi(YANDEX_MAPS_SEARCH_URL, {text: formatedAddress}, {
         enabled: !!debounce.length && isSearching
     })
+    const queryClient = useQueryClient()
 
     //MUTATIONS
 
@@ -114,7 +116,7 @@ export const AddressModalContent : React.FC<IAddressModalContent> = observer(({o
 
     const handleAddAddress = async () => {
         try {
-            const response = await createAddress.mutateAsync({
+            const response : any = await createAddress.mutateAsync({
                 "address": formatedAddress,
                 "latitude": coords[0],
                 "longitude": coords[1],
@@ -128,6 +130,9 @@ export const AddressModalContent : React.FC<IAddressModalContent> = observer(({o
 
             if (response.status < 400) {
                 onClose()
+                queryClient.invalidateQueries(["/addresstoclient"])
+                const lastAddress : any = (queryClient.getQueryData(['/addresstoclient']) as any)?.addressToClients?.find((item : any) => item.id === response.data);
+                console.log(lastAddress)
                 if(onOpenAddressList){
                     onOpenAddressList()
                 }
