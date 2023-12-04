@@ -16,7 +16,7 @@ import  CircleIcon from  "@/public/icons/circle.svg";
 import XIcon from "@/public/icons/x.svg";
 import Burger from "@/public/icons/burger-menu.svg";
 import {Menu} from "@/components/Menu";
-import {LegacyRef, useRef, useState} from "react";
+import React, {LegacyRef, useRef, useState} from "react";
 import {IconButton, Stack} from "@mui/material";
 import {Popup} from "@/components/Customs/Popup";
 import {PickAddressPopupContent} from "@/components/Puzzles/PickAddressPopupContent";
@@ -34,6 +34,7 @@ import {getAddressDetailsText} from "@/utils/services";
 import AddressStore from "@/utils/stores/AddressStore";
 import {useTranslations} from "use-intl";
 import {ADDRESS_LIST_URL} from "@/utils/constants";
+import {ProfilePopoverContent} from "@/components/Puzzles/ProfilePopoverContent";
 
 interface IAddressItem {
     name : string,
@@ -71,8 +72,9 @@ export const Header : React.FC<IHeader> = observer(({categories}) => {
 
     const [openDrawer, setOpenDrawer] = useState(false);
     const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null);
-    const {isUserAuthenticated} = useAuth();
+    const [anchorProfile, setAnchorProfile] = useState<HTMLDivElement | null>(null);
 
+    const {isUserAuthenticated} = useAuth();
     const [catalogAnchor, setCatalogAnchor] = useState<HTMLButtonElement | null>(null);
 
     const formatCategories = (categories : any[]) => {
@@ -120,6 +122,11 @@ export const Header : React.FC<IHeader> = observer(({categories}) => {
         setAnchorEl(null);
     };
 
+    const handleCloseProfilePopover = (e : React.MouseEvent) => {
+        e.stopPropagation()
+        setAnchorProfile(null);
+    }
+
     const handleAddressClick = () => {
         uistore.openMobileAddressPopup();
     };
@@ -145,9 +152,22 @@ export const Header : React.FC<IHeader> = observer(({categories}) => {
     });
 
 
+    const handleUserIconClick = (e : React.MouseEvent<HTMLDivElement>) => {
+        if(anchorProfile) {
+            e.stopPropagation()
+            setAnchorProfile(null);
+        }
+        else {
+            e.stopPropagation()
+            setAnchorProfile(e!.currentTarget);
+        }
+    }
+
+
 
 
     return (
+        <>
         <div className={"sm:px-4 md:px-6 lg:px-8 py-4 w-full fixed top-0 z-50  bg-white dark:bg-black-primary sm:space-x-4 lg:space-x-6 xl:space-x-8 flex justify-between sm:justify-stretch px-6 items-center"}>
             <Link href={"/"}>
                 <LogoIcon className = "hidden md:block fill-black-primary dark:fill-white text-white dark:text-black-primary cursor-pointer"/>
@@ -224,10 +244,26 @@ export const Header : React.FC<IHeader> = observer(({categories}) => {
                         <ShoppingCartIcon className="fill-black-primary dark:fill-white hover:fill-gray-secondary"/>
                     </Link>
                 </HeaderIconWrapper>
-                <HeaderIconWrapper>
+                <HeaderIconWrapper onClick={handleUserIconClick}>
                     <UserIcon className="fill-black-primary dark:fill-white hover:fill-gray-secondary"/>
                 </HeaderIconWrapper>
+
             </nav>
         </div>
+            <Menu onClose={handleCloseProfilePopover}
+                  open={!!anchorProfile}
+                  id={"location"}
+                  classes={{
+                      paper : "py-3 pl-3 pr-1"
+                  }}
+                  elevation={1}
+                  anchorEl={anchorProfile}
+                  disableRestoreFocus
+            >
+                <div className={"w-max h-max no-scrollbar"}>
+                    <ProfilePopoverContent onClose = {handleCloseProfilePopover}/>
+                </div>
+            </Menu>
+            </>
     );
 });

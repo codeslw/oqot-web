@@ -11,7 +11,7 @@ async function getSubCategories(id : string) {
 
     if (!res.ok) {
         // This will activate the closest `error.js` Error Boundary
-        throw new Error(`Failed to fetch data ${res.status}  ${process.env.NEXT_PUBLIC_URL}/${GET_SUB_CATEGORIES_BY_CATEGORY}/${id}`)
+        throw new Error(`Failed to fetch data ${res.status}  ${process.env.NEXT_PUBLIC_URL}${GET_SUB_CATEGORIES_BY_CATEGORY}/${id}`)
 
 
     }

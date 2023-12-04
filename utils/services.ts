@@ -13,6 +13,8 @@ export const formatDate = (date : Date) => {
     return format(date, "dd.MM.yyyy")
 }
 
+
+
 export const getAddressDetailsText = (address : AddressToClient | null, t : any) => (address?.addressType === 1 ? t("Pickup point")
         : address?.apartment ? `${t("Apartment")} ${address?.apartment}`
             :  t("Tashkent"))
@@ -28,7 +30,9 @@ export const formatExpireDate = (expireDate : string) => {
 
 
 export const formatDateOrder = (date : Date) => {
-    return format(date, 'dd MMMM, HH:mm', { locale: ru })
+
+        return format(date, 'dd MMMM, HH:mm', { locale: ru })
+
 }
 
 

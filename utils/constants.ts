@@ -49,3 +49,5 @@ export const PaymentTypes : {[key : number] : string} = {
     0 : 'Cash',
     2 : 'Olnline by Card'
 }
+
+

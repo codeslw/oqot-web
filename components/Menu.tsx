@@ -22,7 +22,7 @@ export const Menu : React.FC<IMenu> = ({id, open, children,...rest}) => {
                 vertical : "top",
                 horizontal : "center"
             }}
-
+            disableScrollLock={true}
             {...rest}
             slotProps = {{
                 paper : {

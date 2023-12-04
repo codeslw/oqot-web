@@ -10,6 +10,7 @@ class UIStore {
     isMobileAddressPopupOpen = false;
     isMobileLanguagePopupOpen = false;
     isTokenWrong = false;
+    isAddressListOpen = false;
 
     activePaymentStage : null | TActivePaymentStage = null
     isPickAddressModalOpen = false;
@@ -43,6 +44,10 @@ class UIStore {
 
     setIsTokenWrong(isWrong: boolean) {
         this.isTokenWrong = isWrong
+    }
+
+    setIsAddressListOpen(isOpen: boolean) {
+        this.isAddressListOpen = isOpen;
     }
 
 }
