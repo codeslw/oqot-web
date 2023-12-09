@@ -126,9 +126,9 @@ export const ProfilePopoverContent = (props : IProps) => {
         }
     }, [profile]);
 
-    if(profile.isLoading) return  <div className={"w-[352px] h-[600px] flex justify-center items-center"}>
-        <CircularProgress className={"text-orange-default"} />
-    </div>
+    // if(profile.isLoading) return  <div className={"w-[352px] h-[600px] flex justify-center items-center"}>
+    //     <CircularProgress className={"text-orange-default"} />
+    // </div>
 
     return <Stack spacing={0} className={"no-scrollbar"}>
         <div className="flex space-x-4 items-start px-4 py-3">

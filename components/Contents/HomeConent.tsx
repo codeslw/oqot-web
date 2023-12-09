@@ -86,7 +86,7 @@ export const HomeConent : React.FC<IHomeContent> = observer(({categories, promoC
                 {
                     promoCategoryGoods?.promoCategories.filter((item) => item.goods.length > 0).map((item) => {
                         return (
-                          <GoodListWrapper title={item.promoCategory.nameRu} path={`/category/${item.promoCategory.id}`}>
+                          <GoodListWrapper title={item.promoCategory.nameRu} path={`/promocategory/${item.promoCategory.id}`}>
                                     {item.goods?.map((good) => {
                                         return <Product id={good.id}
                                                         name={good.nameRu}

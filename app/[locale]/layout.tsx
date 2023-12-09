@@ -14,6 +14,7 @@ import React from "react";
 import {PageChangeListener} from "@/components/Puzzles/PageChangeListener";
 import {AuthWrapper} from "@/components/Wrappers/AuthWrapper";
 import {Footer} from "@/components/Layout/Footer";
+import {CartSynchronizeWrapper} from "@/components/Wrappers/CartSynchronizeWrapper";
 
 
 const inter = Inter({ subsets: ['latin'] })
@@ -65,6 +66,7 @@ export default async function RootLayout({
           <PageChangeListener />
             <NextIntlClientProvider locale={params.locale} messages={messages}>
                 <DateLocalizationWrapper>
+               <CartSynchronizeWrapper>
                 <AuthWrapper>
                     <div className="w-screen dark:bg-black-primary">
                         <Header categories = {[]}/>
@@ -76,6 +78,7 @@ export default async function RootLayout({
                         <Footer/>
                     </div>
                 </AuthWrapper>
+               </CartSynchronizeWrapper>
                 </DateLocalizationWrapper>
             </NextIntlClientProvider>
       </QueryProvider>

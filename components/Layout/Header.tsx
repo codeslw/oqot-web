@@ -16,7 +16,7 @@ import  CircleIcon from  "@/public/icons/circle.svg";
 import XIcon from "@/public/icons/x.svg";
 import Burger from "@/public/icons/burger-menu.svg";
 import {Menu} from "@/components/Menu";
-import React, {LegacyRef, useRef, useState} from "react";
+import React, {LegacyRef, useEffect, useRef, useState} from "react";
 import {IconButton, Stack} from "@mui/material";
 import {Popup} from "@/components/Customs/Popup";
 import {PickAddressPopupContent} from "@/components/Puzzles/PickAddressPopupContent";
@@ -35,6 +35,7 @@ import AddressStore from "@/utils/stores/AddressStore";
 import {useTranslations} from "use-intl";
 import {ADDRESS_LIST_URL} from "@/utils/constants";
 import {ProfilePopoverContent} from "@/components/Puzzles/ProfilePopoverContent";
+import {ProductSearchPopoverContent} from "@/components/Puzzles/ProductSearchPopoverContent";
 
 interface IAddressItem {
     name : string,
@@ -73,7 +74,9 @@ export const Header : React.FC<IHeader> = observer(({categories}) => {
     const [openDrawer, setOpenDrawer] = useState(false);
     const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null);
     const [anchorProfile, setAnchorProfile] = useState<HTMLDivElement | null>(null);
+    const [anchorSearch, setAnchorSearch] = useState<HTMLDivElement | null>(null);
 
+    const [search, setSearch] = useState("");
     const {isUserAuthenticated} = useAuth();
     const [catalogAnchor, setCatalogAnchor] = useState<HTMLButtonElement | null>(null);
 
@@ -152,6 +155,8 @@ export const Header : React.FC<IHeader> = observer(({categories}) => {
     });
 
 
+
+
     const handleUserIconClick = (e : React.MouseEvent<HTMLDivElement>) => {
         if(anchorProfile) {
             e.stopPropagation()
@@ -164,6 +169,16 @@ export const Header : React.FC<IHeader> = observer(({categories}) => {
     }
 
 
+    const handleOpenSearch = (e : React.MouseEvent<HTMLInputElement>) => {
+        if(anchorSearch) {
+            e.stopPropagation()
+            setAnchorSearch(null)
+        }
+        else {
+            e.stopPropagation()
+            setAnchorSearch(e.currentTarget!)
+        }
+    }
 
 
     return (
@@ -182,7 +197,23 @@ export const Header : React.FC<IHeader> = observer(({categories}) => {
                 {/*<NestedMenu onClose={() => handleToggleCatalog()} open={!!catalogAnchor} options={formatCategories(categories)} id={"catalog"} anchorElement={catalogAnchor}/>*/}
             </div>
             <div className={"flex xs:sm:flex-grow  lg:flex-grow xs:w-max"}>
-                <Input id={"header_search_field"} variant={"filled"} errorMessage={""} placeholder={"Искать в OQ-OT"} extraClasses={"flex grow"} StartIcon={SearchIcon}/>
+                <Input id={"header_search_field"} aria-describedby={"search"}
+                       onClick={handleOpenSearch}
+                       onChange={(e) => setSearch(e.target.value)}
+                       variant={"filled"} errorMessage={""} placeholder={"Искать в OQ-OT"} extraClasses={"flex grow"} StartIcon={SearchIcon}/>
+                <Menu
+                    open={!!anchorSearch}
+                    id={"search"}
+                    anchorEl={anchorSearch}
+                    classes={{
+                        paper: "py-3 pl-3 pr-1"
+                    }}
+                    elevation={1}
+                    disableRestoreFocus={true}
+                >
+                    <ProductSearchPopoverContent searchText={search}/>
+                </Menu>
+
             </div>
              <div className={"block sm:hidden"} onClick={() => setOpenDrawer(true)}>
                  <IconButton>
@@ -245,25 +276,25 @@ export const Header : React.FC<IHeader> = observer(({categories}) => {
                     </Link>
                 </HeaderIconWrapper>
                 <HeaderIconWrapper onClick={handleUserIconClick}>
-                    <UserIcon className="fill-black-primary dark:fill-white hover:fill-gray-secondary"/>
+                    <UserIcon aria-describedby={"profile"} className="fill-black-primary dark:fill-white hover:fill-gray-secondary"/>
                 </HeaderIconWrapper>
-
+                 <Menu onClose={handleCloseProfilePopover}
+                                         open={!!anchorProfile}
+                                         id={"profile"}
+                                         classes={{
+                                             paper: "py-3 pl-3 pr-1"
+                                         }}
+                                         elevation={1}
+                                         anchorEl={anchorProfile}
+                                        // disableRestoreFocus
+                >
+                    <div className={"w-max h-max no-scrollbar"}>
+                        <ProfilePopoverContent onClose={handleCloseProfilePopover}/>
+                    </div>
+                </Menu>
             </nav>
         </div>
-            <Menu onClose={handleCloseProfilePopover}
-                  open={!!anchorProfile}
-                  id={"location"}
-                  classes={{
-                      paper : "py-3 pl-3 pr-1"
-                  }}
-                  elevation={1}
-                  anchorEl={anchorProfile}
-                  disableRestoreFocus
-            >
-                <div className={"w-max h-max no-scrollbar"}>
-                    <ProfilePopoverContent onClose = {handleCloseProfilePopover}/>
-                </div>
-            </Menu>
+
             </>
     );
 });

@@ -9,7 +9,7 @@ import  Heart from  "@/public/icons/heart.svg";
 import HeartFilled from  "@/public/icons/heart-filled.svg";
 import {CustomProductCounterButton} from "@/components/Customs/CustomProductCounterButton";
 import {formatPrice} from "@/utils/services";
-import {observable} from "mobx";
+import {observable, runInAction} from "mobx";
 import {observer} from "mobx-react-lite";
 import cartStore, {ICartState} from "@/utils/stores/CartStore";
 

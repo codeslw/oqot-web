@@ -1,5 +1,6 @@
 import {useTranslations} from "use-intl";
 import RightChevron from "@/public/icons/right-chevron-mini.svg"
+import Link from "next/link";
 
 interface IOption {
     title : string;
@@ -18,9 +19,9 @@ export const CustomBreadCrumb:React.FC<ICustomBreadCrumb> = ({options}) => {
     return <div className={"w-max flex items-center space-x-1"}>
         {options?.map((option : IOption, index, list) => {
             return <div className={"flex space-x-1 cursor-pointer"}>
-                <div className={`${option.isActive ? "text-small-light" : "text-small-light-gray"}`}>
+                <Link href={option.path} className={`${!option.isActive ? "text-base-light hover:text-gray-400" : "text-base-light-gray"}`}>
                     {option.title}
-                </div>
+                </Link>
                 {index !== list.length - 1 && <RightChevron className={"fill-gray-secondary"}/>}
             </div>
         })}

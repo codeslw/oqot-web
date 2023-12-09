@@ -13,10 +13,11 @@ async function getSubCategories(id : string) {
         // This will activate the closest `error.js` Error Boundary
         throw new Error(`Failed to fetch data ${res.status}  ${process.env.NEXT_PUBLIC_URL}${GET_SUB_CATEGORIES_BY_CATEGORY}/${id}`)
 
-
     }
     return res.json();
 }
+
+
 
 async function getParent(id : string) {
     const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/category/${id}/parent`);

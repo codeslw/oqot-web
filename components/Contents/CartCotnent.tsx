@@ -83,7 +83,7 @@ export const CartCotnent = observer(() => {
 
 
     return <>
-        <Grid container>
+        <Grid container className={"min-h-[cal(100vh - 276px)]"}>
         <Grid xs={12} lg={9} xl={8}>
            <Stack spacing={4} width={"95%"}>
             <Stack spacing={3}>

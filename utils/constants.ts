@@ -21,8 +21,10 @@ export const REPLACE_CART_URL = "/goodtocart/many"
 export const FAVORITE_URL = "/favoritegood"
 
 export const GET_GOOD_BY_CATEGORY = "/good/category"
-
 export const GET_SUB_CATEGORIES_BY_CATEGORY = "/good/subcategory/category"
+export const GET_PROMOCATEGORIES_PAGED = "/good/paged/promocategory"
+export const GET_GOOD_SEARCH = "/good/search"
+export const GET_CATEGORY_SEARCH = "/category/search"
 
 export const ADDRESS_LIST_URL = "/addresstoclient"
 //OPTIONS
@@ -42,6 +44,7 @@ export const languageOptions =  [
 
 export const ACCESS_TOKEN_KEY = "accessToken"
 export const PICKUP_COORDINATES = [41.318495, 69.287357]
+export const PROMO_CATEGORY_GOODS_PAGE_SIZE = 5;
 
 export const  SUPPORT_PHONE_NUMBER = "+998 (00) 000-00-00"
 

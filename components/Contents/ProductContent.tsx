@@ -22,6 +22,7 @@ import {GET_GOOD_BY_CATEGORY} from "@/utils/constants";
 import {Product} from "@/components/Customs/Product";
 import Link from "next/link";
 import {AnimatePresence, motion} from "framer-motion";
+import {useSynchronizeCart} from "@/hooks/useSynchronizeCart";
 
 interface IProductContent {
     open : boolean,
@@ -35,7 +36,6 @@ export const ProductContent : React.FC<IProductContent> = ({open, onClose, goodI
 
     const [favourite, setFavourite] = useState(false);
     const t = useTranslations("Product");
-
     const good = useQueryApi<IGood, any, IGood>(`/good/${goodId}`, {}, {
         onSuccess : (data : IGood) => {
             console.log(data)

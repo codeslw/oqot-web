@@ -81,7 +81,6 @@ export const CreateOrderContent = observer(() => {
     //watch
     const promocode = watch("promocode");
 
-
     //actions
     const {clearCart} = useCart()
 

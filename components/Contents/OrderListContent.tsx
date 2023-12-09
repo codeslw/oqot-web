@@ -15,6 +15,7 @@ import api from "@/api/api";
 import {OrderCard} from "@/components/Puzzles/OrderCard";
 import {formatDateOrder} from "@/utils/services";
 import {isSameDay} from "date-fns";
+import {Empty} from "@/components/Shared/Empty";
 
 export const OrderListContent = () => {
 
@@ -108,12 +109,13 @@ export const OrderListContent = () => {
 
 
     return <Stack spacing={0}>
-        <Stack spacing={4}>
             <Stack spacing={3}>
                 <CustomBreadCrumb options={breadCrumbOptions}/>
                 <h1 className={"text-4xl-bold"}>{t("My Orders")}</h1>
             </Stack>
-            <div id={"tab-category"} className="flex overflow-x-auto no-scrollbar space-x-1 mt-6 py-2 -mb-2 sticky top-[88px] z-50 bg-white">
+            {orders?.data?.page.length === 0 ? <Empty title={t("Order list is empty")} message={t("Order list is empty_text")}/> :
+               <>
+                <div id={"tab-category"} className="flex overflow-x-auto no-scrollbar space-x-1 mt-6 py-2 -mb-2 sticky top-[88px] z-50 bg-white mt-8">
     
                 {orderStatusTypes.map((item ) => {
                     return  <TabCategory id={item.code}
@@ -125,7 +127,8 @@ export const OrderListContent = () => {
                                                  all={item.code === null}/>;
                 })}
             </div>
-        </Stack>
+
+
         <InfiniteScroll
 
             loadMore={() => orders.fetchNextPage()}
@@ -164,6 +167,8 @@ export const OrderListContent = () => {
             </div>
 
         </InfiniteScroll>
+    </>
+        }
 
     </Stack>
 }

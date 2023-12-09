@@ -63,7 +63,7 @@ export const CategoryContent : React.FC<ICategoryContent> = ({title, data}) => {
             });
         }, {
             root: null,
-            rootMargin: "0px",
+            rootMargin: "200px",
             threshold: 1,
         });
 
@@ -90,23 +90,24 @@ export const CategoryContent : React.FC<ICategoryContent> = ({title, data}) => {
     }
 
     return <Stack spacing={7} className={"container"}>
-        <Stack spacing={4}>
+        <Stack spacing={4} className={"!block"}>
             <Stack spacing={3}>
                 <CustomBreadCrumb options={breadCrumbOptions}/>
                 <h1 className={"text-4xl-bold"}>{title}</h1>
             </Stack>
-            <div id={"tab-category"} className="flex w-full space-x-1 mt-6 py-2 -mb-2 sticky top-[88px] z-50 bg-white">
-                {data?.categories.slice(0, 6).map((item ) => {
-                    return  <TabCategory id={item.id}
-                                         key = {item.id}
-                                         isSubcategory
-                                         isActive={activeTab === `category-${item.id}`}
-                                         name={item.name}
-                                         handleClick={(e) => handleTabClick(e,item.id)}
-                                         all={item.id === null}/>;
-                })}
-            </div>
+
         </Stack>
+        <div id={"tab-category"} className="flex w-full space-x-1 mt-6 py-2 -mb-2 sticky top-[88px] z-50 bg-white overflow-auto no-scrollbar">
+            {data?.categories?.map((item ) => {
+                return  <TabCategory id={item.id}
+                                     key = {item.id}
+                                     isSubcategory
+                                     isActive={activeTab === `category-${item.id}`}
+                                     name={item.name}
+                                     handleClick={(e) => handleTabClick(e,item.id)}
+                                     all={item.id === null}/>;
+            })}
+        </div>
 
 
         {data?.categories?.map((category ) => {
