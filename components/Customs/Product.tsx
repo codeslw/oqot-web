@@ -12,6 +12,10 @@ import {formatPrice} from "@/utils/services";
 import {observable, runInAction} from "mobx";
 import {observer} from "mobx-react-lite";
 import cartStore, {ICartState} from "@/utils/stores/CartStore";
+import {useQueryParams} from "@/hooks/useQueryParams";
+import {usePathname, useRouter} from "next/navigation";
+import {useMutationApi} from "@/hooks/useMutationApi";
+import favouriteStore from "@/utils/stores/FavouriteStore";
 
 
 interface  IProduct {
@@ -43,6 +47,15 @@ export const Product :React.FC<IProduct>  = memo(observer(({
     const [innerCount, setInnerCount] = useState(cartStore?.cart?.find((item) => item.goodId === id)?.count ?? 0);
     const [isLiked, setIsLiked] = useState(false);
     const [updateStarted, setUpdateStarted] = useState(false);
+
+    const {createQueryString} = useQueryParams();
+    const pathname = usePathname();
+    const router = useRouter()
+
+    //mutations
+    const makeFavourite = useMutationApi("/favoritegood", "post", {});
+    const deleteFavourite = useMutationApi("/favoritegood", "delete", {})
+
     const handleIncrement = (e : any) => {
         e.stopPropagation();
         if(innerCount < availableCount){
@@ -90,9 +103,30 @@ export const Product :React.FC<IProduct>  = memo(observer(({
         };
     }, [innerCount]);
 
+    const handleClickProduct = (id  : string) => {
+        router.push(`${pathname}?${createQueryString("goodId", id)}`)
+    }
+
+    const handleMakeFavorite = async () => {
+
+    }
+
+    const handleLikeClick = (e : React.MouseEvent<HTMLDivElement>) => {
+        e.stopPropagation()
+        if(favouriteStore.favouriteGoods.includes(id)) {
+           favouriteStore.removeFromFavouriteGoods(id);
+        }
+        else  {
+            favouriteStore.addToFavouriteGoods(id)
+        }
+    }
+
 
     return (
-        <div onClick={onClick} className={`w-full p-1 lg:p-3 flex flex-col space-y-4 items-center`}>
+        <div onClick={(e) => {
+            e.stopPropagation()
+            handleClickProduct(id)
+        }} className={`w-full p-1 lg:p-3 flex flex-col space-y-4 items-center`}>
             <div className={`relative w-full aspect-square flex-center overflow-hidden px-2 py-1 xl:px-[30px] xl:py-5 bg-white rounded-2xl`}>
                 {innerCount === 0  ? <IconButton
                     onClick={handleIncrement}
@@ -103,18 +137,12 @@ export const Product :React.FC<IProduct>  = memo(observer(({
                 <Image src={photoPath} alt={""} fill={true} className="rounded-2xl object-contain bg-white overflow-hidden"/>
                 </div>
 
-                {isLiked ? <div className = {"absolute z-20 bottom-1 right-1 cursor-pointer"} onClick = {() => {
-
-                        setIsLiked(false);
-                    }}>
+                {favouriteStore.favouriteGoods.includes(id) ? <div className = {"absolute z-20 bottom-1 right-1 cursor-pointer"} onClick = {handleLikeClick}>
                         <HeartFilled
 
                             className = "fill-red-default z-20 bottom-1 right-1"/>
                     </div> :
-                    <div className = {"absolute z-20 bottom-0 right-0 cursor-pointer"}  onClick = {() => {
-
-                        setIsLiked(true);
-                    }}>
+                    <div className = {"absolute z-20 bottom-0 right-0 cursor-pointer"}  onClick = {handleLikeClick}>
                         <Heart
                             className="absolute z-20 bottom-1 right-1 fill-gray-secondary"/>
                     </div>

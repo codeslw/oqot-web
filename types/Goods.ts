@@ -141,3 +141,25 @@ export interface  ISubCategoriesByCategoryResponse {
         }
     ]
 }
+
+export  interface IFavouriteResponse {
+    "favoriteGoods": IFavouriteGood
+}
+
+export  interface IFavouriteGood {
+
+    "id": string,
+    "goodId": string,
+    "good": {
+        "id": string,
+        "name": string,
+        "nameRu": string,
+        "nameEn": string,
+        "nameUz": string,
+        "photoPath": string,
+        "sellingPrice": number,
+        "discount": number,
+        "count": number
+}
+
+}

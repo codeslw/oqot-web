@@ -6,9 +6,11 @@ import {observer} from "mobx-react-lite";
 import cartStore from "@/utils/stores/CartStore";
 import {autorun, reaction, toJS} from "mobx";
 import {useQueryApi} from "@/hooks/useQueryApi";
-import {GOOD_TO_CART_URL, REPLACE_CART_URL} from "@/utils/constants";
+import {FAVOURITES_URL, GOOD_TO_CART_URL, REPLACE_CART_URL, REPLACE_FAVOURITES_URL} from "@/utils/constants";
 import {ICart} from "@/types/common";
 import {useMutationApi} from "@/hooks/useMutationApi";
+import favouriteStore from "@/utils/stores/FavouriteStore";
+import {IFavouriteGood} from "@/types/Goods";
 
 interface ICartSynchronizeWrapper {
     children : ReactNode
@@ -25,15 +27,25 @@ export const CartSynchronizeWrapper : React.FC<ICartSynchronizeWrapper> = observ
         }
     });
 
+    const getFavourites = useQueryApi(FAVOURITES_URL, {}, {
+        refetchOnWindowFocus : false,
+        refetchOnMount : false,
+        onSuccess : (data) => {
+            favouriteStore.setFavouriteGoods(data?.data?.favoriteGoods?.map((item : IFavouriteGood) => (item.good.id)) ?? [])
+        }
+    });
+
     const replaceCartItems = useMutationApi(REPLACE_CART_URL, "put", {});
+
+    const replaceFavourites = useMutationApi(REPLACE_FAVOURITES_URL, "post", {})
 
     useEffect(() => {
         const reactionDisposer = reaction(
             () => toJS(cartStore.cart), // Convert the observable 'cart' to a plain JS object
             async (cart) => {
                 const check =  JSON.stringify(cartStore.cart) !== JSON.stringify(getCartItems.data?.data?.goodToCarts?.map((item : ICart) => ({...item, clientId : undefined, id : undefined})) ?? []);
-                console.log(JSON.stringify(cartStore.cart), " check");
-                console.log(JSON.stringify(getCartItems.data?.data?.goodToCarts?.map((item : ICart) => ({...item, clientId : undefined, id : undefined})) ?? []))
+                //console.log(JSON.stringify(cartStore.cart), " check");
+               // console.log(JSON.stringify(getCartItems.data?.data?.goodToCarts?.map((item : ICart) => ({...item, clientId : undefined, id : undefined})) ?? []))
                 if(!getCartItems.isLoading && (getCartItems.data) && check) {
                     try {
                         const response = await  replaceCartItems.mutateAsync(cartStore.cart.map((item) => ({
@@ -52,6 +64,26 @@ export const CartSynchronizeWrapper : React.FC<ICartSynchronizeWrapper> = observ
             reactionDisposer(); // This will stop the reaction when the component unmounts
         };
     }, [getCartItems.data]);
+
+
+    useEffect(() => {
+        const reactionDisposerFavorite = reaction(
+            () => toJS(favouriteStore.favouriteGoods),
+            async (favourites) => {
+                const check = JSON.stringify(favouriteStore.favouriteGoods) !== JSON.stringify(getFavourites.data?.data?.favoriteGoods?.map((item : IFavouriteGood) => (item.good.id)))
+                if(!getFavourites.isLoading &&  getFavourites.data && check) {
+                    try {
+                        const response = await replaceFavourites.mutateAsync({
+                            goodIds : [...favourites]
+                        })
+                    }
+                    catch (e) {
+
+                    }
+                }
+            }
+        )
+    }, [getFavourites.data]);
 
 
     return <>

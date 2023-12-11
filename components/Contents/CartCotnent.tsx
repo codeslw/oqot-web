@@ -11,7 +11,7 @@ import cartStore, {ICartState} from "@/utils/stores/CartStore";
 import {useToggle} from "@/hooks/useToggle";
 import {ConfirmModal} from "@/components/Shared/ConfirmModal";
 import {useMutationApi} from "@/hooks/useMutationApi";
-import {CART_DELETE_ALL_URL, FAVORITE_URL} from "@/utils/constants";
+import {CART_DELETE_ALL_URL, FAVORITE_URL, FOOTER_HEIGHT, HEADER_HEIGHT} from "@/utils/constants";
 import {CartPriceInfoPanel} from "@/components/Puzzles/CartPriceInfoPanel";
 import {useMemo} from "react";
 import {ca} from "date-fns/locale";
@@ -83,7 +83,9 @@ export const CartCotnent = observer(() => {
 
 
     return <>
-        <Grid container className={"min-h-[cal(100vh - 276px)]"}>
+        <Grid container sx={{
+            minHeight : `calc(100vh - ${(FOOTER_HEIGHT + HEADER_HEIGHT)}px)`
+        }}>
         <Grid xs={12} lg={9} xl={8}>
            <Stack spacing={4} width={"95%"}>
             <Stack spacing={3}>

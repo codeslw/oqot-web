@@ -26,7 +26,12 @@ export const GET_PROMOCATEGORIES_PAGED = "/good/paged/promocategory"
 export const GET_GOOD_SEARCH = "/good/search"
 export const GET_CATEGORY_SEARCH = "/category/search"
 
+
 export const ADDRESS_LIST_URL = "/addresstoclient"
+export const DELETE_ADDRESS_URL = "/addresstoclient"
+
+export const  FAVOURITES_URL = "/favoritegood"
+export const  REPLACE_FAVOURITES_URL = "/favoritegood/many"
 //OPTIONS
 
 
@@ -45,7 +50,8 @@ export const languageOptions =  [
 export const ACCESS_TOKEN_KEY = "accessToken"
 export const PICKUP_COORDINATES = [41.318495, 69.287357]
 export const PROMO_CATEGORY_GOODS_PAGE_SIZE = 5;
-
+export const FOOTER_HEIGHT = 188;
+export const HEADER_HEIGHT = 88;
 export const  SUPPORT_PHONE_NUMBER = "+998 (00) 000-00-00"
 
 export const PaymentTypes : {[key : number] : string} = {

@@ -8,9 +8,10 @@ import {IGood} from "@/types/Goods";
 
 interface IProductSearchPopoverContent {
     searchText : string;
+    width : number;
 }
 
-export const ProductSearchPopoverContent : React.FC<IProductSearchPopoverContent> = ({searchText}) => {
+export const ProductSearchPopoverContent : React.FC<IProductSearchPopoverContent> = ({searchText, width}) => {
 
     const [debounce, setDebounce] = useState("");
 
@@ -32,13 +33,16 @@ export const ProductSearchPopoverContent : React.FC<IProductSearchPopoverContent
 
 
 
-    return <Stack spacing={0}>
-        {goods.isLoading ? <div className={'w-full h-12 flex-center'}>
+    return <div
+        className={`rounded-2xl bg-white absolute z-50 top-16 -left-4 shadow-lg !max-h-[25rem] overflow-y-auto overflow-x-hidden px-3 no-scrollbar`}>
+        {goods.isLoading ? <div style={{width : `${width + 48}px`}} className={'w-full h-12 flex-center'}>
             <CircularProgress className={"text-orange-default"}/>
-        </div> : goods.data?.data?.data?.map((item : IGood) => {
-            return <div className="w-full p-3 text-base-light rounded-2xl hover:bg-gray-background">
+        </div> : goods.data?.data?.data?.map((item: IGood) => {
+            return <div
+                style={{width : `${width + 48}px`}}
+                className="w-full p-3 text-base-light rounded-2xl hover:bg-gray-background cursor-pointer">
                 {item.nameRu}
             </div>
         })}
-    </Stack>
+    </div>
 }

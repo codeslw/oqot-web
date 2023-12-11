@@ -128,7 +128,7 @@ export const HomeConent : React.FC<IHomeContent> = observer(({categories, promoC
             >
             <AddressModalContent onClose={() => uistore.closeMobileAddressPopup()}/>
             </Modal>
-            {!!activeGoodId && <ProductContent open={!!activeGoodId} onClose={() => setActiveGoodId(null)} goodId={activeGoodId ?? ""}/>}
+            {/*{!!activeGoodId && <ProductContent open={!!activeGoodId} onClose={() => setActiveGoodId(null)} goodId={activeGoodId ?? ""}/>}*/}
         </>
     );
 });

@@ -1,6 +1,6 @@
 "use client";
 import {Modal} from "@/components/Modal";
-import {Grid, Stack} from "@mui/material";
+import {CircularProgress, Grid, Stack} from "@mui/material";
 import Image from "next/image";
 import {useQueryApi} from "@/hooks/useQueryApi";
 import {AxiosResponse} from "axios";
@@ -23,6 +23,7 @@ import {Product} from "@/components/Customs/Product";
 import Link from "next/link";
 import {AnimatePresence, motion} from "framer-motion";
 import {useSynchronizeCart} from "@/hooks/useSynchronizeCart";
+import {AnimateModalContentWrapper} from "@/components/Wrappers/AnimateModalContentWrapper";
 
 interface IProductContent {
     open : boolean,
@@ -37,6 +38,7 @@ export const ProductContent : React.FC<IProductContent> = ({open, onClose, goodI
     const [favourite, setFavourite] = useState(false);
     const t = useTranslations("Product");
     const good = useQueryApi<IGood, any, IGood>(`/good/${goodId}`, {}, {
+        enabled : !!goodId,
         onSuccess : (data : IGood) => {
             console.log(data)
         },
@@ -72,9 +74,11 @@ export const ProductContent : React.FC<IProductContent> = ({open, onClose, goodI
 
 
 
-    return <AnimatePresence>
-        <Modal open={open} onCloseIconClicked={onClose} extraClassName={'p-10 max-w-[928px] w-[928px]'}>
-            {good.isLoading ? <ProductContentSkeleton/> : <Stack direction={"column"} spacing={7}>
+    return <AnimateModalContentWrapper>
+        <Modal open={open} onCloseIconClicked={onClose} extraClassName={'p-10 max-w-[928px] w-[928px] max-h-[800px] overflow-y-auto no-scrollbar overflow-x-hidden'}>
+            {good.isLoading ? <div className={"w-full h-full flex-center"}>
+                <CircularProgress/>
+            </div> : <Stack direction={"column"} spacing={7}>
             <Grid container>
                 <Grid item xs={12} md={6} lg={4}>
                     <div className={"w-[320px] h-[320px] relative p-2"}>
@@ -92,7 +96,7 @@ export const ProductContent : React.FC<IProductContent> = ({open, onClose, goodI
                     <Stack direction={"column"} spacing={3} width={"90%"}>
                         <div className="flex space-y-5 flex-col">
                             <div className="flex space-y-3 flex-col">
-                                <CustomBreadCrumb options={breadCumbOptions}/>
+                                <CustomBreadCrumb options={breadCumbOptions} inModal/>
                                 <h1 className="text-3xl-bold dark:text-black-primary">
                                     {good?.data?.nameRu ?? ""}
                                 </h1>
@@ -159,6 +163,6 @@ export const ProductContent : React.FC<IProductContent> = ({open, onClose, goodI
             </Stack>
         </Stack>}
     </Modal>
-    </AnimatePresence>;
+    </AnimateModalContentWrapper>;
 
 };

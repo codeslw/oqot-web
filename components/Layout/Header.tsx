@@ -16,7 +16,7 @@ import  CircleIcon from  "@/public/icons/circle.svg";
 import XIcon from "@/public/icons/x.svg";
 import Burger from "@/public/icons/burger-menu.svg";
 import {Menu} from "@/components/Menu";
-import React, {LegacyRef, useEffect, useRef, useState} from "react";
+import React, {ChangeEvent, LegacyRef, useEffect, useRef, useState} from "react";
 import {IconButton, Stack} from "@mui/material";
 import {Popup} from "@/components/Customs/Popup";
 import {PickAddressPopupContent} from "@/components/Puzzles/PickAddressPopupContent";
@@ -36,6 +36,8 @@ import {useTranslations} from "use-intl";
 import {ADDRESS_LIST_URL} from "@/utils/constants";
 import {ProfilePopoverContent} from "@/components/Puzzles/ProfilePopoverContent";
 import {ProductSearchPopoverContent} from "@/components/Puzzles/ProductSearchPopoverContent";
+import {AddressToClient, IAddressToClientData} from "@/types/common";
+import {LanguagesPopovercontent} from "@/components/Puzzles/LanguagesPopovercontent";
 
 interface IAddressItem {
     name : string,
@@ -59,7 +61,7 @@ interface IAddress {
 }
 
 interface IAdressToClientResponse {
-    addressToClients : IAddress[];
+    addressToClients : AddressToClient[];
 }
 
 
@@ -74,7 +76,10 @@ export const Header : React.FC<IHeader> = observer(({categories}) => {
     const [openDrawer, setOpenDrawer] = useState(false);
     const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null);
     const [anchorProfile, setAnchorProfile] = useState<HTMLDivElement | null>(null);
-    const [anchorSearch, setAnchorSearch] = useState<HTMLDivElement | null>(null);
+    const [anchorLanguage, setAnchorLanguage] = useState<HTMLDivElement | null>(null);
+    const [isSearching, setIsSearching] = useState(false);
+    const searchRef = useRef(null);
+    const [anchorSearch, setAnchorSearch] = useState<HTMLInputElement | HTMLTextAreaElement | null>(null);
 
     const [search, setSearch] = useState("");
     const {isUserAuthenticated} = useAuth();
@@ -140,17 +145,12 @@ export const Header : React.FC<IHeader> = observer(({categories}) => {
 
 
     //queries
-    const addresses = useQueryApi <IAdressToClientResponse , unknown, IAddressItem[], unknown>(ADDRESS_LIST_URL,
+    const addresses = useQueryApi <IAdressToClientResponse , unknown, AddressToClient[], unknown>(ADDRESS_LIST_URL,
         {},
         {
         enabled : !!isUserAuthenticated,
         select : (data) => {
-            return data?.data?.addressToClients?.map((item) => ({
-                name : item.address,
-                id :  item.id,
-                apartment : item.apartment,
-                isPickup : item.addressType === 1,
-            }));
+            return data?.data?.addressToClients ?? []
         }
     });
 
@@ -168,16 +168,36 @@ export const Header : React.FC<IHeader> = observer(({categories}) => {
         }
     }
 
-
-    const handleOpenSearch = (e : React.MouseEvent<HTMLInputElement>) => {
-        if(anchorSearch) {
+    const handleOpenLanguages = (e : React.MouseEvent<HTMLDivElement>) => {
+        if(anchorLanguage) {
             e.stopPropagation()
-            setAnchorSearch(null)
+            setAnchorLanguage(null);
         }
         else {
             e.stopPropagation()
-            setAnchorSearch(e.currentTarget!)
+            setAnchorLanguage(e.currentTarget)
         }
+    }
+
+    // const handleOpenSearch = (e : React.MouseEvent<HTMLInputElement>) => {
+    //     if(anchorSearch) {
+    //         e.stopPropagation()
+    //         setAnchorSearch(null)
+    //     }
+    //     else {
+    //         e.stopPropagation()
+    //         setAnchorSearch(e.currentTarget!)
+    //     }
+    // }
+
+    const handleSearch = (e : React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        setSearch(e.target.value);
+        setAnchorSearch(e.currentTarget)
+    }
+
+    const handleCloseLanguage = (e : React.MouseEvent) => {
+        e.stopPropagation()
+        setAnchorLanguage(null)
     }
 
 
@@ -196,24 +216,14 @@ export const Header : React.FC<IHeader> = observer(({categories}) => {
                     startIcon={<BurgerMenuIcon className = "fill-black-primary dark:fill-white"/>}/>
                 {/*<NestedMenu onClose={() => handleToggleCatalog()} open={!!catalogAnchor} options={formatCategories(categories)} id={"catalog"} anchorElement={catalogAnchor}/>*/}
             </div>
-            <div className={"flex xs:sm:flex-grow  lg:flex-grow xs:w-max"}>
+            <div className={"flex xs:sm:flex-grow  lg:flex-grow xs:w-max relative"}>
                 <Input id={"header_search_field"} aria-describedby={"search"}
-                       onClick={handleOpenSearch}
-                       onChange={(e) => setSearch(e.target.value)}
+                       //onClick={handleOpenSearch}
+                       ref={searchRef}
+                       onChange={(e) => handleSearch(e)}
                        variant={"filled"} errorMessage={""} placeholder={"Искать в OQ-OT"} extraClasses={"flex grow"} StartIcon={SearchIcon}/>
-                <Menu
-                    open={!!anchorSearch}
-                    id={"search"}
-                    anchorEl={anchorSearch}
-                    classes={{
-                        paper: "py-3 pl-3 pr-1"
-                    }}
-                    elevation={1}
-                    disableRestoreFocus={true}
-                >
-                    <ProductSearchPopoverContent searchText={search}/>
-                </Menu>
 
+                {!!search &&  <ProductSearchPopoverContent width={anchorSearch?.clientWidth ?? 100} searchText={search}/>}
             </div>
              <div className={"block sm:hidden"} onClick={() => setOpenDrawer(true)}>
                  <IconButton>
@@ -235,7 +245,7 @@ export const Header : React.FC<IHeader> = observer(({categories}) => {
                 <PointerIcon
                 className ="fill-black-primary dark:fill-white hover:fill-gray-secondary"
                 />
-                <div className="hidden xl:flex flex-col">
+                <div className="hidden xl:flex flex-col xl:w-[250px] lg:w-[200px]">
                     <div className="text-base-bold">
                         {AddressStore.activeAddress?.address ?? t("Choose address")}
                     </div>
@@ -261,11 +271,24 @@ export const Header : React.FC<IHeader> = observer(({categories}) => {
             </Menu>
 
             <nav className="sm:flex space-x-0 w-max hidden">
-                <HeaderIconWrapper>
-                    <FlagUzIcon className={"rounded-full"}/>
+                <HeaderIconWrapper onClick={handleOpenLanguages}>
+                    <FlagUzIcon aria-describedby={"language"} className={"rounded-full"}/>
                 </HeaderIconWrapper>
+                <Menu open={!!anchorLanguage}
+                      id={"language"}
+                      classes={{
+                          paper: "py-3 px-3 pr-1"
+                      }}
+                      onClose={handleCloseLanguage}
+                      anchorEl={anchorLanguage}
+                >
+                    <LanguagesPopovercontent/>
+                </Menu>
+
                 <HeaderIconWrapper>
-                    <HeartIcon className = "fill-black-primary dark:fill-white hover:fill-gray-secondary"/>
+                    <Link href={"/favourites"}>
+                        <HeartIcon className = "fill-black-primary dark:fill-white hover:fill-gray-secondary"/>
+                    </Link>
                 </HeaderIconWrapper>
                 <HeaderIconWrapper>
                     <Link href={"/cart"}>

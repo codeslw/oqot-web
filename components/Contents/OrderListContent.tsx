@@ -24,11 +24,12 @@ export const OrderListContent = () => {
     const [activeStatus, setActiveStatus] = useState<number | null>(null);
 
     //queries
-    const orders : any = useInfiniteQuery(["/order/last/paged"], async ({pageParam = 0}) => {
-        return api.get("/order/client/last/paged", {
+    const orders : any = useInfiniteQuery(["/order/last/paged", activeStatus], async ({pageParam = 0}) => {
+        return api.get("/order/bot/paged", {
             params: {
                 pageIndex: pageParam,
-                pageSize: 10
+                pageSize: 10,
+                status : activeStatus
             }
         })
     }, {
@@ -113,7 +114,7 @@ export const OrderListContent = () => {
                 <CustomBreadCrumb options={breadCrumbOptions}/>
                 <h1 className={"text-4xl-bold"}>{t("My Orders")}</h1>
             </Stack>
-            {orders?.data?.page.length === 0 ? <Empty title={t("Order list is empty")} message={t("Order list is empty_text")}/> :
+
                <>
                 <div id={"tab-category"} className="flex overflow-x-auto no-scrollbar space-x-1 mt-6 py-2 -mb-2 sticky top-[88px] z-50 bg-white mt-8">
     
@@ -127,48 +128,47 @@ export const OrderListContent = () => {
                                                  all={item.code === null}/>;
                 })}
             </div>
+                   {orders?.data?.pages[0]?.data?.data?.length === 0 ? <Empty title={t("Order list is empty")} message={t("Order list is empty_text")}/> :
+                       <InfiniteScroll
 
+                       loadMore={() => orders.fetchNextPage()}
+                       hasMore={orders.hasNextPage}
+                       loader={<div className="loader" key={0}>Loading ...</div>}
+                   >
+                       <div className="flex flex-col space-y-5">
+                           {orders?.data?.pages?.map((page: any) => page.data?.data?.map((order: any, idx: number, list: any) => {
 
-        <InfiniteScroll
+                               if (!isSameDay(new Date(order?.createdAt), new Date(list[idx - 1]?.createdAt))) {
+                                   return <div className={"!mt-14 flex flex-col w-full space-y-6"}>
+                                       <div className="text-3xl-bold">
+                                           {formatDateOrder(new Date(order.createdAt))}
+                                       </div>
+                                       <OrderCard createdAt={formatDateOrder(new Date(order.createdAt))}
+                                                  id={order.id}
+                                                  statusIcon={orderStatusTypes.find((item) => item.code === order.status)?.icon}
+                                                  statusTitle={orderStatusTypes.find((item) => item.code === order.status)?.title as string}
+                                                  statusColor={orderStatusTypes.find((item) => item.code === order.status)?.color as string}
+                                                  price={order.totalPrice}
+                                                  deliveryType={order.isPickup ? t("Pickup") : t("Delivery")}
+                                                  goodPhotoPaths={order.goodToOrders.map((item: any) => item.photoPath)}/>
+                                   </div>
+                               }
 
-            loadMore={() => orders.fetchNextPage()}
-            hasMore={orders.hasNextPage}
-            loader={<div className="loader" key={0}>Loading ...</div>}
-        >
-            <div className="flex flex-col space-y-5">
-                {orders?.data?.pages.map((page : any) => page.data?.data?.map((order : any, idx : number, list : any) => {
+                               return <OrderCard createdAt={formatDateOrder(new Date(order.createdAt))}
+                                                 id={order.id}
+                                                 statusIcon={orderStatusTypes[order.status].icon}
+                                                 statusTitle={orderStatusTypes[order.status]?.title as string}
+                                                 statusColor={orderStatusTypes[order.status]?.color as string}
+                                                 price={order.totalPrice}
+                                                 deliveryType={order.isPickup ? t("Pickup") : t("Delivery")}
+                                                 goodPhotoPaths={order.goodToOrders.map((item: any) => item.photoPath)}/>
 
-                    if(!isSameDay(new Date(order?.createdAt), new Date(list[idx - 1]?.createdAt))){
-                        return  <div className={"!mt-14 flex flex-col w-full space-y-6"}>
-                            <div className="text-3xl-bold">
-                                {formatDateOrder(new Date(order.createdAt))}
-                            </div>
-                            <OrderCard createdAt={formatDateOrder(new Date(order.createdAt))}
-                                       id={order.id}
-                                       statusIcon={orderStatusTypes[order.status].icon}
-                                       statusTitle={orderStatusTypes[order.status]?.title as string}
-                                       statusColor={orderStatusTypes[order.status]?.color as string}
-                                       price={order.totalPrice}
-                                       deliveryType={order.isPickup ? t("Pickup") : t("Delivery")}
-                                       goodPhotoPaths={order.goodToOrders.map((item : any) => item.photoPath)}/>
-                        </div>
-                    }
+                           }))}
+                       </div>
 
-                    return <OrderCard createdAt={formatDateOrder(new Date(order.createdAt))}
-                                      id={order.id}
-                                      statusIcon={orderStatusTypes[order.status].icon}
-                                      statusTitle={orderStatusTypes[order.status]?.title as string}
-                                      statusColor={orderStatusTypes[order.status]?.color as string}
-                                      price={order.totalPrice}
-                                      deliveryType={order.isPickup ? t("Pickup") : t("Delivery")}
-                                      goodPhotoPaths={order.goodToOrders.map((item : any) => item.photoPath)}/>
-
-                }) )}
-            </div>
-
-        </InfiniteScroll>
+                   </InfiniteScroll>}
     </>
-        }
+
 
     </Stack>
 }
