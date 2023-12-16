@@ -20,7 +20,7 @@ interface IMenuOption {
     Icon?: () => ReactNode,
     imgUrl?  : string
     id : string,
-    children : Omit<IMenuOption, "children" & "Icon">[]
+    children : any[]
 }
 
 
@@ -84,7 +84,7 @@ export const NestedMenu:React.FC<INestedMenu> = ({open, options, id, anchorEleme
         </Stack>
             {currentChildren?.length ? <Stack spacing={2} height={"20rem"} width={"max-content"} minWidth={"15rem"} p={1}>
                 {currentChildren?.map((item) => {
-                    return <CustomMenuItem>
+                    return <CustomMenuItem link={`/category/${item.parentId}?childId=${item.id}`}>
                         <div className="text-base-light">
                             {item.name}
                         </div>

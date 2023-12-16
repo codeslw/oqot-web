@@ -27,18 +27,18 @@ export const metadata: Metadata = {
 
 
 
-// const getCategories = async () => {
-//     try {
-//         const mainCategories = await fetch(`${process.env.NEXT_PUBLIC_URL}/category`);
-//         const response = await mainCategories.json();
-//         return response.categories;
-//     }
-//     catch (e) {
-//
-//     }
-//
-//
-// }
+const getCategories = async () => {
+    try {
+        const mainCategories = await fetch(`${process.env.NEXT_PUBLIC_URL}/category`);
+        const response = await mainCategories.json();
+        return response.categories;
+    }
+    catch (e) {
+
+    }
+
+
+}
 
 
 export default async function RootLayout({
@@ -50,7 +50,8 @@ export default async function RootLayout({
 
     let messages;
 
-//    let categories = await getCategories();
+
+   let categories = await getCategories();
 
     try {
         messages = (await import(`../../messages/${params.locale}.json`)).default
@@ -71,7 +72,7 @@ export default async function RootLayout({
                 <WithModalsWrapper>
                 <AuthWrapper>
                     <div className="w-screen dark:bg-black-primary">
-                        <Header categories = {[]}/>
+                        <Header categories = {categories}/>
                         <div className={"px-4 md:px-0 xs:w-full md:w-[90%] xl:w-[1124px] mx-auto dark:bg-black-primary"}>
                             <div className={"mt-[9rem]"}></div>
                             {children}

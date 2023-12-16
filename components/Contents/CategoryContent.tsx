@@ -9,6 +9,8 @@ import {TabCategory} from "@/components/Customs/TabCategory";
 import {GoodListWrapper} from "@/components/Wrappers/GoodListWrapper";
 import {Product} from "@/components/Customs/Product";
 import {element} from "prop-types";
+import {usePathname, useRouter, useSearchParams} from "next/navigation";
+import {useQueryParams} from "@/hooks/useQueryParams";
 
 
 interface ICategoryContent {
@@ -19,7 +21,19 @@ interface ICategoryContent {
 export const CategoryContent : React.FC<ICategoryContent> = ({title, data}) => {
 
     const t = useTranslations("Category");
-    const [activeTab, setActiveTab] = useState<string | null>(null);
+  //  const [activeTab, setActiveTab] = useState<string | null>(null);
+    const router = useRouter()
+    const searchParams = useSearchParams();
+    const pathname = usePathname()
+    const {createQueryString} = useQueryParams()
+
+    // useEffect(() => {
+    //     const childId = searchParams.get('childId');
+    //     if(childId) {
+    //     //    setActiveTab(`category-${childId}`)
+    //     }
+    // }, [searchParams]);
+
 
     const breadCrumbOptions = useMemo(() => {
         return [
@@ -37,10 +51,23 @@ export const CategoryContent : React.FC<ICategoryContent> = ({title, data}) => {
     }, [t]);
 
     useEffect(() => {
-        if(data?.categories?.length  > 0 && activeTab === null) {
-            setActiveTab(`category-${data?.categories[0]?.id}`);
+        const childId = searchParams.get('childId');
+        if(data?.categories?.length  > 0 && !childId) {
+            //setActiveTab(`category-${data?.categories[0]?.id}`);
+           router.push(pathname + '?' + createQueryString('childId', data?.categories[0]?.id), {scroll : false})
         }
     }, [data?.categories]);
+
+    useEffect(() => {
+        const childId = searchParams.get('childId');
+        if(childId) {
+            handleScrollToElement(childId);
+            console.log(childId, "changed")
+        }
+
+        },[searchParams.get("childId")])
+
+
 
     useEffect(() => {
 
@@ -53,8 +80,12 @@ export const CategoryContent : React.FC<ICategoryContent> = ({title, data}) => {
                 if (entry.isIntersecting) {
                     console.log("intersecting")
                    timeouts[entry.target.id] = setTimeout(() => {
-                       setActiveTab(entry.target.id);
-                   },500)
+                     //  setActiveTab(entry.target.id);
+                       router.push(pathname + '?' + createQueryString('childId', entry.target.id.slice(9, 1000)), {
+                           scroll : false
+                       })
+
+                   },700)
                 }
                 else if (!entry.isIntersecting) {
                     clearTimeout(timeouts[entry.target.id]);
@@ -78,14 +109,15 @@ export const CategoryContent : React.FC<ICategoryContent> = ({title, data}) => {
 
     const handleScrollToElement = (id : string) => {
           const element = document.getElementById(id);
-          element?.scrollIntoView({behavior: "smooth", block: "center", inline: "start"});
+          element?.scrollIntoView({behavior : "smooth", block: "center", inline: "start"});
     };
 
 
     //@ts-ignore
     const handleTabClick = (e : MouseEvent<HTMLAnchorElement, MouseEvent> ,id : string) => {
         e.preventDefault();
-        setActiveTab(`category-${id}`);
+        //setActiveTab(`category-${id}`);
+        router.push(pathname + '?' + createQueryString('childId' , id), {scroll : false})
         handleScrollToElement(`category-${id}`);
     }
 
@@ -102,7 +134,8 @@ export const CategoryContent : React.FC<ICategoryContent> = ({title, data}) => {
                 return  <TabCategory id={item.id}
                                      key = {item.id}
                                      isSubcategory
-                                     isActive={activeTab === `category-${item.id}`}
+                                     //isActive={activeTab === `category-${item.id}`}
+                                     isActive={searchParams.get('childId') === item.id}
                                      name={item.name}
                                      handleClick={(e) => handleTabClick(e,item.id)}
                                      all={item.id === null}/>;

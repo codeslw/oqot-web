@@ -19,6 +19,7 @@ import ShieldMinusIcon from "@/public/icons/shield-minus.svg"
 import HourGlassIcon from "@/public/icons/hourglass.svg"
 import {el} from "date-fns/locale";
 import {Text} from "domelementtype";
+import {useRouter} from "next/navigation";
 
 
 interface IProfile {
@@ -50,14 +51,15 @@ interface IProps {
 export const ProfilePopoverContent = (props : IProps) => {
 
     const t = useTranslations('Profile')
-
+    const router = useRouter()
     const profile : UseQueryResult<AxiosResponse<IProfile>, any> = useQueryApi('/profile/client', {}, {})
 
     const profileMenu = useMemo(() => {
             return [
                 {
                     title : t("My orders"),
-                    icon : <Bill  className={"fill-inherit"}/>
+                    icon : <Bill  className={"fill-inherit"}/>,
+                    path : "/order/list"
                 },
                 {
                     title : t("Favourites"),
@@ -153,7 +155,9 @@ export const ProfilePopoverContent = (props : IProps) => {
 
         {
             profileMenu.map((item, index : number) => {
-                return <div className={"flex px-4 py-3 cursor-pointer space-x-4 text-black-primary hover:text-blue-text fill-black-primary hover:fill-blue-text"}>
+                return <div
+                    onClick={() => item.path ? router.push(item.path) : null}
+                    className={"flex px-4 py-3 cursor-pointer space-x-4 text-black-primary hover:text-blue-text fill-black-primary hover:fill-blue-text"}>
                     {item.icon}
                     <div className="text-base-bold text-inherit">
                         {item.title}

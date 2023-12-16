@@ -114,7 +114,8 @@
     "You may need" : "Что ещё пригодится",
     "More" : "Больше",
     "Add to Cart" : "Добавить в корзину",
-    "sum" : "сум"
+    "sum" : "сум",
+    "Contains" : "Состав"
   },
   "Category" : {
     "Main" : "Главная"
@@ -125,6 +126,39 @@
     "App Store" : "App Store",
     "OQ-OT 2023_text" : "© OQ-OT. Все права защищены 2023",
     "Tech support"  : "Служба поддержки"
-
+  },
+  "OrderList" : {
+    "All" : "Все",
+    "Completed" : "Завершенные",
+    "Cancled by Admin" : "Отмененные Администрацией",
+    "Canceled by Client" : "Отмененные Клиентом",
+    "Collecting" : "Собираются",
+    "Delivering" : "В пути",
+    "Accepted" : "Созданные",
+    "My Orders" : "Все заказы",
+    "Main" : "Главная",
+    "Order" : "Заказы",
+    "Pickup" : "Самовывоз",
+    "Delivery" : "Доставка",
+    "Order list is empty" : "Список заказов пуст",
+    "Order list is empty_text" : "Здесь будет отображаться история ваших покупок"
+  },
+  "OrderCard" : {
+    "sum" : "сум",
+    "Order No" : "Заказ №"
+  },
+  "Favourites" : {
+    "Favourites" : "Избранные",
+    "Main" : "Главная"
+  },
+  "Profile" :  {
+    "My orders" : "Мои заказы",
+    "Favourites" : "Избранные",
+    "My Addresses" : "Мои Адреса",
+    "My bank cards" : "Мои карты",
+    "My promos" : "Промокоды",
+    "Vacancies" : "Вакансии",
+    "About service" : "О сервисе",
+    "Verified" : "Верифицирован"
   }
 }

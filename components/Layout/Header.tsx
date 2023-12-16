@@ -66,7 +66,7 @@ interface IAdressToClientResponse {
 
 
 interface IHeader {
-    categories?: any[];
+    categories: any[];
 }
 
 export const Header : React.FC<IHeader> = observer(({categories}) => {
@@ -90,7 +90,7 @@ export const Header : React.FC<IHeader> = observer(({categories}) => {
         return categories?.reduce((acc, next, idx,list) => {
 
             if(next.isMainCategory) {
-                let children =  list.filter((item) => next.children.includes(item.id));
+                let children =  list.filter((item) => item.parentId === next.id);
                 acc.push({
                     name : next.name,
                     imgUrl : next.imageUrl,
@@ -98,12 +98,14 @@ export const Header : React.FC<IHeader> = observer(({categories}) => {
                     children : children.map(((child) => ({
                         name : child.name,
                         id : child.id,
+                        parentId : next.id
                     })))
                 })
             }
             return acc;
         },[])
     }
+
 
 
     const handleMouseOver = (event: React.MouseEvent<HTMLDivElement>) => {
@@ -214,7 +216,7 @@ export const Header : React.FC<IHeader> = observer(({categories}) => {
                     theme={"tertiary"}
                     text={"Каталог"}
                     startIcon={<BurgerMenuIcon className = "fill-black-primary dark:fill-white"/>}/>
-                {/*<NestedMenu onClose={() => handleToggleCatalog()} open={!!catalogAnchor} options={formatCategories(categories)} id={"catalog"} anchorElement={catalogAnchor}/>*/}
+                <NestedMenu onClose={() => handleToggleCatalog()} open={!!catalogAnchor} options={formatCategories(categories)} id={"catalog"} anchorElement={catalogAnchor}/>
             </div>
             <div className={"flex xs:sm:flex-grow  lg:flex-grow xs:w-max relative"}>
                 <Input id={"header_search_field"} aria-describedby={"search"}
