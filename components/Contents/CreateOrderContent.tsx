@@ -50,6 +50,7 @@ import {format} from "date-fns";
 import CartStore from "@/utils/stores/CartStore";
 import {useCart} from "@/hooks/useCart";
 import {useRouter} from "next/navigation";
+import {CustomBreadCrumb} from "@/components/Customs/CustomBreadCumb";
 
 
 export const CreateOrderContent = observer(() => {
@@ -84,6 +85,28 @@ export const CreateOrderContent = observer(() => {
     //actions
     const {clearCart} = useCart()
 
+
+
+    const breadCrumbs = useMemo(() => {
+
+        return [
+            {
+                isActive : false,
+                path : "/",
+                title : t("Main")
+            },
+            {
+                isActive : false,
+                path : "/cart",
+                title : t("Cart")
+            },
+            {
+                isActive : true,
+                path : "/order/list",
+                title : t("Create order")
+            },
+        ]
+    }, [t]);
 
 
 
@@ -259,11 +282,7 @@ export const CreateOrderContent = observer(() => {
         <Grid xs={12} lg={8} xl={8}>
            <Stack spacing={7}>
                <Stack spacing={3}>
-                   <div className="flex items-center space-x-2">
-                       <div className="text-base-light">{t("Main")}</div>
-                       <BreadCrumbsIcon/>
-                       <div className="text-base-light">{t("Create order")}</div>
-                   </div>
+                   <CustomBreadCrumb options={breadCrumbs}/>
                    <div className="flex w-full space-x-6 items-center justify-between">
                        <div className="text-3xl-bold">
                            {t("Create order")}

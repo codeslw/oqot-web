@@ -32,7 +32,7 @@ import {HeaderIconWrapper} from "@/components/Customs/HeaderIconWrapper";
 import cartStore from "@/utils/stores/CartStore";
 import {getAddressDetailsText} from "@/utils/services";
 import AddressStore from "@/utils/stores/AddressStore";
-import {useTranslations} from "use-intl";
+import {useTranslations, useLocale} from "use-intl";
 import {ADDRESS_LIST_URL} from "@/utils/constants";
 import {ProfilePopoverContent} from "@/components/Puzzles/ProfilePopoverContent";
 import {ProductSearchPopoverContent} from "@/components/Puzzles/ProductSearchPopoverContent";
@@ -71,7 +71,10 @@ interface IHeader {
 
 export const Header : React.FC<IHeader> = observer(({categories}) => {
 
-    const t = useTranslations("Common")
+    const t = useTranslations("Common");
+
+    const  locale = useLocale();
+
 
     const [openDrawer, setOpenDrawer] = useState(false);
     const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null);
@@ -274,7 +277,9 @@ export const Header : React.FC<IHeader> = observer(({categories}) => {
 
             <nav className="sm:flex space-x-0 w-max hidden">
                 <HeaderIconWrapper onClick={handleOpenLanguages}>
-                    <FlagUzIcon aria-describedby={"language"} className={"rounded-full"}/>
+                    {locale === "uz" ?  <FlagUzIcon aria-describedby={"language"} className={"rounded-full"}/>
+                        : locale === "en" ? <FlagEnIcon aria-describedby={"language"} className={"rounded-full"}/>
+                            : <FlagRuIcon aria-describedby={"language"} className={"rounded-full"}/>}
                 </HeaderIconWrapper>
                 <Menu open={!!anchorLanguage}
                       id={"language"}

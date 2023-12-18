@@ -1,3 +1,4 @@
+"use client"
 import {useTranslations} from "use-intl";
 import RightChevron from "@/public/icons/right-chevron-mini.svg"
 import Link from "next/link";

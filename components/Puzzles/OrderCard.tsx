@@ -6,6 +6,7 @@ import {CustomBadge} from "@/components/Customs/CustomBadge";
 import {stat} from "fs";
 import {formatPrice} from "@/utils/services";
 import Image from "next/image";
+import {useRouter} from "next/navigation";
 
 interface IOrderCard {
     createdAt : string,
@@ -21,8 +22,11 @@ interface IOrderCard {
 export const OrderCard : React.FC<IOrderCard> = ({createdAt, id, statusIcon, statusTitle, statusColor, deliveryType, price, goodPhotoPaths}) => {
 
     const t = useTranslations("OrderCard");
+    const router = useRouter()
 
-    return <div className={"w-full p-6 rounded-3xl border border-gray-default flex flex-col space-y-6 items-start"}>
+    return <div
+        onClick={() => router.push(`/order/${id}`)}
+        className={"w-full p-6 rounded-3xl border border-gray-default flex flex-col space-y-6 items-start cursor-pointer"}>
             <div className="flex justify-between w-full">
                 <div className="flex flex-col space-y-4">
                     <div className="flex flex-col space-y-0">

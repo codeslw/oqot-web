@@ -1,3 +1,4 @@
+"use client"
 import {Paper, SwipeableDrawer, SwipeableDrawerProps} from "@mui/material";
 import React from "react";
 import {observe} from "mobx";

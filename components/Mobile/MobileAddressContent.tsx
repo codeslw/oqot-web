@@ -1,3 +1,4 @@
+"use client"
 import {Stack} from "@mui/material";
 import {YandexMap} from "@/components/Customs/YandexMap";
 import {Input} from "@/components/Input";

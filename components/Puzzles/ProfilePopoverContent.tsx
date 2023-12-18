@@ -20,6 +20,7 @@ import HourGlassIcon from "@/public/icons/hourglass.svg"
 import {el} from "date-fns/locale";
 import {Text} from "domelementtype";
 import {useRouter} from "next/navigation";
+import UIStore from "@/utils/stores/UIStore";
 
 
 interface IProfile {
@@ -67,11 +68,13 @@ export const ProfilePopoverContent = (props : IProps) => {
                 },
                 {
                     title : t("My Addresses"),
-                    icon : <LocationPin className={"fill-inherit"}/>
+                    icon : <LocationPin className={"fill-inherit"}/>,
+                    handler : () => UIStore.setIsAddressListOpen(true)
                 },
                 {
                     title : t("My bank cards"),
-                    icon : <CreditCard className={"fill-inherit"}/>
+                    icon : <CreditCard className={"fill-inherit"}/>,
+                    handler : () => UIStore.setIsCardListOpen(true)
                 },
                 {
                     title : t("My promos"),
@@ -156,7 +159,7 @@ export const ProfilePopoverContent = (props : IProps) => {
         {
             profileMenu.map((item, index : number) => {
                 return <div
-                    onClick={() => item.path ? router.push(item.path) : null}
+                    onClick={() => item.path ? router.push(item.path) : item.handler ?  item.handler() : null}
                     className={"flex px-4 py-3 cursor-pointer space-x-4 text-black-primary hover:text-blue-text fill-black-primary hover:fill-blue-text"}>
                     {item.icon}
                     <div className="text-base-bold text-inherit">

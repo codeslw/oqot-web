@@ -1,3 +1,4 @@
+"use client"
 import {TimePicker} from "@mui/x-date-pickers";
 
 
@@ -8,7 +9,7 @@ interface ITimePicker {
 export const CustomTimePicker : React.FC<ITimePicker> = ({errorMessage, placeholder, ...rest}) => {
 
     return <TimePicker
-
+        ampm={false}
         slotProps={{
             popper : {
                // className : "rounded-2xl overflow-hidden p-0 h-[300px] mt-1 shadow-md",

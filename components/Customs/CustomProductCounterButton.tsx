@@ -1,3 +1,4 @@
+"use client"
 import {Button} from "@mui/base";
 import PlusIcon from "@/public/icons/plus.svg"
 import MinusIcon from "@/public/icons/minus.svg"

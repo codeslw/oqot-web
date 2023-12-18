@@ -1,3 +1,4 @@
+"use client"
 import {Grid, Skeleton, Stack} from "@mui/material";
 import Image from "next/image";
 import HeartFilledIcon from "@/public/icons/heart-filled.svg";

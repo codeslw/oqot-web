@@ -1,3 +1,4 @@
+"use client"
 import PhotoIcon from "@/public/icons/photo.svg"
 import {useTranslations} from "use-intl";
 import {Input} from "@/components/Input";

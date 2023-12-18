@@ -1,6 +1,11 @@
+import {LoadingContent} from "@/components/Contents/LoadingContent";
+
+
 const Loading = () => {
     return (
-        <>{"...Loading"}</>
+        <>
+            <LoadingContent/>
+        </>
     );
 };
 

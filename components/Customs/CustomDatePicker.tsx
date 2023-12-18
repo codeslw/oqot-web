@@ -1,3 +1,4 @@
+"use client"
 import {DatePicker} from "@mui/x-date-pickers";
 import {Input} from "@/components/Input";
 import {TextFieldProps} from "@mui/material";

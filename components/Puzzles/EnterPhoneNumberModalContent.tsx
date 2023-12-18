@@ -1,3 +1,4 @@
+"use client"
 import {FormGroup, Stack} from "@mui/material";
 import InputMask from "react-input-mask";
 import {Input} from "@/components/Input";

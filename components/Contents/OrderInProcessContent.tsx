@@ -48,19 +48,19 @@ export const OrderInProcessContent = () => {
 
         return [
             {
-                isActive : true,
+                isActive : false,
                 path : "/",
                 title : t("Main")
             },
             {
-                isActive : true,
-                path : "/",
+                isActive : false,
+                path : "/order/list",
                 title : t("My Orders")
             },
             {
-                isActive : false,
+                isActive : true,
                 path : "/",
-                title : t("Order No")
+                title : t("Order No") + ` ${orderId}`
             },
         ]
     }, [t]);

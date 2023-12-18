@@ -1,3 +1,4 @@
+"use client";
 import {Checkbox, FormControl, FormLabel, Stack} from "@mui/material";
 import {useTranslations} from "use-intl";
 import LeftArrow from  "@/public/icons/left-arrow.svg";

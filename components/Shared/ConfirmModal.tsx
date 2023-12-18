@@ -1,3 +1,4 @@
+"use client"
 import {Modal} from "@/components/Modal";
 import {Stack} from "@mui/material";
 import {Button} from "@/components/Button";

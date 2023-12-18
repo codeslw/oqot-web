@@ -1,3 +1,4 @@
+"use client"
 import ActiveLineSmall from "@/public/icons/active_line0.svg"
 import ActiveLineMedium from "@/public/icons/active_line1.svg"
 import ActiveLineLarge from "@/public/icons/active_line2.svg"

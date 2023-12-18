@@ -1,3 +1,4 @@
+"use client"
 import {Modal} from "@/components/Modal";
 import {Stack} from "@mui/material";
 import {useTranslations} from "use-intl";

@@ -1,3 +1,4 @@
+"use client"
 import {styled, Switch, SwitchProps} from "@mui/material";
 
 export const CustomSwitch = styled((props: SwitchProps) => (

@@ -94,7 +94,7 @@ export const CategoryContent : React.FC<ICategoryContent> = ({title, data}) => {
             });
         }, {
             root: null,
-            rootMargin: "200px",
+            rootMargin: "0px",
             threshold: 1,
         });
 
@@ -108,7 +108,7 @@ export const CategoryContent : React.FC<ICategoryContent> = ({title, data}) => {
 
 
     const handleScrollToElement = (id : string) => {
-          const element = document.getElementById(id);
+          const element = document.getElementById(`category-${id}`);
           element?.scrollIntoView({behavior : "smooth", block: "center", inline: "start"});
     };
 

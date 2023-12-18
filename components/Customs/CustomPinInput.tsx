@@ -1,3 +1,4 @@
+"use client"
 import React, {ChangeEvent, Dispatch, MutableRefObject, RefObject, SetStateAction, useRef, useState} from "react";
 import TextField from "@mui/material/TextField";
 import {event} from "yandex-maps";

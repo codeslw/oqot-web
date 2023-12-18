@@ -1,3 +1,4 @@
+"use client"
 import {Stack} from "@mui/material";
 import  FlagUzIcon from  "@/public/icons/Flag-1.svg";
 import  FlagRuIcon from  "@/public/icons/Flag.svg";

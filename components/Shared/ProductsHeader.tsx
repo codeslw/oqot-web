@@ -1,3 +1,4 @@
+"use client"
 import {useTranslations} from "use-intl";
 import RightChevronIcon from "@/public/icons/right-chevron.svg"
 interface IProductsHeader {

@@ -11,9 +11,16 @@ class UIStore {
     isMobileLanguagePopupOpen = false;
     isTokenWrong = false;
     isAddressListOpen = false;
+    isCardListOpen = false;
+
 
     activePaymentStage : null | TActivePaymentStage = null
     isPickAddressModalOpen = false;
+
+
+    //Errors
+    showDeleteCardError = false;
+    showDeleteAddressError = false;
 
     constructor() {
         makeAutoObservable(this)
@@ -48,6 +55,18 @@ class UIStore {
 
     setIsAddressListOpen(isOpen: boolean) {
         this.isAddressListOpen = isOpen;
+    }
+
+    setIsCardListOpen(isOpen: boolean) {
+        this.isCardListOpen = isOpen;
+    }
+
+    setShowDeleteCardError(showDeleteCardError: boolean) {
+        this.showDeleteCardError = showDeleteCardError
+    }
+
+    setShowDeleteAddressError(showDeleteAddressError: boolean) {
+        this.showDeleteAddressError = showDeleteAddressError
     }
 
 }

@@ -1,3 +1,4 @@
+"use client"
 import {Menu} from "@/components/Menu";
 import {Popover, Stack} from "@mui/material";
 import React, {ReactNode, useEffect, useState} from "react";
@@ -84,7 +85,9 @@ export const NestedMenu:React.FC<INestedMenu> = ({open, options, id, anchorEleme
         </Stack>
             {currentChildren?.length ? <Stack spacing={2} height={"20rem"} width={"max-content"} minWidth={"15rem"} p={1}>
                 {currentChildren?.map((item) => {
-                    return <CustomMenuItem link={`/category/${item.parentId}?childId=${item.id}`}>
+                    return <CustomMenuItem
+                        onClick={() => onClose()}
+                        link={`/category/${item.parentId}?childId=${item.id}`}>
                         <div className="text-base-light">
                             {item.name}
                         </div>

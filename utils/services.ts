@@ -2,6 +2,7 @@ import {format} from "date-fns";
 import  {ru} from "date-fns/locale";
 import {AddressToClient} from "@/types/common";
 import AddressStore from "@/utils/stores/AddressStore";
+import {useLocale} from "use-intl";
 
 export const formatPrice = (price : number) => {
     return price.toLocaleString("en-US", {
@@ -25,7 +26,7 @@ export const formatCardNumber = (cardNumber : string) => {
 }
 
 export const formatExpireDate = (expireDate : string) => {
-    return `${expireDate.split("/")[1]}/${expireDate.split("/")[0]}`
+    return `${expireDate.split("/")[1]}${expireDate.split("/")[0]}`
 }
 
 
@@ -55,4 +56,10 @@ export const  formatPhoneNumber = (phoneNumber : string)  => {
         // Return the original phone number if it doesn't match the expected pattern
         return phoneNumber;
     }
+}
+
+
+export  const  localize = (name : string) => {
+    const locale = useLocale();
+    return `${name} ${locale.charAt(0).toUpperCase() + locale.charAt(1)}`;
 }

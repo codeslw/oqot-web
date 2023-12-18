@@ -1,3 +1,4 @@
+"use client"
 import {Stack} from "@mui/material";
 import PlusIcon from "@/public/icons/plus.svg";
 import {Button} from "@/components/Button";

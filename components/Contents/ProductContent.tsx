@@ -6,7 +6,7 @@ import {useQueryApi} from "@/hooks/useQueryApi";
 import {AxiosResponse} from "axios";
 import {IGood, IRecommended} from "@/types/Goods";
 
-import {useMemo, useState} from "react";
+import {useEffect, useMemo, useState} from "react";
 import {useTranslations} from "use-intl";
 import {CustomBreadCrumb} from "@/components/Customs/CustomBreadCumb";
 import {formatPrice} from "@/utils/services";
@@ -24,6 +24,11 @@ import Link from "next/link";
 import {AnimatePresence, motion} from "framer-motion";
 import {useSynchronizeCart} from "@/hooks/useSynchronizeCart";
 import {AnimateModalContentWrapper} from "@/components/Wrappers/AnimateModalContentWrapper";
+import {observer} from "mobx-react-lite";
+import cartStore from "@/utils/stores/CartStore";
+import PlusIcon from "@/public/icons/plus.svg"
+import MinusIcon from "@/public/icons/minus.svg"
+
 
 interface IProductContent {
     open : boolean,
@@ -33,10 +38,18 @@ interface IProductContent {
 
 
 
-export const ProductContent : React.FC<IProductContent> = ({open, onClose, goodId}) => {
+export const ProductContent : React.FC<IProductContent> = observer(({open, onClose, goodId}) => {
 
     const [favourite, setFavourite] = useState(false);
     const t = useTranslations("Product");
+
+    const [innerCount, setInnerCount] = useState(cartStore?.cart?.find((item) => item.goodId === goodId)?.count);
+
+
+    useEffect(() => {
+        setInnerCount(cartStore?.cart?.find((item) => item.goodId === goodId)?.count ?? 0)
+    }, [goodId]);
+
     const good = useQueryApi<IGood, any, IGood>(`/good/${goodId}`, {}, {
         enabled : !!goodId,
         onSuccess : (data : IGood) => {
@@ -72,6 +85,63 @@ export const ProductContent : React.FC<IProductContent> = ({open, onClose, goodI
         ]
     }, [good?.data]);
 
+    const countInCart = useMemo(() => {
+        const found =  cartStore.cart?.find(item => item.goodId === good?.data?.id)?.count;
+        console.log(found, cartStore.cart," found")
+        return found
+    }, [cartStore.cart, good?.data]);
+
+
+    console.log(countInCart, " count");
+
+
+    const handleIncrement = () => {
+        if(innerCount! < good?.data?.count!) {
+            setInnerCount(prev => prev! + 1);
+        }
+    }
+
+    const handleDecrement = () => {
+        if(innerCount! > 0) {
+            setInnerCount(prev => prev! - 1);
+        }
+    }
+
+
+    useEffect(() => {
+
+        const timer  = setTimeout( () => {
+            if(innerCount !== undefined && cartStore?.cart.find((item) => item.goodId === good?.data?.id)?.count !== innerCount){
+                cartStore.updateGoodCountInCart(goodId, innerCount)
+            }
+
+        }, 800)
+
+        return () => {
+            clearInterval(timer)
+        }
+
+    }, [innerCount]);
+
+
+    useEffect(() => {
+        console.log(cartStore.cart, " cartStore")
+    }, [cartStore.cart]);
+
+    const handleAddToCart = () => {
+        cartStore.addToCart({
+            goodId: good?.data?.id!,
+            goodName: good?.data?.name!,
+            goodPhotoPath: good?.data?.photoPath!,
+            goodPrice: good?.data?.sellingPrice!,
+            goodDiscount: good?.data?.discount!,
+            count: 1,
+            maxCount: good?.data?.count!
+        });
+        setInnerCount(prevState => (prevState ?? 0) + 1)
+
+
+    }
 
 
     return <AnimateModalContentWrapper>
@@ -114,7 +184,20 @@ export const ProductContent : React.FC<IProductContent> = ({open, onClose, goodI
                                 className="text-base-bold-gray line-through">{good?.data?.sellingPrice}</div> : null}
                         </div>
                         <div className="w-1/2">
-                            <Button text={t("Add to Cart")} theme={"primary"}/>
+                            {!innerCount ?
+                            <Button
+                                onClick={handleAddToCart}
+                                text={t("Add to Cart")} theme={"primary"}/>
+                                : <Button theme={"primary"}
+                                          text={`${innerCount}`}
+                                          textClasses={"w-[132px]"}
+                                          startIcon={<MinusIcon
+                                          onClick={handleDecrement}
+                                          />}
+                                          endIcon={<PlusIcon
+                                              onClick={handleIncrement}
+                                              className = "fill-black-primary"/>}
+                                />}
                         </div>
                         <div className="flex flex-col space-y-2">
                             <div className="text-base-light-gray">
@@ -165,4 +248,4 @@ export const ProductContent : React.FC<IProductContent> = ({open, onClose, goodI
     </Modal>
     </AnimateModalContentWrapper>;
 
-};
+});

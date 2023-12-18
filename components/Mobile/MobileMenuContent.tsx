@@ -1,3 +1,4 @@
+"use client"
 import {Link, Stack} from "@mui/material";
 import React, {useMemo} from "react";
 import HeartIcon from "@/public/icons/heart.svg"

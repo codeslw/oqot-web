@@ -1,3 +1,4 @@
+"use client"
 import {useTranslations} from "use-intl";
 import {FormControl, FormHelperText, FormLabel, Stack} from "@mui/material";
 import {ChangeEvent, useEffect, useMemo, useState} from "react";

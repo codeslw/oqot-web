@@ -1,3 +1,4 @@
+"use client"
 import {Box, IconButton, ModalProps} from "@mui/material";
 import React, {ReactNode} from "react";
 import {Modal as MuiModal} from "@mui/material"

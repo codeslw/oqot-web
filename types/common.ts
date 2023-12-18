@@ -65,6 +65,7 @@ export interface FavoriteGood {
     goodID:    string;
     good:      Good;
     createdAt: Date;
+    [key: string]: any;
 }
 
 export interface Good {
@@ -89,6 +90,7 @@ export interface Good {
     discount:      number;
     count:         number;
     storeToCount:  StoreToCount[];
+    [key : string] : any
 }
 
 export interface Category {

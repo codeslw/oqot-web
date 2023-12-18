@@ -1,8 +1,8 @@
 "use client"
 import {Stack} from "@mui/material";
 import {languageOptions} from "@/utils/constants";
-import {usePathname, useRouter} from "next/navigation";
-import {Link} from "@/navigation";
+
+import {Link, usePathname, useRouter} from "@/navigation";
 import {useLocale} from  "next-intl"
 
 export const LanguagesPopovercontent = () => {
@@ -17,14 +17,15 @@ export const LanguagesPopovercontent = () => {
         <Stack spacing={0}>
             {languageOptions.map((item) => {
                 return (
-                    <Link href={`/${pathsWithoutLocale.join("/")}`}
-                          locale={item.key as any}
+                    <div
+                         // locale={item.key as any}
+                           onClick={() => router.push(pathname, {locale : item.key as any})}
                           className={"flex space-x-4 rounded-xl p-3 hover:bg-gray-background cursor-pointer min-w-[12rem]"}>
                             <item.Icon className={"rounded-full"}/>
                             <div className="text-base-light">
                                 {item.title}
                             </div>
-                    </Link>
+                    </div>
                 );
             })}
         </Stack>

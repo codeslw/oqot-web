@@ -1,3 +1,4 @@
+"use client"
 import {ICategory} from "@/types/common";
 import Image from "next/image";
 

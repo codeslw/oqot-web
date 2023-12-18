@@ -8,7 +8,7 @@ import {Button} from "@/components/Button";
 import  Heart from  "@/public/icons/heart.svg";
 import HeartFilled from  "@/public/icons/heart-filled.svg";
 import {CustomProductCounterButton} from "@/components/Customs/CustomProductCounterButton";
-import {formatPrice} from "@/utils/services";
+import {formatPrice, localize} from "@/utils/services";
 import {observable, runInAction} from "mobx";
 import {observer} from "mobx-react-lite";
 import cartStore, {ICartState} from "@/utils/stores/CartStore";
@@ -130,7 +130,7 @@ export const Product :React.FC<IProduct>  = memo(observer(({
             <div className={`relative w-full aspect-square flex-center overflow-hidden px-2 py-1 xl:px-[30px] xl:py-5 bg-white rounded-2xl`}>
                 {innerCount === 0  ? <IconButton
                     onClick={handleIncrement}
-                    className={"flex justify-center items-center absolute z-20 top-2 right-2 !p-[6px] w-9 !h-9  rounded-xl bg-gray-background"}>
+                    className={"flex justify-center items-center absolute z-20 top-2 right-2 !p-[6px] w-9 !h-9  rounded-xl bg-gray-background hover:bg-gray-focus"}>
                     <PlusIcon className ="fill-black-primary"/>
                 </IconButton> : <CustomProductCounterButton count={innerCount} handleIncrement={handleIncrement} handleDecrement={handleDecrement}/>}
                 <div className="relative w-full h-full">
@@ -144,7 +144,7 @@ export const Product :React.FC<IProduct>  = memo(observer(({
                     </div> :
                     <div className = {"absolute z-20 bottom-0 right-0 cursor-pointer"}  onClick = {handleLikeClick}>
                         <Heart
-                            className="absolute z-20 bottom-1 right-1 fill-gray-secondary"/>
+                            className="absolute z-20 bottom-1 right-1 fill-gray-secondary hover:fill-red-default"/>
                     </div>
                  }
                 {discountPercent ? <div

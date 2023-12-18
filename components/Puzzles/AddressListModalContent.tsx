@@ -1,3 +1,4 @@
+"use client"
 import {Modal} from "@/components/Modal";
 import {Stack} from "@mui/material";
 import {useQueryApi} from "@/hooks/useQueryApi";
@@ -43,7 +44,7 @@ export const AddressListModalContent : React.FC<IAddressListModalContent> = obse
             }
         }
         catch (e) {
-            console.log("Something went wrong")
+            UIStore.setShowDeleteAddressError(true)
         }
     }
 

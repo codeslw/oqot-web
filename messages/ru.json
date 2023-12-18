@@ -52,7 +52,13 @@
     "Cart is empty now" : "В корзине пока пусто",
     "Cart empty_text" : "Перейдите в каталог, чтобы оформить новый заказ",
     "Go to purchases" : "Перейти к покупкам",
-    "Favourites" : "Избранное"
+    "Favourites" : "Избранное",
+    "Cart is cleared" : "Корзина очищена",
+    "Recover goods" : "Вернуть товары ",
+    "Clear all?" : "Удалить всё из корзины?",
+    "DeleteAllConfirmation_text" : "Контрольное утчонене, а то вдруг вы случайно задели кнопку",
+    "Delete" : "Удалить",
+    "Cancel" : "Отмена"
   },
   "CreateOrder" : {
     "Create order" : "Оформить заказ",
@@ -85,7 +91,10 @@
     "Apartment" : "Кварита",
     "Pickup point" : "Пункт самовывоза",
     "Tashkent" : "Ташкент",
-    "Delivery soon" : "Ближайшее время"
+    "Delivery soon" : "Ближайшее время",
+    "Cart" : "Корзина",
+    "Choose date" : "Выберите дату",
+    "Choose time" : "Выберите время"
 
   },
   "Common" : {
@@ -108,7 +117,11 @@
     "Save" : "Сохранить",
     "Card Number" : "Номер карты",
     "expiryDate" : "Срок действия",
-    "Choose payment method" : "Выберите метод оплаты"
+    "Choose payment method" : "Выберите метод оплаты",
+    "Expiry" : "Срок карты",
+    "Cards not found" : "У вас нет карты",
+    "Cards not found_text" : "Добавив карту вы сможете моментально оплачивать заказы и не волноваться про наличные",
+    "My Cards" : "Мои карты"
   },
   "Product" : {
     "You may need" : "Что ещё пригодится",
@@ -159,6 +172,43 @@
     "My promos" : "Промокоды",
     "Vacancies" : "Вакансии",
     "About service" : "О сервисе",
-    "Verified" : "Верифицирован"
+    "Verified" : "Верифицирован",
+    "Logout" : "Выйти"
+  },
+   "Order" : {
+     "Main" : "Главная",
+     "My Orders" : "Мои заказы",
+     "Order No" : "Заказ №",
+     "Order created at" : "Заказ создан",
+     "Order created" : "Заказ создан",
+     "Order will be delivered in 30 minutes" : "Заказ будет доставлен в течении 30 минут",
+     "Chat" : "Чат",
+     "Call" : "Позврнить",
+     "Order content" : "Состав заказа",
+     "Order details" : "Детали заказа",
+     "Created At" : "Создан",
+     "Payment Type" : "Метод оплаты",
+     "Cash" : "Наличными",
+     "Comment" : "Коментарий",
+     "Dont Call" : "Не звонить",
+     "Delivery Type" : "Тип доставки",
+     "Delivery details" : "Детали доставки",
+     "Call when delivered" : "Позвонить когда приедет",
+     "Courier" : "Курьер",
+     "Delivery" : "Доставка",
+     "Pickup" : "Самовывоз",
+     "Order created at " : "Заказ создан"
+   },
+  "Address" : {
+    "Are you sure to delete Address" : "Удаление адреса",
+    "After confirm address will be deleted from the list of addresses" : "Вы действительно хотите удалить 1-й проезд Мукимий, 9А из списка?"
+  },
+  "Confirm Modal" : {
+    "Confirm" : "Подтвердить",
+    "Cancel" : "Отменить"
+  },
+  "Errors" : {
+    "Error occurred when deleting card!" : "Произошла ошибка при удалении карты!",
+    "Error occurred when deleting address!" : "Произошла ошибка при удалении адреса!"
   }
 }

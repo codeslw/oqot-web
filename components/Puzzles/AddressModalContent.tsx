@@ -1,3 +1,4 @@
+"use client"
 import {Stack} from "@mui/material";
 import {Input} from "@/components/Input";
 import {Button} from "@/components/Button";
@@ -12,6 +13,7 @@ import AddressStore, {AddressType} from "@/utils/stores/AddressStore";
 import {observer} from "mobx-react-lite";
 import {useMutationApi} from "@/hooks/useMutationApi";
 import {useQueryClient} from "@tanstack/react-query";
+import UIStore from "@/utils/stores/UIStore";
 
 
 interface  IAddressModalContent {
@@ -113,10 +115,16 @@ export const AddressModalContent : React.FC<IAddressModalContent> = observer(({o
         }
     }
 
+    useEffect(() => {
+        if(addressType !== "Delivery") {
+            setAddressType("Delivery")
+        }
+    }, [coords]);
+
 
     const handleAddAddress = async () => {
         try {
-            const response : any = await createAddress.mutateAsync({
+            const  payload = {
                 "address": formatedAddress,
                 "latitude": coords[0],
                 "longitude": coords[1],
@@ -126,13 +134,16 @@ export const AddressModalContent : React.FC<IAddressModalContent> = observer(({o
                 "floor": "",
                 "apartment": "",
                 "phoneNumber": ""
-            })
+            }
+            const response : any = await createAddress.mutateAsync(payload)
 
             if (response.status < 400) {
                 onClose()
                 queryClient.invalidateQueries(["/addresstoclient"])
-                const lastAddress : any = (queryClient.getQueryData(['/addresstoclient']) as any)?.addressToClients?.find((item : any) => item.id === response.data);
-                console.log(lastAddress)
+             //   const lastAddress : any = (queryClient.getQueryData(['/addresstoclient']) as any)?.data?.addressToClients?.find((item : any) => item.id === response.data);
+              //  console.log(lastAddress, "lastAddress")
+                AddressStore.setActiveAddress({id: response.data, clientID : "", createdAt : new Date(), ...payload})
+
                 if(onOpenAddressList){
                     onOpenAddressList()
                 }

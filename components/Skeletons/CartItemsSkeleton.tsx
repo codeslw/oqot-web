@@ -1,3 +1,4 @@
+"use client"
 import {Skeleton, Stack} from "@mui/material";
 
 export const CartItemsSkeleton = () => {

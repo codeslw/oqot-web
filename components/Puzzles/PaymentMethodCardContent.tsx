@@ -1,3 +1,4 @@
+"use client"
 import PaymentStore from "@/utils/stores/PaymentStore";
 import CashIcon from "@/public/icons/cash.svg";
 import CreditCardIcon from "@/public/icons/credit-card.svg";

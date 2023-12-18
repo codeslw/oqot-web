@@ -1,3 +1,4 @@
+"use client"
 import CircleCheckedIcon from "@/public/icons/circle-checked.svg";
 import XIcon from "@/public/icons/x.svg";
 import CircleIcon from "@/public/icons/circle.svg";

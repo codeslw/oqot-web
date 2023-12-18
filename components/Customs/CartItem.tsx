@@ -33,7 +33,11 @@ interface ICartItem {
                                                   discount
  }) => {
     const t = useTranslations("Cart");
-     const [innerCount, setInnerCount] = useState(cartStore.cart.find((item) => item.goodId === id)?.count ?? 0);
+    const [innerCount, setInnerCount] = useState(cartStore.cart.find((item) => item.goodId === id)?.count ?? 0);
+
+
+
+
 
      const handleIncrement = () => {
          if (innerCount < maxCount) {

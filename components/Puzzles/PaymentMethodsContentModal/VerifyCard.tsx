@@ -1,3 +1,4 @@
+"use client"
 import PinInput from "@/components/Customs/CustomPinInput";
 import {Stack} from "@mui/material";
 import {useTranslations} from "use-intl";

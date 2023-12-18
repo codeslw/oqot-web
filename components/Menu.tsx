@@ -1,3 +1,4 @@
+"use client"
 import {Popover, PopoverProps} from "@mui/material";
 import {ReactNode} from "react";
 

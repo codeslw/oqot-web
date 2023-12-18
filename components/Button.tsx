@@ -1,3 +1,4 @@
+"use client"
 import {Button as MuiButton, ButtonProps, ButtonTypeMap, CircularProgress, ExtendButtonBase} from "@mui/material";
 import {Icon} from "@mui/material";
 import {useMemo} from "react";
@@ -41,7 +42,7 @@ export const Button: React.FC<IButton> = ({
             {/*{StartIcon ? <StartIcon className={"dark:fill-white fill-black-primary"}/> : null}*/}
 
             {text && <div
-                className={`text-base-bold mr-4 ${theme === "secondary" ? "text-white" : "dark:text-black-primary"}  ${textClasses}`}>{text}</div>}
+                className={`text-base-bold  ${theme === "secondary" ? "text-white" : "dark:text-black-primary"}  ${textClasses}`}>{text}</div>}
             {children}
             {loading ? <CircularProgress size={20} className={"text-white"}/> : null}
             {/*{EndIcon ? <EndIcon className={"dark:fill-white fill-black-primary"}/> : null}*/}

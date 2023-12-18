@@ -1,3 +1,4 @@
+"use client"
 import {Box, Snackbar, Stack} from "@mui/material";
 import {useTranslations} from "use-intl";
 import {useCallback, useMemo, useState} from "react";
