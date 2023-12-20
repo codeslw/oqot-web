@@ -1,6 +1,6 @@
 "use client"
 import Image from "next/image";
-import {memo, useEffect, useState} from "react";
+import React, {memo, useEffect, useState} from "react";
 import cartStore from "@/utils/stores/CartStore";
 import {CustomProductCounterButton} from "@/components/Customs/CustomProductCounterButton";
 import {Stack} from "@mui/material";
@@ -8,8 +8,14 @@ import {formatPrice} from "@/utils/services";
 import {useTranslations} from "use-intl";
 import {observer} from "mobx-react-lite";
 import HeartIcon from "@/public/icons/heart.svg";
+import HeartIconFilled from "@/public/icons/heart-filled.svg";
 import {Header} from "@/components/Layout/Header";
 import XIcon from "@/public/icons/x.svg";
+import favouriteStore from "@/utils/stores/FavouriteStore";
+import {useMutationApiAdvanced} from "@/hooks/useMutationApi";
+import api from "@/api/api";
+import {useQueryClient} from "@tanstack/react-query";
+import UIStore from "@/utils/stores/UIStore";
 interface ICartItem {
     maxCount: number;
     photoPath: string;
@@ -33,9 +39,9 @@ interface ICartItem {
                                                   discount
  }) => {
     const t = useTranslations("Cart");
-    const [innerCount, setInnerCount] = useState(cartStore.cart.find((item) => item.goodId === id)?.count ?? 0);
-
-
+    const [innerCount, setInnerCount] = useState(cartStore.cart.find((item) => item.goodId === goodId)?.count ?? 0);
+    const deleteCartItem = useMutationApiAdvanced("/goodtocart", "delete", {})
+    const queryClient = useQueryClient()
 
 
 
@@ -52,10 +58,12 @@ interface ICartItem {
 
 
      useEffect(() => {
-
+         console.log(queryClient.getQueryData(["/goodtocart"]), " query data")
          const timer = setTimeout(() => {
 
-             const findIndex = cartStore.cart.findIndex((item) => item.goodId === id);
+
+
+             const findIndex = cartStore.cart.findIndex((item) => item.goodId === goodId);
 
              if (findIndex !== -1 && innerCount > 0) {
                  cartStore.updateGoodCountInCart(goodId, innerCount);
@@ -65,6 +73,7 @@ interface ICartItem {
              }
              else if (findIndex === -1 && innerCount > 0) {
                  cartStore.addToCart({
+                     id : "",
                      goodId : goodId,
                      count : innerCount,
                      maxCount : maxCount,
@@ -86,6 +95,32 @@ interface ICartItem {
 
      }, [innerCount]);
 
+     const handleLikeClick = (e : React.MouseEvent<HTMLDivElement>) => {
+         e.stopPropagation()
+         if(favouriteStore.favouriteGoods.includes(goodId)) {
+             favouriteStore.removeFromFavouriteGoods(goodId);
+         }
+         else  {
+             favouriteStore.addToFavouriteGoods(goodId)
+         }
+     }
+
+     const handleRemoveItemFromCart = async (id : string) => {
+        try {
+            const response = await deleteCartItem.mutateAsync({
+                slug : `/${id}`
+            })
+            if (response.status < 400) {
+                queryClient.invalidateQueries({
+                    queryKey : [`/goodtocart`]
+                })
+            }
+        }
+        catch (err) {
+            UIStore.setGeneralError(t("Error occurred while deleting"))
+        }
+     }
+
 
 
     return <div className={"flex space-x-6 items-center w-full py-6"}>
@@ -105,11 +140,15 @@ interface ICartItem {
             {formatPrice(price)} <span className="text-xs-light">{t("sum")}</span>
         </div>}
         <div className="flex items-center space-x-1">
-            <div className="p-2 flex-center">
-                <HeartIcon className={"fill-gray-secondary"}/>
+            <div
+                onClick={handleLikeClick}
+                className="p-2 flex-center cursor-pointer">
+                 {favouriteStore.favouriteGoods.includes(goodId) ? <HeartIconFilled className={"fill-red-default"}/>  : <HeartIcon className={"fill-gray-secondary hover:fill-red-default"}/>}
             </div>
-            <div className="p-2 flex-center">
-                <XIcon className={"fill-gray-secondary"}/>
+            <div
+                onClick={() => handleRemoveItemFromCart(id)}
+                className="p-2 flex-center cursor-pointer">
+                <XIcon className={"fill-gray-secondary hover:fill-gray-focus"}/>
             </div>
         </div>
 

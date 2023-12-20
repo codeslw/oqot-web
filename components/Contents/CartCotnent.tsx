@@ -148,7 +148,7 @@ export const CartCotnent = observer(() => {
                                 name={item.goodName}
                                 price={item.goodPrice}
                                 key={item.goodId}
-                                id={item.goodId}
+                                id={item.id}
                                 discount={item.goodDiscount}
                                 photoPath={item.goodPhotoPath}
                                 goodId={item.goodId}

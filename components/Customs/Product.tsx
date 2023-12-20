@@ -77,6 +77,7 @@ export const Product :React.FC<IProduct>  = memo(observer(({
 
             if(innerCount > 0 && foundIndex === - 1) {
                 cartStore?.addToCart({
+                    id : "",
                     count : innerCount,
                     maxCount : availableCount,
                     goodDiscount : discountPercent,
@@ -120,6 +121,8 @@ export const Product :React.FC<IProduct>  = memo(observer(({
             favouriteStore.addToFavouriteGoods(id)
         }
     }
+
+
 
 
     return (

@@ -14,6 +14,7 @@ class UIStore {
     isCardListOpen = false;
 
 
+
     activePaymentStage : null | TActivePaymentStage = null
     isPickAddressModalOpen = false;
 
@@ -21,6 +22,7 @@ class UIStore {
     //Errors
     showDeleteCardError = false;
     showDeleteAddressError = false;
+    generalError = "";
 
     constructor() {
         makeAutoObservable(this)
@@ -67,6 +69,10 @@ class UIStore {
 
     setShowDeleteAddressError(showDeleteAddressError: boolean) {
         this.showDeleteAddressError = showDeleteAddressError
+    }
+
+    setGeneralError(generalError: string) {
+        this.generalError = generalError
     }
 
 }

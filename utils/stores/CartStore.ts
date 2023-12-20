@@ -3,7 +3,7 @@ import {ca} from "date-fns/locale";
 import {ICart} from "@/types/common";
 
 
-export type ICartState = Omit<ICart, "id" | "clientId">;
+export type ICartState = Omit<ICart, | "clientId">;
 
 
 

@@ -66,6 +66,20 @@ export const WithModalsWrapper : React.FC<IWithModalsWrapper> = observer(({child
         </Snackbar>
 
 
+        <Snackbar
+            open={!!UIStore.generalError}
+            onClose={() => UIStore.setGeneralError("")}
+            autoHideDuration={2000}
+            anchorOrigin={{
+                vertical : "top",
+                horizontal : "center"
+            }}
+        >
+            <Alert severity="error">{UIStore.generalError}</Alert>
+        </Snackbar>
+
+
+
 
         <PaymentMethodsContentModal open={UIStore.activePaymentStage === "addCard" || UIStore.activePaymentStage === "verify"}
                                     onClose={() => UIStore.setActivePaymentStage(null)}/>

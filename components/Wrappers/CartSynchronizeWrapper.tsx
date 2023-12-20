@@ -22,7 +22,7 @@ export const CartSynchronizeWrapper : React.FC<ICartSynchronizeWrapper> = observ
         refetchOnWindowFocus : false,
         refetchOnMount : false,
         onSuccess : (data) => {
-            const formattedCartItems = data?.data?.goodToCarts?.map((item : ICart) => ({...item, clientId : undefined, id : undefined}));
+            const formattedCartItems = data?.data?.goodToCarts?.map((item : ICart) => ({...item, clientId : undefined}));
             cartStore.setCart(formattedCartItems);
         }
     });
@@ -43,10 +43,10 @@ export const CartSynchronizeWrapper : React.FC<ICartSynchronizeWrapper> = observ
         const reactionDisposer = reaction(
             () => toJS(cartStore.cart), // Convert the observable 'cart' to a plain JS object
             async (cart) => {
-                const check =  JSON.stringify(cartStore.cart) !== JSON.stringify(getCartItems.data?.data?.goodToCarts?.map((item : ICart) => ({...item, clientId : undefined, id : undefined})) ?? []);
-                //console.log(JSON.stringify(cartStore.cart), " check");
-               // console.log(JSON.stringify(getCartItems.data?.data?.goodToCarts?.map((item : ICart) => ({...item, clientId : undefined, id : undefined})) ?? []))
+                const check =  JSON.stringify(cartStore.cart) !== JSON.stringify(getCartItems.data?.data?.goodToCarts?.map((item : ICart) => ({...item, clientId : undefined})) ?? []);
+                console.log(cart, " before replace", check);
                 if(!getCartItems.isLoading && (getCartItems.data) && check) {
+                    console.log("replace triggered", check , cart)
                     try {
                         const response = await  replaceCartItems.mutateAsync(cartStore.cart.map((item) => ({
                             id : item.goodId,

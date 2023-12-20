@@ -130,6 +130,7 @@ export const ProductContent : React.FC<IProductContent> = observer(({open, onClo
 
     const handleAddToCart = () => {
         cartStore.addToCart({
+            id : "",
             goodId: good?.data?.id!,
             goodName: good?.data?.name!,
             goodPhotoPath: good?.data?.photoPath!,
