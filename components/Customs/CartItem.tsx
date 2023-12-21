@@ -39,19 +39,19 @@ interface ICartItem {
                                                   discount
  }) => {
     const t = useTranslations("Cart");
-    const [innerCount, setInnerCount] = useState(cartStore.cart.find((item) => item.goodId === goodId)?.count ?? 0);
+    const [innerCount, setInnerCount] = useState<number | null>(cartStore.cart.find((item) => item.goodId === goodId)?.count ?? null);
     const deleteCartItem = useMutationApiAdvanced("/goodtocart", "delete", {})
     const queryClient = useQueryClient()
 
 
 
      const handleIncrement = () => {
-         if (innerCount < maxCount) {
+         if (innerCount  !== null &&  innerCount < maxCount) {
              setInnerCount(innerCount + 1);
          }
      };
      const handleDecrement = () => {
-         if (innerCount > 0) {
+         if (innerCount  !== null && innerCount > 0) {
              setInnerCount(innerCount - 1);
          }
      };
@@ -65,13 +65,13 @@ interface ICartItem {
 
              const findIndex = cartStore.cart.findIndex((item) => item.goodId === goodId);
 
-             if (findIndex !== -1 && innerCount > 0) {
+             if (findIndex !== -1 && innerCount !== null && innerCount > 0 ) {
                  cartStore.updateGoodCountInCart(goodId, innerCount);
              }
              else if (findIndex!== -1 && innerCount === 0) {
                  cartStore.removeFromCart(goodId);
              }
-             else if (findIndex === -1 && innerCount > 0) {
+             else if (findIndex === -1 &&  innerCount !== null && innerCount > 0) {
                  cartStore.addToCart({
                      id : "",
                      goodId : goodId,
@@ -83,7 +83,7 @@ interface ICartItem {
                      goodDiscount : discount,
                  });
              }
-             else if (findIndex === -1 && innerCount === 0) {
+             else if (findIndex === -1 && innerCount === null) {
                  return;
              }
 
@@ -128,7 +128,7 @@ interface ICartItem {
             <Image width ={72} height={72} src={photoPath} alt={""}/>
             <div className={`max-w-full ${maxCount === 0 ? "text-base-light" : "text-base-light-gray"}`}>{name}</div>
         </div>
-        <CustomProductCounterButton forCart handleIncrement={handleIncrement} handleDecrement={handleDecrement} count={innerCount}/>
+        <CustomProductCounterButton forCart handleIncrement={handleIncrement} handleDecrement={handleDecrement} count={innerCount ?? 0}/>
         {discount ? <Stack spacing={0} width={132}>
             <div className="text-base-bold text-orange-default">
                 {formatPrice(price - (price * discount))} <span className="text-xs-light">{t("sum")}</span>
