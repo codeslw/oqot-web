@@ -191,12 +191,12 @@ export const CartCotnent = observer(() => {
                 <ProductsHeader title={t("Favourites")} link={"/favourites"}/>
                 <div
                     className={"grid grid-cols-3 sm:grid-cols-4 xl:grid-cols-5 gap-2 md:gap-3 lg:gap-4 xl:gap-5 mt-6"}>{
-                    favourites.data?.data?.favoriteGoods.map(({good}: FavoriteGood) => (
+                    favourites.data?.data?.favoriteGoods?.slice(0, 5).map(({good}: FavoriteGood) => (
 
                             <Product
                                 key={good.id}
                                 id={good.id}
-                                name={good[localize("name")]}
+                                name={good.name}
                                 photoPath={good.photoPath}
                                 price={good.sellingPrice}
                                 discountedPrice={(1 - good.discount) * good.sellingPrice}

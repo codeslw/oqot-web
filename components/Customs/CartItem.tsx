@@ -58,11 +58,9 @@ interface ICartItem {
 
 
      useEffect(() => {
-         console.log(queryClient.getQueryData(["/goodtocart"]), " query data")
+
+
          const timer = setTimeout(() => {
-
-
-
              const findIndex = cartStore.cart.findIndex((item) => item.goodId === goodId);
 
              if (findIndex !== -1 && innerCount !== null && innerCount > 0 ) {
@@ -89,11 +87,10 @@ interface ICartItem {
 
          }, 700);
 
-
-
          return () => clearTimeout(timer);
 
      }, [innerCount]);
+
 
      const handleLikeClick = (e : React.MouseEvent<HTMLDivElement>) => {
          e.stopPropagation()
@@ -110,11 +107,8 @@ interface ICartItem {
             const response = await deleteCartItem.mutateAsync({
                 slug : `/${id}`
             })
-            if (response.status < 400) {
-                queryClient.invalidateQueries({
-                    queryKey : [`/goodtocart`]
-                })
-            }
+
+            cartStore.removeFromCartById(id)
         }
         catch (err) {
             UIStore.setGeneralError(t("Error occurred while deleting"))
@@ -128,7 +122,10 @@ interface ICartItem {
             <Image width ={72} height={72} src={photoPath} alt={""}/>
             <div className={`max-w-full ${maxCount === 0 ? "text-base-light" : "text-base-light-gray"}`}>{name}</div>
         </div>
-        <CustomProductCounterButton forCart handleIncrement={handleIncrement} handleDecrement={handleDecrement} count={innerCount ?? 0}/>
+        <CustomProductCounterButton forCart
+                                    handleIncrement={handleIncrement}
+                                    handleDecrement={handleDecrement}
+                                    count={innerCount ?? 0}/>
         {discount ? <Stack spacing={0} width={132}>
             <div className="text-base-bold text-orange-default">
                 {formatPrice(price - (price * discount))} <span className="text-xs-light">{t("sum")}</span>

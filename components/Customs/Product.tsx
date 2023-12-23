@@ -44,7 +44,7 @@ export const Product :React.FC<IProduct>  = memo(observer(({
 
                                              }) => {
 
-    const [innerCount, setInnerCount] = useState(cartStore?.cart?.find((item) => item.goodId === id)?.count ?? 0);
+    const [innerCount, setInnerCount] = useState(cartStore?.cart?.find((item) => item.goodId === id)?.count ?? null);
     const [isLiked, setIsLiked] = useState(false);
     const [updateStarted, setUpdateStarted] = useState(false);
 
@@ -58,15 +58,15 @@ export const Product :React.FC<IProduct>  = memo(observer(({
 
     const handleIncrement = (e : any) => {
         e.stopPropagation();
-        if(innerCount < availableCount){
-        setInnerCount(prev => prev  + 1);
+        if((innerCount ?? 0) < availableCount){
+        setInnerCount(prev => (prev ?? 0)  + 1);
         }
     };
 
     const handleDecrement = (e : any) => {
         e.stopPropagation()
-        if(innerCount > 0){
-        setInnerCount(prev => prev - 1);
+        if( (innerCount ?? 0) > 0){
+        setInnerCount(prev => (prev ?? 0) - 1);
         }
     };
 
@@ -75,7 +75,7 @@ export const Product :React.FC<IProduct>  = memo(observer(({
 
             const foundIndex = cartStore?.cart?.findIndex((item :ICartState) => item.goodId === id);
 
-            if(innerCount > 0 && foundIndex === - 1) {
+            if( innerCount !== null && innerCount > 0 && foundIndex === - 1) {
                 cartStore?.addToCart({
                     id : "",
                     count : innerCount,
@@ -90,7 +90,7 @@ export const Product :React.FC<IProduct>  = memo(observer(({
             else if(innerCount === 0 && foundIndex !== - 1) {
                 cartStore?.removeFromCart(id);
             }
-            else if(innerCount > 0 && foundIndex!== - 1) {
+            else if(innerCount !== null &&  innerCount > 0 && foundIndex!== - 1) {
                 cartStore?.updateGoodCountInCart(id, innerCount);
             }
             else if(innerCount === 0 && foundIndex === - 1) {
@@ -108,9 +108,6 @@ export const Product :React.FC<IProduct>  = memo(observer(({
         router.push(`${pathname}?${createQueryString("goodId", id)}`)
     }
 
-    const handleMakeFavorite = async () => {
-
-    }
 
     const handleLikeClick = (e : React.MouseEvent<HTMLDivElement>) => {
         e.stopPropagation()
@@ -131,11 +128,11 @@ export const Product :React.FC<IProduct>  = memo(observer(({
             handleClickProduct(id)
         }} className={`w-full p-1 lg:p-3 flex flex-col space-y-4 items-center`}>
             <div className={`relative w-full aspect-square flex-center overflow-hidden px-2 py-1 xl:px-[30px] xl:py-5 bg-white rounded-2xl`}>
-                {innerCount === 0  ? <IconButton
+                {(innerCount === 0 || innerCount === null)  ? <IconButton
                     onClick={handleIncrement}
                     className={"flex justify-center items-center absolute z-20 top-2 right-2 !p-[6px] w-9 !h-9  rounded-xl bg-gray-background hover:bg-gray-focus"}>
                     <PlusIcon className ="fill-black-primary"/>
-                </IconButton> : <CustomProductCounterButton count={innerCount} handleIncrement={handleIncrement} handleDecrement={handleDecrement}/>}
+                </IconButton> : <CustomProductCounterButton count={innerCount ?? 0} handleIncrement={handleIncrement} handleDecrement={handleDecrement}/>}
                 <div className="relative w-full h-full">
                 <Image src={photoPath} alt={""} fill={true} className="rounded-2xl object-contain bg-white overflow-hidden"/>
                 </div>

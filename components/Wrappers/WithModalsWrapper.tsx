@@ -1,5 +1,5 @@
 "use client"
-import {ReactNode} from "react";
+import {ReactNode, useEffect} from "react";
 import addressStore from "@/utils/stores/AddressStore";
 import UIStore from "@/utils/stores/UIStore";
 import {observer} from "mobx-react-lite";
@@ -27,6 +27,13 @@ export const WithModalsWrapper : React.FC<IWithModalsWrapper> = observer(({child
     const pathname = usePathname();
     const {createQueryString, deleteQueryParam} = useQueryParams()
     const t = useTranslations("Errors")
+
+
+    useEffect(() => {
+        window.scroll({
+            top : -2000
+        })
+    }, []);
 
 
     return <>

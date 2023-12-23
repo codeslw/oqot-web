@@ -11,12 +11,15 @@ import {ICart} from "@/types/common";
 import {useMutationApi} from "@/hooks/useMutationApi";
 import favouriteStore from "@/utils/stores/FavouriteStore";
 import {IFavouriteGood} from "@/types/Goods";
+import {useQueryClient} from "@tanstack/react-query";
 
 interface ICartSynchronizeWrapper {
     children : ReactNode
 }
 
 export const CartSynchronizeWrapper : React.FC<ICartSynchronizeWrapper> = observer(({children}) => {
+
+    const queryClient = useQueryClient()
 
     const getCartItems = useQueryApi(GOOD_TO_CART_URL,{}, {
         refetchOnWindowFocus : false,
@@ -52,6 +55,7 @@ export const CartSynchronizeWrapper : React.FC<ICartSynchronizeWrapper> = observ
                             id : item.goodId,
                             count : item.count
                         })))
+
                     }
                     catch (e) {
 
@@ -73,9 +77,16 @@ export const CartSynchronizeWrapper : React.FC<ICartSynchronizeWrapper> = observ
                 const check = JSON.stringify(favouriteStore.favouriteGoods) !== JSON.stringify(getFavourites.data?.data?.favoriteGoods?.map((item : IFavouriteGood) => (item.good.id)))
                 if(!getFavourites.isLoading &&  getFavourites.data && check) {
                     try {
+                        console.log("favourites replace triggered")
                         const response = await replaceFavourites.mutateAsync({
-                            goodIds : [...favourites]
+                            goodIds: [...favourites]
                         })
+                        if (response.status < 400) {
+                            queryClient.invalidateQueries({
+                                queryKey: [FAVOURITES_URL]
+                            })
+
+                        }
                     }
                     catch (e) {
 

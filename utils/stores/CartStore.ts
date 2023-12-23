@@ -33,6 +33,11 @@ class CartStore {
         this.cart = this.cart.filter(item => item.goodId !== goodId);
     }
 
+    removeFromCartById(id : string | number) {
+        this.cart = this.cart.filter(item => item.id !== id);
+    }
+
+
     addToCart(good: ICartState) {
         this.cart.push(good);
     }
