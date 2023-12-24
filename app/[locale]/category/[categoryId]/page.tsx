@@ -7,7 +7,11 @@ import {CategoryContent} from "@/components/Contents/CategoryContent";
 
 
 async function getSubCategories(id : string) {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_URL}${GET_SUB_CATEGORIES_BY_CATEGORY}/${id}`);
+    const res = await fetch(`${process.env.NEXT_PUBLIC_URL}${GET_SUB_CATEGORIES_BY_CATEGORY}/${id}`, {
+        next : {
+            revalidate : 20,
+        }
+    });
 
     if (!res.ok) {
         // This will activate the closest `error.js` Error Boundary
@@ -20,7 +24,11 @@ async function getSubCategories(id : string) {
 
 
 async function getParent(id : string) {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/category/${id}/parent`);
+    const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/category/${id}/parent`, {
+        next : {
+            revalidate : 20
+        }
+    });
 
     if (!res.ok) {
         // This will activate the closest `error.js` Error Boundary

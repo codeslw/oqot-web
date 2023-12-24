@@ -56,11 +56,12 @@ import {CustomBreadCrumb} from "@/components/Customs/CustomBreadCumb";
 export const CreateOrderContent = observer(() => {
 
     const t = useTranslations("CreateOrder");
-    const deliveryPrice = 0;
+
     const {control, handleSubmit, watch, setError} = useForm();
     const [openAddressList, setOpenAddressList] = useState(false);
     const [promoStatus, setPromoStatus] = useState("");
     const [promoMessage, setPromoMessage] = useState("");
+    const [deliveryPrice, setDeliveryPrice] = useState(0);
     const [openPaymentMethods, setOpenPaymentMethods] = useState(false);
     const [deliverySoon, setDeliverySoon] = useState(false);
     const [calculatedTotalPrice, setCalculatedTotalPrice] = useState<null | number>(null);
@@ -68,6 +69,7 @@ export const CreateOrderContent = observer(() => {
     const [calculatedTotalGoodPrice, setCalculatedTotalGoodPrice] = useState<null | number>(null);
     const [calculatedTotalGoodCount, setCalculatedTotalGoodCount] = useState<null | number>(null);
     const [calculatedTotalShippingPrice, setCalculatedTotalShippingPrice] = useState<null | number>(null);
+
     const router = useRouter();
     const [toast, setToast] = useState<{
         message: string,
@@ -133,7 +135,7 @@ export const CreateOrderContent = observer(() => {
             {
                 name : "domophone",
                 label : t("Domophone"),
-                type : "number",
+                type : "type",
                 placeholder : t("Domophone"),
             },
         ];
@@ -188,10 +190,20 @@ export const CreateOrderContent = observer(() => {
                 }
             }
             catch (e) {
+
                 setPromoStatus("error");
             }
         }
     }
+
+    useEffect(() => {
+        if(promocode?.length === 0 && promoStatus === "error" && promoMessage) {
+            setPromoStatus("");
+            setPromoMessage("")
+        }
+    }, [promocode]);
+
+
 
 
     const handleCalculatePrice = async () => {
@@ -205,7 +217,7 @@ export const CreateOrderContent = observer(() => {
                         count : item.count
                     })),
                     promo : promocode ?? "",
-                    isPickup : AddressStore.activeAddress?.addressType === 0  ? true : false,
+                    isPickup : AddressStore.activeAddress?.addressType === 1  ? true : false,
 
                 });
 
@@ -214,10 +226,14 @@ export const CreateOrderContent = observer(() => {
                     setCalculatedTotalGoodPrice(response.data.sellingPrice);
                     setCalculatedTotalDiscount(response.data.sellingPriceDiscount + response.data.shippingPriceDiscount);
                     setCalculatedTotalShippingPrice(response.data.shippingPrice);
+
                 }
 
             }
-            catch (e) {
+            catch (err : any) {
+                if (err.response.status === 404 && err.response?.data?.message) {
+                    UIStore.setGeneralError(err.response?.data?.message)
+                }
 
             }
 
@@ -234,7 +250,7 @@ export const CreateOrderContent = observer(() => {
     const handleCreateOrder = () => {
         handleSubmit(async (data) => {
             console.log(data, " data to submit");
-            const date = data.date ? format(data.date, "YYYY-MM-DD") : null;
+            const date = data.date ? format(data.date, "yyyy-MM-dd") : null;
             const time  = data.time ?  format(data.time, "HH:mm:ss.SSS") : null;
             const formatedDate = `${date}T${time}Z`
             try {
@@ -248,7 +264,7 @@ export const CreateOrderContent = observer(() => {
                     "address": AddressStore.activeAddress?.address ?? "",
                     "toLongitude": AddressStore.activeAddress?.longitude ?? 0,
                     "toLatitude": AddressStore.activeAddress?.latitude ?? 0,
-                    "isPickup": AddressStore.activeAddress?.addressType === 0 ? true : false,
+                    "isPickup": AddressStore.activeAddress?.addressType === 1 ? true : false,
                     "paymentType": PaymentStore.paymentMethod ?? 0,
                     "promo": data.promocode ?? "",
                     "deliverAt": deliverySoon ? null : formatedDate,
@@ -270,12 +286,22 @@ export const CreateOrderContent = observer(() => {
 
                 }
             }
-            catch (e) {
-
+            catch (err : any) {
+                if (err.response.status === 404 && err.response?.data?.message) {
+                    UIStore.setGeneralError(err.response?.data?.message)
+                }
+                else {
+                    UIStore.setGeneralError(t("Something went wrong"))
+                }
             }
 
         })()
     }
+
+
+    useEffect(() => {
+        handleCalculatePrice()
+    }, [AddressStore.activeAddress]);
 
 
     return  <Grid container>
@@ -376,10 +402,11 @@ export const CreateOrderContent = observer(() => {
                            <Controller
                                control={control}
                                name={"date"}
+                               rules ={!deliverySoon ? {required : t("Required field")} : undefined}
                                render={({field, fieldState: {error}}) => (
                                    <FormControl className={"flex flex-col space-y-2"}>
                                        <div className="text-base-bold-gray">{t("Date")}</div>
-                                       <CustomDatePicker errorMessage={""} placeholder={t("Choose date")} {...field}/>
+                                       <CustomDatePicker errorMessage={error?.message} placeholder={t("Choose date")} {...field}/>
                                    </FormControl>
                                )}/>
                        </div>
@@ -387,10 +414,11 @@ export const CreateOrderContent = observer(() => {
                            <Controller
                                control={control}
                                name={"time"}
+                               rules ={!deliverySoon ? {required : t("Required field")} : undefined}
                                render={({field, fieldState: {error}}) => (
                                    <FormControl className={"flex flex-col space-y-2"}>
                                        <div className="text-base-bold-gray">{t("Time")}</div>
-                                       <CustomTimePicker errorMessage={""} placeholder={t("Choose time")} {...field}/>
+                                       <CustomTimePicker errorMessage={error?.message} placeholder={t("Choose time")} {...field}/>
                                    </FormControl>
                                )}/>
                        </div>
@@ -463,8 +491,8 @@ export const CreateOrderContent = observer(() => {
             <CartPriceInfoPanel goodCount={totalGoodCount}
                                 totalGoodPrice={totalGoodPrice}
                                 discount={totalDiscountPrice}
-                                deliveryPrice={deliveryPrice}
-                                totalPrice={totalPrice}
+                                deliveryPrice={calculatedTotalShippingPrice ?? 0}
+                                totalPrice={calculatedTotalPrice ?? totalPrice}
                                 handleClickCreateOrder={handleCreateOrder}
             />
         </Grid>

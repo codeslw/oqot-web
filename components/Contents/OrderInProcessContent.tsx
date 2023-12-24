@@ -18,6 +18,10 @@ import {ProductItem} from "@/components/Puzzles/ProductItem";
 import {useQueryApi} from "@/hooks/useQueryApi";
 import {formatDateOrder, formatPhoneNumber} from "@/utils/services";
 import {IGoodToOrder} from "@/types/Order";
+import Cheque from "@/components/Puzzles/Cheque";
+import {CustomBadge} from "@/components/Customs/CustomBadge";
+import Finish from "@/public/icons/finish.svg"
+import CircleX from "@/public/icons/circle-x.svg"
 
 
 
@@ -66,17 +70,21 @@ export const OrderInProcessContent = () => {
     }, [t]);
 
 
-    const statusTexts : {[key : number] : "created" | "collecting" | "on_way" | "completed"} = useMemo(() => {
+    const statusTexts : {[key : number] : "created" | "collecting" | "on_way" | "delivered" | "canceled by client" |  "canceled by admin"} = useMemo(() => {
         return {
             0 : "created",
             1 : "collecting",
             2 : "on_way",
-            3 : "completed"
+            3 : "delivered",
+            4 : "canceled by client",
+            5 : "canceled by admin"
         }
     }, []);
 
 
-    return <Grid container>
+
+    return <>
+        <Grid container>
         <Grid xs={12} lg={9} xl={8}>
     <Stack spacing={7}>
         <Stack spacing={3}>
@@ -90,10 +98,13 @@ export const OrderInProcessContent = () => {
             </Stack>
         </Stack>
         <Stack spacing={3}>
-            <OrderProcessStatus status={statusTexts[order.data?.data?.status as number ?? 0]}/>
-            <div className="w-full aspect-[736/360] rounded-2xl overflow-hidden border-[1px] border-b-gray-secondary">
+            {order?.data?.status < 3 ? <> <OrderProcessStatus status={statusTexts[order.data?.status as number ?? 0]}/>
+                <div className="w-full aspect-[736/360] rounded-2xl overflow-hidden border-[1px] border-b-gray-secondary">
                 <YandexMap coords={orderCoords}/>
-            </div>
+                </div> </> : order?.data?.status === 3 ? <CustomBadge Icon={<Finish className={"fill"}/>} title={t("delivered")} color={"#B3B700"}/>
+                : order.data?.status === 5 ? <CustomBadge Icon={<CircleX className ="fill-white"/>} title={t("canceled by admin")} color={"#FF2C45"}/>
+                :  <CustomBadge Icon={<CircleX className ="fill-white"/>} title={t("canceled by client")} color={"#FF2C45"}/>
+            }
             <div className="w-full flex space-x-4">
                 <div className={"w-full rounded-2xl border border-gray-default px-6 py-4 flex justify-between cursor-pointer"}>
                     <div className="flex space-x-4">
@@ -177,8 +188,28 @@ export const OrderInProcessContent = () => {
                                 discount={orderDiscount ?? 0}
                                 deliveryPrice={order.data?.shippingPrice ?? 0}
                                 totalPrice={order?.data?.totalPrice ?? 0}
+                                withCheque={true}
                                 handleClickCreateOrder={() => {}}
             />
         </Grid>
     </Grid>
+        <div className={"w-20 hidden"}>
+            <Cheque
+                address={order?.data?.address ?? ""}
+                cart={order?.data?.goodToOrders?.map((item : any) => ({ count: item.count, sellingPrice: item.goodSellingPrice, name: item.goodName }))}
+                orderTime={`${order?.data?.createdAt ? formatDateOrder( new Date(order?.data?.createdAt)) : formatDateOrder(new Date())}`}
+                courier={order.data?.courier ? `${order.data?.courier.user.firstName} ${order.data?.courier.user.lastName}` : t("Pickup")}
+                name={`${order.data?.client.user.firstName} ${order.data?.client.user.lastName ?? ""} ${order.data?.client.user.middleName ?? ""}`}
+                paymentType={order?.data?.paymentType === 0 ? t("Cash") : t("Online by Card")}
+                phoneNumber={order.data?.client?.phoneNumber || ""}
+                promocode={order.data?.promo?.name || t("don't exist")}
+                shippingPrice={order.data?.shippingPrice || 0}
+                store={order.data?.store.name || ""}
+                totalDiscount={order?.data?.totalDiscount ?? 0}
+                totalGoods={order?.data?.goodToOrders?.length}
+                totalPrice={order.data?.totalPrice}
+                totalSellingPrice={order.data?.sellingPrice || 0}
+            />
+        </div>
+    </>
 }

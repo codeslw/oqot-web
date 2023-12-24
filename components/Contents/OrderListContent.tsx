@@ -71,13 +71,13 @@ export const OrderListContent = () => {
             },
             {
                 title : t("Cancled by Admin"),
-                code : 4,
+                code : 5,
                 icon : <CircleX className={"fill-white"}/>,
                 color : "#FF2C45"
             },
             {
                 title : t("Canceled by Client"),
-                code : 5,
+                code : 4,
                 icon: <CircleX className={"fill-white"}/>,
                 color : "#FF2C45"
             },

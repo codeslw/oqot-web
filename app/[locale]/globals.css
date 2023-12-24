@@ -95,3 +95,21 @@ html {
     }
   }
 }
+
+
+#cheque {
+  width: 80mm;
+  padding: 10px;
+  border: 1px solid #000;
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  #cheque,
+  #cheque * {
+    visibility: visible;
+  }
+}

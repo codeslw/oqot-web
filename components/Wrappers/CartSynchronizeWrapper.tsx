@@ -34,7 +34,12 @@ export const CartSynchronizeWrapper : React.FC<ICartSynchronizeWrapper> = observ
         refetchOnWindowFocus : false,
         refetchOnMount : false,
         onSuccess : (data) => {
-            favouriteStore.setFavouriteGoods(data?.data?.favoriteGoods?.map((item : IFavouriteGood) => (item.good.id)) ?? [])
+            const hasDifference = JSON.stringify(favouriteStore.favouriteGoods) !== JSON.stringify(data?.data?.favoriteGoods?.map((item : IFavouriteGood) => (item.good.id)));
+
+            if(hasDifference) {
+                favouriteStore.setFavouriteGoods(data?.data?.favoriteGoods?.map((item : IFavouriteGood) => (item.good.id)) ?? [])
+            }
+
         }
     });
 
@@ -74,8 +79,12 @@ export const CartSynchronizeWrapper : React.FC<ICartSynchronizeWrapper> = observ
         const reactionDisposerFavorite = reaction(
             () => toJS(favouriteStore.favouriteGoods),
             async (favourites) => {
-                const check = JSON.stringify(favouriteStore.favouriteGoods) !== JSON.stringify(getFavourites.data?.data?.favoriteGoods?.map((item : IFavouriteGood) => (item.good.id)))
-                if(!getFavourites.isLoading &&  getFavourites.data && check) {
+                console.log(favourites, " favorites");
+
+                const check = JSON.stringify(favourites) !== JSON.stringify(getFavourites.data?.data?.favoriteGoods?.map((item : IFavouriteGood) => (item.good.id)));
+              //  console.log( JSON.stringify(favouriteStore.favouriteGoods),  JSON.stringify(getFavourites.data?.data?.favoriteGoods?.map((item : IFavouriteGood) => (item.good.id))), "check")
+                console.log(check, " check")
+                if(!getFavourites.isFetching && !replaceFavourites.isLoading &&  getFavourites.data && check) {
                     try {
                         console.log("favourites replace triggered")
                         const response = await replaceFavourites.mutateAsync({
@@ -94,6 +103,10 @@ export const CartSynchronizeWrapper : React.FC<ICartSynchronizeWrapper> = observ
                 }
             }
         )
+
+        return () => {
+            reactionDisposerFavorite()
+        }
     }, [getFavourites.data]);
 
 

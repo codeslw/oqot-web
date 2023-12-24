@@ -76,10 +76,19 @@ export const AddressModalContent : React.FC<IAddressModalContent> = observer(({o
     }
 
     const handlePickAddressFromMap = (coords: number[]) => {
+        if(addressType === "Pickup") {
+            setAddressType("Delivery")
+        }
         setCoords(coords);
         setIsSearching(false);
-        
     }
+
+
+    const handlePickStoreAddress = (coords : number[]) => {
+        setCoords(coords)
+        setIsSearching(false)
+    }
+
 
     const handleSearchKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key === "ArrowUp") {
@@ -111,15 +120,10 @@ export const AddressModalContent : React.FC<IAddressModalContent> = observer(({o
         }
         else  {
             setAddressType('Pickup')
-            handlePickAddressFromMap(PICKUP_COORDINATES)
+            handlePickStoreAddress(PICKUP_COORDINATES)
         }
     }
 
-    useEffect(() => {
-        if(addressType !== "Delivery") {
-            setAddressType("Delivery")
-        }
-    }, [coords]);
 
 
     const handleAddAddress = async () => {

@@ -63,3 +63,5 @@ export  const  localize = (name : string) => {
     const locale = useLocale();
     return `${name} ${locale.charAt(0).toUpperCase() + locale.charAt(1)}`;
 }
+
+export const subString = (str : string | undefined, length : number) => !str ? undefined :   str.length > length ? str.substring(0, length - 2) + '...' : str;

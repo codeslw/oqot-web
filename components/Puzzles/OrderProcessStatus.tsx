@@ -2,6 +2,7 @@
 import ActiveLineSmall from "@/public/icons/active_line0.svg"
 import ActiveLineMedium from "@/public/icons/active_line1.svg"
 import ActiveLineLarge from "@/public/icons/active_line2.svg"
+import ActiveLineCompleted from "@/public/icons/active_line3.svg"
 import TransparentLine from "@/public/icons/active_line2.svg"
 import CircleTick from "@/public/icons/circle-tick.svg"
 import Cube from "@/public/icons/cube.svg"
@@ -11,7 +12,7 @@ import {useMemo} from "react";
 
 
 interface IOrderProcessStatus {
-    status: "created" | "collecting" | "on_way" | "completed"
+    status: "created" | "collecting" | "on_way" | "delivered" | "canceled by client" | "canceled by admin"
 }
 
 export const OrderProcessStatus: React.FC<IOrderProcessStatus> = ({status}) => {
@@ -26,6 +27,10 @@ export const OrderProcessStatus: React.FC<IOrderProcessStatus> = ({status}) => {
             "collecting" : t("Order collecting"),
             "on_way" : t("Order on way"),
             "completed" : t("Order completed"),
+            "canceled by admin" : t("Order canceled"),
+            "canceled by client" : t("Order canceled"),
+            "delivered" : t("Order delivered"),
+
         }
     }, [status, t]);
 
@@ -35,7 +40,9 @@ export const OrderProcessStatus: React.FC<IOrderProcessStatus> = ({status}) => {
             "created" : t("Order will be delivered in 30 minutes"),
             "collecting" : t("Order will be delivered in 35 minutes"),
             "on_way" : t("Order will be delivered in 40 minutes"),
-            "completed" : t("Order will be delivered in 45 minutes"),
+            "delivered" : t("Order will be delivered in 45 minutes"),
+            "canceled by admin" : t("Order canceled"),
+            "canceled by client" : t("Order canceled")
         }
     }, [status]);
 
@@ -44,10 +51,12 @@ export const OrderProcessStatus: React.FC<IOrderProcessStatus> = ({status}) => {
             {status === "created" && <ActiveLineSmall className={"absolute top-0 left-0"}/>}
             {status === "collecting" && <ActiveLineMedium className={"absolute top-0 left-0"}/>}
             {status === "on_way" && <ActiveLineLarge className={"absolute top-0 left-0 rotate-180"}/>}
+            {status === "delivered" && <ActiveLineCompleted className={"absolute top-0 left-0 rotate-180"}/>}
 
             {status === "created" && <CircleTick className={"fill-orange-default text-orange-default"}/>}
             {status === "collecting" && <Cube className={"fill-orange-default text-orange-default"}/>}
             {status === "on_way" && <Car className={"fill-orange-default text-orange-default"}/>}
+            {status === "delivered" && <Car className={"fill-orange-default text-orange-default"}/>}
         </div>
         <div className="flex flex-col space-y-0">
             <div className="text-xl-bold">

@@ -58,7 +58,8 @@
     "Clear all?" : "Удалить всё из корзины?",
     "DeleteAllConfirmation_text" : "Контрольное утчонене, а то вдруг вы случайно задели кнопку",
     "Delete" : "Удалить",
-    "Cancel" : "Отмена"
+    "Cancel" : "Отмена",
+    "Cheque" : "Распечатать чек"
   },
   "CreateOrder" : {
     "Create order" : "Оформить заказ",
@@ -94,7 +95,8 @@
     "Delivery soon" : "Ближайшее время",
     "Cart" : "Корзина",
     "Choose date" : "Выберите дату",
-    "Choose time" : "Выберите время"
+    "Choose time" : "Выберите время",
+    "Something went wrong" : "Что-то пошло не так!"
 
   },
   "Common" : {
@@ -183,7 +185,7 @@
      "Order created" : "Заказ создан",
      "Order will be delivered in 30 minutes" : "Заказ будет доставлен в течении 30 минут",
      "Chat" : "Чат",
-     "Call" : "Позврнить",
+     "Call" : "Позвонить",
      "Order content" : "Состав заказа",
      "Order details" : "Детали заказа",
      "Created At" : "Создан",
@@ -197,7 +199,10 @@
      "Courier" : "Курьер",
      "Delivery" : "Доставка",
      "Pickup" : "Самовывоз",
-     "Order created at " : "Заказ создан"
+     "Order created at " : "Заказ создан",
+     "delivered" : "Доставлен",
+     "canceled by admin" : "Отменен администрацией",
+     "canceled by client" : "Отменен клиентом"
    },
   "Address" : {
     "Are you sure to delete Address" : "Удаление адреса",
@@ -210,5 +215,9 @@
   "Errors" : {
     "Error occurred when deleting card!" : "Произошла ошибка при удалении карты!",
     "Error occurred when deleting address!" : "Произошла ошибка при удалении адреса!"
+  },
+  "ConfirmModal" : {
+    "Confirm" : "Подтвердить",
+    "Cancel" : "Отмена"
   }
 }

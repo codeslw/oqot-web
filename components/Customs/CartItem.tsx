@@ -56,6 +56,13 @@ interface ICartItem {
          }
      };
 
+     useEffect(() => {
+         if(count !== undefined) {
+             setInnerCount(count)
+         }
+     }, [count]);
+
+
 
      useEffect(() => {
 
@@ -94,6 +101,7 @@ interface ICartItem {
 
      const handleLikeClick = (e : React.MouseEvent<HTMLDivElement>) => {
          e.stopPropagation()
+         console.log("like clicked from cartItem", goodId)
          if(favouriteStore.favouriteGoods.includes(goodId)) {
              favouriteStore.removeFromFavouriteGoods(goodId);
          }

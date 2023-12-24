@@ -20,7 +20,7 @@ export const CreditCardsList = observer(() => {
     const cards = useQueryApi("/psp/cards", {}, {});
     const [loadingId, setLoadingId] = useState('');
     const [showError, setShowError] = useState(false);
-    const deleteCard = useMutationApiAdvanced("/psp/cards/delete", "delete", {})
+    const deleteCard = useMutationApiAdvanced("/psp/cards", "delete", {})
 
     const handleRemoveCard = async (id: string) => {
         setLoadingId(id);
@@ -39,7 +39,7 @@ export const CreditCardsList = observer(() => {
 
     }
 
-    return <> <Stack spacing={0} className={"min-h-[15rem] min-w-[12rem]"}>
+    return <> <Stack spacing={0} className={"min-h-[15rem] min-w-[12rem] max-w-[24rem]"}>
         <h2 className={"text-3xl-bold mb-4"}>{t("My Cards")} </h2>
         {cards.isLoading ? <div className={"w-full h-[30rem] flex-center"}>
                 <CircularProgress className={"text-orange-default"}/>

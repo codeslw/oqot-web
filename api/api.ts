@@ -1,5 +1,7 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 import UIStore from "@/utils/stores/UIStore";
+import AuthStore from "@/utils/stores/AuthStore";
+
 // Default config for the axios instance
 const axiosParams = {
     baseURL: process.env.NEXT_PUBLIC_URL,
@@ -8,6 +10,7 @@ const axiosParams = {
 
 const axiosInstance = axios.create(axiosParams);
 // Main api function
+
 
 
 axiosInstance.interceptors.request.use((config) => {
@@ -19,17 +22,22 @@ axiosInstance.interceptors.request.use((config) => {
 },
     (error) => {
     if(error.response?.status === 401){
-        console.log("I am sending wrong")
+
         UIStore.setIsTokenWrong(true)
     }
+
+    return Promise.reject(error)
 })
 
 axiosInstance.interceptors.response.use((config) => config, (error) => {
     console.log("Here is error", error)
     if (error.response.status === 401) {
-        console.log("I am sending wrong")
+        console.log("unauthorized")
+        AuthStore.setIsUserAuthenticated(false)
         UIStore.setIsTokenWrong(true)
     }
+
+    return Promise.reject(error)
 })
 
 const api : any = (axios: AxiosInstance) => {

@@ -93,6 +93,12 @@ export const ProfilePopoverContent = (props : IProps) => {
     }, []);
 
 
+    const handleLogout = () => {
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("refreshToken");
+        window.location.reload();
+    }
+
     const verificationStatus = useMemo(() => {
         if (profile.data?.data?.isPassportVerified) {
             return {
@@ -169,7 +175,9 @@ export const ProfilePopoverContent = (props : IProps) => {
             })
         }
         <div className="px-4 py-3">
-            <Button theme={"tertiary"} text={t('Logout')} extraClasses={"w-full"} startIcon={<Logout/>}/>
+            <Button
+                onClick={handleLogout}
+                theme={"tertiary"} text={t('Logout')} extraClasses={"w-full"} startIcon={<Logout/>}/>
         </div>
     </Stack>
 }

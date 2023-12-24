@@ -13,7 +13,7 @@ import {ConfirmModal} from "@/components/Shared/ConfirmModal";
 import {useMutationApi} from "@/hooks/useMutationApi";
 import {CART_DELETE_ALL_URL, FAVORITE_URL, FOOTER_HEIGHT, HEADER_HEIGHT} from "@/utils/constants";
 import {CartPriceInfoPanel} from "@/components/Puzzles/CartPriceInfoPanel";
-import {useMemo, useState} from "react";
+import {useEffect, useMemo, useState} from "react";
 import {ca} from "date-fns/locale";
 import {Empty} from "@/components/Shared/Empty";
 import {useRouter} from "next/navigation";
@@ -97,6 +97,8 @@ export const CartCotnent = observer(() => {
             }
         ]
     }, [t]);
+
+
 
     const totalDiscountPrice = useMemo(() => {
         return cartStore.cart?.reduce((acc: number, item: ICartState) => {

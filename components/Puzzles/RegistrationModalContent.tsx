@@ -26,7 +26,7 @@ export const RegistrationModalContent :React.FC<IRegistrationModalContent> = ({h
     const [photoPath, setPhotoPath] = useState("");
     const uploadPhoto = useMutationApi(FILE_UPLOAD_URL, "post", {});
     const register = useMutationApi(REGISTER_URL, "post", {}, {baseURL : AUTH_BASE_URL});
-
+    const {handleChangeAuthStage} = useAuth()
     const {handleRegister, phoneNumber,registerLoading} = useAuth();
 
     const {control,
@@ -56,11 +56,11 @@ export const RegistrationModalContent :React.FC<IRegistrationModalContent> = ({h
             name: "date",
             placeholder: t("Birthday_placeholder"),
         },
-        {
-            label: t("Photo"),
-            type: "file",
-            name: "photo"
-        }
+        // {
+        //     label: t("Photo"),
+        //     type: "file",
+        //     name: "photo"
+        // }
     ], [t]);
 
 

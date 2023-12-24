@@ -5,15 +5,22 @@ import {useQueryApi} from "@/hooks/useQueryApi";
 import {GET_GOOD_SEARCH} from "@/utils/constants";
 import {CircularProgress, Stack} from "@mui/material";
 import {IGood} from "@/types/Goods";
+import {usePathname} from "@/navigation";
+import {useQueryParams} from "@/hooks/useQueryParams";
+import {useRouter} from "next/navigation";
 
 interface IProductSearchPopoverContent {
     searchText : string;
     width : number;
+    onClose : () => void;
 }
 
-export const ProductSearchPopoverContent : React.FC<IProductSearchPopoverContent> = ({searchText, width}) => {
+export const ProductSearchPopoverContent : React.FC<IProductSearchPopoverContent> = ({searchText, width, onClose}) => {
 
     const [debounce, setDebounce] = useState("");
+    const pathname = usePathname();
+    const {createQueryString} = useQueryParams();
+    const router = useRouter()
 
     const goods = useQueryApi(GET_GOOD_SEARCH, {
         searchQuery : debounce
@@ -39,6 +46,12 @@ export const ProductSearchPopoverContent : React.FC<IProductSearchPopoverContent
             <CircularProgress className={"text-orange-default"}/>
         </div> : goods.data?.data?.data?.map((item: IGood) => {
             return <div
+                onClick={() => {
+                    setDebounce("")
+                    router.push(`${pathname}?${createQueryString('goodId', item.id)}`)
+                    onClose();
+                }
+                 }
                 style={{width : `${width + 48}px`}}
                 className="w-full p-3 text-base-light rounded-2xl hover:bg-gray-background cursor-pointer">
                 {item.nameRu}

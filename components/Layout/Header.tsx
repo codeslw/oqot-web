@@ -17,7 +17,7 @@ import XIcon from "@/public/icons/x.svg";
 import Burger from "@/public/icons/burger-menu.svg";
 import {Menu} from "@/components/Menu";
 import React, {ChangeEvent, LegacyRef, useEffect, useRef, useState} from "react";
-import {IconButton, Stack} from "@mui/material";
+import {IconButton, Stack, Tooltip} from "@mui/material";
 import {Popup} from "@/components/Customs/Popup";
 import {PickAddressPopupContent} from "@/components/Puzzles/PickAddressPopupContent";
 import {useQuery} from "@tanstack/react-query";
@@ -30,7 +30,7 @@ import {NestedMenu} from "@/components/NestedMenu";
 import Link from "next/link";
 import {HeaderIconWrapper} from "@/components/Customs/HeaderIconWrapper";
 import cartStore from "@/utils/stores/CartStore";
-import {getAddressDetailsText} from "@/utils/services";
+import {getAddressDetailsText, subString} from "@/utils/services";
 import AddressStore from "@/utils/stores/AddressStore";
 import {useTranslations, useLocale} from "use-intl";
 import {ADDRESS_LIST_URL} from "@/utils/constants";
@@ -225,10 +225,14 @@ export const Header : React.FC<IHeader> = observer(({categories}) => {
                 <Input id={"header_search_field"} aria-describedby={"search"}
                        //onClick={handleOpenSearch}
                        ref={searchRef}
+
                        onChange={(e) => handleSearch(e)}
                        variant={"filled"} errorMessage={""} placeholder={"Искать в OQ-OT"} extraClasses={"flex grow"} StartIcon={SearchIcon}/>
 
-                {!!search &&  <ProductSearchPopoverContent width={anchorSearch?.clientWidth ?? 100} searchText={search}/>}
+                {!!search &&  <ProductSearchPopoverContent
+                    onClose = {() => setSearch("")}
+                    width={anchorSearch?.clientWidth ?? 100}
+                    searchText={search}/>}
             </div>
              <div className={"block sm:hidden"} onClick={() => setOpenDrawer(true)}>
                  <IconButton>
@@ -251,9 +255,15 @@ export const Header : React.FC<IHeader> = observer(({categories}) => {
                 className ="fill-black-primary dark:fill-white hover:fill-gray-secondary"
                 />
                 <div className="hidden xl:flex flex-col xl:w-[250px] lg:w-[200px]">
-                    <div className="text-base-bold">
+                    {AddressStore.activeAddress?.address?.length! > 24 ?
+                        <Tooltip title={AddressStore.activeAddress?.address}>
+                            <div className="text-base-bold">
+                                {subString(AddressStore.activeAddress?.address, 24) ?? " "}
+                            </div>
+                        </Tooltip> :
+                        <div className="text-base-bold">
                         {AddressStore.activeAddress?.address ?? t("Choose address")}
-                    </div>
+                    </div>}
                     <div className="text-xs-light-gray">
                         {getAddressDetailsText(AddressStore.activeAddress, t)}
                     </div>

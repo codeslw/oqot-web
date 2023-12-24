@@ -16,13 +16,17 @@ import {EnterPhoneNumberModalContent} from "@/components/Puzzles/EnterPhoneNumbe
 import {RegistrationModalContent} from "@/components/Puzzles/RegistrationModalContent";
 import {log} from "util";
 import {formatDate} from "@/utils/services";
+import AuthStore from "@/utils/stores/AuthStore";
+import {observer} from "mobx-react-lite";
 
 
-export const Authentication = () => {
+export const Authentication = observer(() => {
 
     const {open, onOpen, onClose} = useModal();
     const t = useTranslations("Authentication");
     const [phoneNumber, setPhoneNumber] = useState("");
+    const [finished, setFinished] = useState(false);
+    const startTime = new Date()
 
     const {handleAuth,
         verificationSend,
@@ -46,8 +50,18 @@ export const Authentication = () => {
         }
     }, [verificationSend]);
 
+    const onFinishTimer = () => {
+        setFinished(true)
+    }
+
+    const onRestartTimer = () => {
+        setFinished(false)
+    }
+
     const onSendCodeClick = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
         handleAuth(phoneNumber);
+        onRestartTimer();
+
     }, [phoneNumber, handleAuth]);
 
     const handleContinueClick = async (pin: string[]) => {
@@ -62,9 +76,8 @@ export const Authentication = () => {
             lastName: data.lastName,
             birthday: formatDate(data.date),
             avatarPhotoPath: photoPath,
-            phoneNumber : phoneNumber,
+            phoneNumber : phoneNumber.replace(/\s/g,""),
             sex : 1,
-            password : "",
             middleName : ""
         });
     };
@@ -73,6 +86,7 @@ export const Authentication = () => {
     useEffect(() => {
         if (currentAuthStage === "success" || currentAuthStage === "cancelled") {
             onClose();
+            AuthStore.setIsUserAuthenticated(null)
         }
     }, [currentAuthStage]);
 
@@ -81,7 +95,13 @@ export const Authentication = () => {
             case "enterPhone":
                 return <EnterPhoneNumberModalContent phoneNumber={phoneNumber} onPhoneChange={onPhoneChange} onSendCodeClick={onSendCodeClick}/>;
             case "enterCode":
-                return <VerifyPhoneNumberModalContent phoneNumber={phoneNumber} handleContinue={handleContinueClick}/>;
+                return <VerifyPhoneNumberModalContent startTime={startTime}
+                                                      finished={finished}
+                                                      handleResend={onSendCodeClick}
+                                                      onFinishTimer = {onFinishTimer}
+                                                      phoneNumber={phoneNumber}
+                                                      handleGoBack={() => handleChangeAuthStage("enterPhone")}
+                                                      handleContinue={handleContinueClick}/>;
             case "registration" :
                 return <RegistrationModalContent handleRegistration={handleRegistrationFormSubmit}/>;
             default :
@@ -91,8 +111,14 @@ export const Authentication = () => {
     };
 
     return (
-        <Modal open={open} onCloseIconClicked={onClose} onClose={onClose}>
+        <Modal open={open || AuthStore.isUserAuthenticated === false} onCloseIconClicked={() => {
+            onClose()
+            AuthStore.setIsUserAuthenticated(null)
+        }} onClose={() => {
+            onClose()
+            AuthStore.setIsUserAuthenticated(null)
+        }}>
             {renderContent()}
         </Modal>
     );
-};
+});

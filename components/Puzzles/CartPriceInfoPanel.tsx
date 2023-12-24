@@ -1,5 +1,5 @@
 "use client"
-import {Box, Snackbar, Stack} from "@mui/material";
+import {Box, Snackbar, Stack, Tooltip} from "@mui/material";
 import {useTranslations} from "use-intl";
 import {useCallback, useMemo, useState} from "react";
 import {formatPrice} from "@/utils/services";
@@ -8,6 +8,7 @@ import {useRouter} from "next/navigation";
 import cartStore from "@/utils/stores/CartStore";
 import UIStore from "@/utils/stores/UIStore";
 import Link from "next/link";
+import RefreshIcon from "@/public/icons/refresh.svg"
 
 interface ICartPriceInfoPanel {
     goodCount : number;
@@ -16,8 +17,9 @@ interface ICartPriceInfoPanel {
     deliveryPrice : number;
     totalPrice : number;
     handleClickCreateOrder? : () => void;
+    withCheque? : boolean
 }
-export const CartPriceInfoPanel:React.FC<ICartPriceInfoPanel> = ({goodCount, totalGoodPrice, discount, deliveryPrice, totalPrice, handleClickCreateOrder}) => {
+export const CartPriceInfoPanel:React.FC<ICartPriceInfoPanel> = ({goodCount, totalGoodPrice, discount, deliveryPrice, totalPrice, handleClickCreateOrder, withCheque}) => {
     const t = useTranslations("Cart");
     const [showCartEmptyNotification, setShowCartEmptyNotification] = useState(false);
     const router = useRouter();
@@ -40,6 +42,48 @@ export const CartPriceInfoPanel:React.FC<ICartPriceInfoPanel> = ({goodCount, tot
             ]
     }, [t, generateGoodCountText, goodCount, totalGoodPrice, deliveryPrice, discount, totalPrice, deliveryPrice]);
 
+
+    const handlePrint = () => {
+        const elementId = "cheque"
+        const elementToPrint = document.getElementById(elementId);
+
+        if (elementToPrint) {
+            const printDocument = document.createElement('div');
+            console.log(printDocument)
+            printDocument.innerHTML = elementToPrint.outerHTML;
+            document.body.appendChild(printDocument);
+
+            // Apply print-specific styles
+            const printStyles = `
+        @media print {
+          body * {
+            display: none;
+          }
+          #${elementId}, #${elementId} * {
+            display: block;
+          }
+          #${elementId} {
+            width: 80mm;
+            padding: 10px;
+            border: 1px solid #000;
+          }
+        }
+      `;
+
+            const styleSheet = document.createElement('style');
+            styleSheet.type = 'text/css';
+            styleSheet.innerText = printStyles;
+            document.head.appendChild(styleSheet);
+
+            window.print();
+
+            // Cleanup
+            document.body.removeChild(printDocument);
+            document.head.removeChild(styleSheet);
+        } else {
+            console.error(`Element with id '${elementId}' not found.`);
+        }
+    };
 
     return <Box className={"w-full mt-20 xl:mt-0 xl:w-[87%] ml-auto p-8 rounded-3xl border border-gray-default spacing sticky top-[88px]"}>
         <Stack spacing={3}>
@@ -64,7 +108,20 @@ export const CartPriceInfoPanel:React.FC<ICartPriceInfoPanel> = ({goodCount, tot
                     </div>
                 </div>
             </div>
-                <Button onClick={ handleClickCreateOrder ?? handleClickContinue} theme={"primary"} text={t('Create order')}/>
+            {!withCheque ? <Button onClick={handleClickCreateOrder ?? handleClickContinue} theme={"primary"}
+                     text={t('Create order')}/>
+                : <div className={"flex flex-col space-y-4 w-full"}>
+                    <Tooltip title={t("This function will be soon")}>
+                        <>
+                            <Button
+                                onClick={handlePrint}
+                                title={t("This function will be soon")}
+                                theme={"tertiary"} text={t("Cheque")} disabled={true} startIcon={RefreshIcon}/>
+                        </>
+                    </Tooltip>
+
+            </div>
+            }
             <div className="text-base-light-gray text-center">
                 {t("Delivery info_text")}
             </div>

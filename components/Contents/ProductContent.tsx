@@ -6,7 +6,7 @@ import {useQueryApi} from "@/hooks/useQueryApi";
 import {AxiosResponse} from "axios";
 import {IGood, IRecommended} from "@/types/Goods";
 
-import {useEffect, useMemo, useState} from "react";
+import React, {useEffect, useMemo, useState} from "react";
 import {useTranslations} from "use-intl";
 import {CustomBreadCrumb} from "@/components/Customs/CustomBreadCumb";
 import {formatPrice} from "@/utils/services";
@@ -28,6 +28,7 @@ import {observer} from "mobx-react-lite";
 import cartStore from "@/utils/stores/CartStore";
 import PlusIcon from "@/public/icons/plus.svg"
 import MinusIcon from "@/public/icons/minus.svg"
+import favouriteStore from "@/utils/stores/FavouriteStore";
 
 
 interface IProductContent {
@@ -69,12 +70,12 @@ export const ProductContent : React.FC<IProductContent> = observer(({open, onClo
         return [
             {
                 title : good?.data?.categories[good?.data?.categories?.length - 1]?.nameRu ?? t("Category"),
-                path : `/`,
+                path : `/category/${good?.data?.categories[good?.data?.categories?.length - 1]?.id}`,
                 isActive : false
             },
             {
                 title : good?.data?.categories[0]?.nameRu ?? t("Category"),
-                path : `/`,
+                path : `/category/${good?.data?.categories[good?.data?.categories?.length - 1]?.id}?childId=${good?.data?.categories[0]?.id}`,
                 isActive : false
             },
             {
@@ -141,12 +142,22 @@ export const ProductContent : React.FC<IProductContent> = observer(({open, onClo
         });
         setInnerCount(prevState => (prevState ?? 0) + 1)
 
+    }
 
+    const handleLikeClick = (e : React.MouseEvent<HTMLDivElement>) => {
+        e.stopPropagation()
+        if(favouriteStore.favouriteGoods.includes(goodId)) {
+            favouriteStore.removeFromFavouriteGoods(goodId);
+        }
+        else  {
+            favouriteStore.addToFavouriteGoods(goodId)
+        }
     }
 
 
-    return <AnimateModalContentWrapper>
-        <Modal open={open} onCloseIconClicked={onClose} extraClassName={'p-10 max-w-[928px] w-[928px] max-h-[800px] overflow-y-auto no-scrollbar overflow-x-hidden'}>
+
+    return<Modal open={open} onCloseIconClicked={onClose} extraClassName={'p-10 max-w-[928px] w-[928px] min-w-[928px] max-h-[800px] min-h-[800px] overflow-y-auto no-scrollbar overflow-x-hidden'}>
+            <AnimateModalContentWrapper>
             {good.isLoading ? <div className={"w-full h-full flex-center"}>
                 <CircularProgress/>
             </div> : <Stack direction={"column"} spacing={7}>
@@ -159,7 +170,11 @@ export const ProductContent : React.FC<IProductContent> = observer(({open, onClo
                                 className="w-16 h-7 rounded-2xl flex-center text-base-bold text-white bg-orange-default">
                                 {`-${good.data?.discount ? good.data.discount * 100 : 0}`}
                             </div> : <div></div>}
-                            {favourite ? <HeartFilledIcon className={"fill-red-default"}/> : <HeartIcon className={"fill-gray-secondary"}/>}
+                            <div
+                                onClick={handleLikeClick}
+                                className={"cursor-pointer"}>
+                                {favouriteStore.favouriteGoods.includes(goodId) ? <HeartFilledIcon className={"fill-red-default"}/> : <HeartIcon className={"fill-gray-secondary hover:fill-red-default"}/>}
+                            </div>
                         </div>
                     </div>
                 </Grid>
@@ -246,7 +261,8 @@ export const ProductContent : React.FC<IProductContent> = observer(({open, onClo
                 </div>
             </Stack>
         </Stack>}
+            </AnimateModalContentWrapper>
     </Modal>
-    </AnimateModalContentWrapper>;
+    ;
 
 });

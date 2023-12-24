@@ -68,7 +68,7 @@ export const HomeConent : React.FC<IHomeContent> = observer(({categories, promoC
     return (
         <>
             <div className={"flex items-center mt-20 overflow-x-auto justify-between no-scrollbar"}>
-                <TabCategory id={""} photoPath={""} name={"Все"} all={true} isActive={activeTab === ""}/>
+                <TabCategory id={""} photoPath={""} name={"Все"} all={true} isActive={true}/>
                 {categories.mainCategories?.slice(0, 4).map((item : ICategory) => {
                     return  <TabCategory id={item.id} photoPath={item.imageUrl} isActive={activeTab === item.id} name={item.name} all={item.id === null}/>;
                 })}

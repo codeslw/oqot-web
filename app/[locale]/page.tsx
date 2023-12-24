@@ -15,7 +15,9 @@ import {AxiosResponse} from "axios";
 
 
 async function getCategories() {
-    const res : Response = await fetch(`${process.env.NEXT_PUBLIC_URL}/category/main`);
+    const res : Response = await fetch(`${process.env.NEXT_PUBLIC_URL}/category/main`, {next : {
+        revalidate : 20,
+        }});
     if (!res.ok) {
         // This will activate the closest `error.js` Error Boundary
         throw new Error(`Failed to fetch data ${process.env.NEXT_PUBLIC_URL}/category/paged?pageIndex=0&pageSize=12 ${res.status}`);
@@ -26,14 +28,20 @@ async function getCategories() {
 
 
 async  function getPromoAdvertises() {
-    const  res  = await  fetch(`${process.env.NEXT_PUBLIC_URL}${PROMO_ADVERTISE_API}`)
+    const  res  = await  fetch(`${process.env.NEXT_PUBLIC_URL}${PROMO_ADVERTISE_API}`, {next : {
+        revalidate : 60,
+        }})
     if(!res.ok) {
         throw new Error("Failed to fetch data");
     }
     return res.json();
 }
 async  function getPromoCategoryGoods() {
-    const  res  = await  fetch(`${process.env.NEXT_PUBLIC_URL}${PROMO_CATEGORY_GOODS_API}?pageSize=${PROMO_CATEGORY_GOODS_PAGE_SIZE}`)
+    const  res  = await  fetch(`${process.env.NEXT_PUBLIC_URL}${PROMO_CATEGORY_GOODS_API}?pageSize=${PROMO_CATEGORY_GOODS_PAGE_SIZE}`, {
+        next : {
+            revalidate : 20,
+        }
+    })
     if(!res.ok) {
         throw new Error("Failed to fetch data");
     }

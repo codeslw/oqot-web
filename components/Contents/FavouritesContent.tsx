@@ -13,6 +13,7 @@ import {useMutationApi} from "@/hooks/useMutationApi";
 import {FAVORITE_URL, FOOTER_HEIGHT, HEADER_HEIGHT} from "@/utils/constants";
 import {useQueryApi} from "@/hooks/useQueryApi";
 import {Empty} from "@/components/Shared/Empty";
+import {useQueryClient} from "@tanstack/react-query";
 
 
 interface ICategoryContent {
@@ -23,7 +24,7 @@ export const FavoritesContent : React.FC<ICategoryContent> = ({title}) => {
 
     const t = useTranslations("Favourites");
     const [activeTab, setActiveTab] = useState<string | null>(null);
-
+    const queryClient = useQueryClient()
     const breadCrumbOptions = useMemo(() => {
         return [
             {
@@ -46,6 +47,9 @@ export const FavoritesContent : React.FC<ICategoryContent> = ({title}) => {
     });
 
 
+
+
+
     return <Stack spacing={7}
                   style={{
                       minHeight :`calc(100vh - ${(HEADER_HEIGHT + FOOTER_HEIGHT)}px)`
@@ -60,7 +64,7 @@ export const FavoritesContent : React.FC<ICategoryContent> = ({title}) => {
 
         {favorites?.data?.data?.favoriteGoods?.length === 0 ? <Empty title={t("No Favorites found")} message={t("There are no favorites")}/> :  <GoodListWrapper key={title} path={""}>
             {
-                favorites.data?.data?.favoriteGoods?.map(({good}: IFavouriteGood) => {
+                favorites?.data?.data?.favoriteGoods?.map(({good}: IFavouriteGood) => {
                     return <Product id={good.id}
                                     name={good.nameRu}
                                     key={good.id}

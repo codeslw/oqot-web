@@ -34,7 +34,6 @@ export interface IRegisterPayload {
     lastName: string,
     middleName: string,
     sex: number,
-    password: string,
     birthday: string,
     avatarPhotoPath : string
 }

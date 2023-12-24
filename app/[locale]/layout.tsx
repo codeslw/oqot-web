@@ -29,7 +29,11 @@ export const metadata: Metadata = {
 
 const getCategories = async () => {
     try {
-        const mainCategories = await fetch(`${process.env.NEXT_PUBLIC_URL}/category`);
+        const mainCategories = await fetch(`${process.env.NEXT_PUBLIC_URL}/category`, {
+            next : {
+                revalidate : 20
+            }
+        });
         const response = await mainCategories.json();
         return response.categories;
     }
