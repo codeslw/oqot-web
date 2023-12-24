@@ -129,7 +129,7 @@ export const CategoryContent : React.FC<ICategoryContent> = ({title, data}) => {
             </Stack>
 
         </Stack>
-        <div id={"tab-category"} className="flex w-full space-x-1 mt-6 py-2 -mb-2 sticky top-[88px] z-50 bg-white overflow-auto no-scrollbar">
+        <div id={"tab-category"} className="flex w-full space-x-1 mt-6 py-2 -mb-2 sticky top-[88px] z-30 bg-white overflow-auto no-scrollbar">
             {data?.categories?.map((item ) => {
                 return  <TabCategory id={item.id}
                                      key = {item.id}

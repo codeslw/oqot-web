@@ -221,7 +221,7 @@ export const Header : React.FC<IHeader> = observer(({categories}) => {
                     startIcon={<BurgerMenuIcon className = "fill-black-primary dark:fill-white"/>}/>
                 <NestedMenu onClose={() => handleToggleCatalog()} open={!!catalogAnchor} options={formatCategories(categories)} id={"catalog"} anchorElement={catalogAnchor}/>
             </div>
-            <div className={"flex xs:sm:flex-grow  lg:flex-grow xs:w-max relative"}>
+            <div aria-describedby={"search"} className={"flex xs:sm:flex-grow  lg:flex-grow xs:w-max relative"}>
                 <Input id={"header_search_field"} aria-describedby={"search"}
                        //onClick={handleOpenSearch}
                        ref={searchRef}
@@ -229,10 +229,12 @@ export const Header : React.FC<IHeader> = observer(({categories}) => {
                        onChange={(e) => handleSearch(e)}
                        variant={"filled"} errorMessage={""} placeholder={"Искать в OQ-OT"} extraClasses={"flex grow"} StartIcon={SearchIcon}/>
 
-                {!!search &&  <ProductSearchPopoverContent
-                    onClose = {() => setSearch("")}
-                    width={anchorSearch?.clientWidth ?? 100}
-                    searchText={search}/>}
+                {!!search &&
+                        <ProductSearchPopoverContent
+                            onClose = {() => setSearch("")}
+                            width={anchorSearch?.clientWidth ?? 100}
+                            searchText={search}/>
+                    }
             </div>
              <div className={"block sm:hidden"} onClick={() => setOpenDrawer(true)}>
                  <IconButton>

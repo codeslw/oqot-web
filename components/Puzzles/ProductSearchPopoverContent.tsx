@@ -41,7 +41,7 @@ export const ProductSearchPopoverContent : React.FC<IProductSearchPopoverContent
 
 
     return <div
-        className={`rounded-2xl bg-white absolute z-50 top-16 -left-4 shadow-lg !max-h-[25rem] overflow-y-auto overflow-x-hidden px-3 no-scrollbar`}>
+        className={`rounded-2xl bg-white top-16 -left-4 absolute z-[50] shadow-lg !max-h-[25rem] overflow-y-auto overflow-x-hidden px-3 no-scrollbar`}>
         {goods.isLoading ? <div style={{width : `${width + 48}px`}} className={'w-full h-12 flex-center'}>
             <CircularProgress className={"text-orange-default"}/>
         </div> : goods.data?.data?.data?.map((item: IGood) => {
