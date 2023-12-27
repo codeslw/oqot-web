@@ -1,10 +1,222 @@
 {
-  "HomeContent" : {
-    "more" : "Yana"
+  "HomeContent": {
+    "more": "Ko'proq"
   },
-
-  "Authentication" : {
-    "Authentication" : "Ro'yhatdan o'tish",
-    "Confirm PhoneNumber" : "Telefonni tastiqlang"
+  "Authentication": {
+    "Authentication": "Autentifikatsiya",
+    "Authentication_text": "Kirish yoki ro'yxatdan o'tish uchun telefon raqamingizni ishlating",
+    "PhoneNumber": "Telefon raqami",
+    "Continue": "Davom etish",
+    "Confirm PhoneNumber": "Telefon raqamini tasdiqlang",
+    "Resend Code": "Kodni qayta yuborish",
+    "SendCode_text": "Kod raqamga yuborildi",
+    "Code": "Kod",
+    "Confirm": "Tasdiqlash",
+    "ConfirmCode_text": "Kodni tasdiqlang",
+    "ResendCode_text": "Kodni qayta yuborish",
+    "ResendCode": "Kodni qayta yuborish",
+    "WrongCode": "Noto'g'ri kod",
+    "Registration": "Ro'yxatdan o'tish",
+    "Register": "Ro'yxatdan o'tish",
+    "Upload a photo": "Rasm yuklash",
+    "Registration_text": "Buyurtmalar tezroq rasmiylashtiring, OQ-OT-da sevimli mahsulotlarni kuzatib boring",
+    "FirstName": "Ism",
+    "LastName": "Familiya",
+    "Birthday": "Tug'ilgan kun",
+    "Required": "Talab qilingan maydon"
+  },
+  "Date": {
+    "Su": "Ya",
+    "Mo": "Du",
+    "Tu": "Se",
+    "We": "Cho",
+    "Th": "Pay",
+    "Fr": "Ju",
+    "Sa": "Sh"
+  },
+  "Cart": {
+    "Cart": "Savat",
+    "Clear cart": "Savatni tozalash",
+    "Main": "Asosiy",
+    "In your order": "Buyurtmangizda",
+    "Total": "Jami",
+    "sum": "so'm",
+    "Create order": "Buyurtma berish",
+    "Delivery info_text": "Yetkazib berish 30-40 daqiqa",
+    "Discount": "Chegirma",
+    "goods": "mahsulotlar",
+    "good": "mahsulot",
+    "gooda": "mahsulot",
+    "Delivery": "Yetkazib berish",
+    "Free": "Bepul",
+    "Cart is empty now": "Savat hozircha bo'sh",
+    "Cart empty_text": "Yangi buyurtma berish uchun katalogga o'ting",
+    "Go to purchases": "Xaridlarimga o'ting",
+    "Favorites": "Sevimlilar",
+    "Cart is cleared": "Savat tozalandi",
+    "Recover goods": "Mahsulotlarni tiklash",
+    "Clear all?": "Savatdagi barcha narsalarni o'chirish?",
+    "DeleteAllConfirmation_text": "Tekshirib ko'ring, aks holda siz bevosita tugmani bosgansizmi",
+    "Delete": "O'chirish",
+    "Cancel": "Bekor qilish",
+    "Cheque": "Chekni chop etish"
+  },
+  "CreateOrder": {
+    "Create order": "Buyurtma berish",
+    "Main": "Asosiy",
+    "Apartment": "Xonadon/Ko'cha",
+    "Entrance": "Kirish",
+    "Floor": "Qavat",
+    "Domophone": "Domofon",
+    "App/Office": "Xonadon/Ko'cha",
+    "Choose address": "Manzilni tanlang",
+    "Choose address_text": "Manzilni tanlang",
+    "Private home": "Maxsus uy",
+    "Delivery address": "Yetkazib berish manzili",
+    "Comment": "Izoh",
+    "Call": "Qo'ng'iroq qilish",
+    "Chat": "Chat",
+    "Don't call": "Qo'ng'iroq qilmaslik",
+    "Payment": "To'lov",
+    "Payment_text": "Buyurtma summasini kartaingizda donlantirib, yetkazib berishdan so'ng uni yechib olishni tanlang",
+    "Choose payment method": "To'lov usulini tanlang",
+    "Apply": "Qo'llash",
+    "Support": "Yordam",
+    "Support_text": "Agar savolingiz bo'lsa, biz bilan bog'laning",
+    "Delivery date and time": "Yetkazib berish sanasi va vaqti",
+    "Date": "Sana",
+    "Time": "Vaqt",
+    "Promocode": "Promokod",
+    "My addresses": "Mening manzillarim",
+    "Add Address": "Manzil qo'shish",
+    "Apartment": "Xonadon",
+    "Pickup point": "Olib ketish nuqtasi",
+    "Tashkent": "Toshkent",
+    "Delivery soon": "Tez orada yetkazib berish",
+    "Cart": "Savat",
+    "Choose date": "Sanani tanlang",
+    "Choose time": "Vaqtni tanlang",
+    "Something went wrong": "Nimadir noto'g'ri ketdi!"
+  },
+  "Common": {
+    "More": "Ko'proq",
+    "Tashkent": "Toshkent",
+    "Pickup point": "Olib ketish nuqtasi",
+    "Choose address": "Manzilni tanlang"
+  },
+  "Payment": {
+    "Payment methods": "To'lov usullari",
+    "Cash to courier": "Naqd kuryerga",
+    "Terminal": "Terminal",
+    "Online card": "Onlayn karta",
+    "Add card": "Kartani qo'shish",
+    "Adding Card": "Kartani qo'shish",
+    "Add Card_text": "Tezkor buyurtma to'lovlari uchun Uzcard yoki Humo kartangizni qo'shing",
+    "Save for next purchases": "Keyingi xaridlar uchun saqlang",
+    "mm/yy": "mm/yy",
+    "Add": "Qo'shish",
+    "Save": "Saqlash",
+    "Card Number": "Karta raqami",
+    "expiryDate": "Amal qilish muddati",
+    "Choose payment method": "To'lov usulini tanlang",
+    "Expiry": "Kartaning amal qilish muddati",
+    "Cards not found": "Sizda kartalar yo'q",
+    "Cards not found_text": "Kartangizni qo'shib, buyurtmalarni tezkor to'lash va naqd pul muammo qilmaysiz",
+    "My Cards": "Mening kartalarim"
+  },
+  "Product": {
+    "You may need": "Sizga kerak bo'lishi mumkin",
+    "More": "Ko'proq",
+    "Add to Cart": "Savatga qo'shish",
+    "sum": "so'm",
+    "Contains": "O'z ichiga oladi"
+  },
+  "Category": {
+    "Main": "Asosiy"
+  },
+  "Footer": {
+    "Accessible in": "Mavjud",
+    "Google Play": "Google Play",
+    "App Store": "App Store",
+    "OQ-OT 2023_text": "© OQ-OT. Barcha huquqlar himoyalangan 2023",
+    "Tech support": "Texnik yordam"
+  },
+  "OrderList": {
+    "All": "Hammasi",
+    "Completed": "Tugallangan",
+    "Cancled by Admin": "Admin tomonidan bekor qilindi",
+    "Canceled by Client": "Mijoz tomonidan bekor qilindi",
+    "Collecting": "Yig'ilmoqda",
+    "Delivering": "Yetkazib berishda",
+    "Accepted": "Qabul qilingan",
+    "My Orders": "Mening buyurtmalarim",
+    "Main": "Asosiy",
+    "Order": "Buyurtma",
+    "Pickup": "Olib ketish",
+    "Delivery": "Yetkazib berish",
+    "Order list is empty": "Buyurtma ro'yxati bo'sh",
+    "Order list is empty_text": "Bu yerda sotib olinganlaringiz tarixi ko'rsatiladi"
+  },
+  "OrderCard": {
+    "sum": "so'm",
+    "Order No": "Buyurtma raqami"
+  },
+  "Favourites": {
+    "Favourites": "Sevimlilar",
+    "Main": "Asosiy"
+  },
+  "Profile": {
+    "My orders": "Mening buyurtmalari",
+    "Favourites": "Sevimlilar",
+    "My Addresses": "Mening manzillarim",
+    "My bank cards": "Mening kartalarim",
+    "My promos": "Mening promokodlarim",
+    "Vacancies": "Bo'sh ish o'rinlari",
+    "About service": "Xizmat haqida",
+    "Verified": "Tasdiqlangan",
+    "Logout": "Chiqish"
+  },
+  "Order": {
+    "Main": "Asosiy",
+    "My Orders": "Mening buyurtmalari",
+    "Order No": "Buyurtma raqami",
+    "Order created at": "Buyurtma qilingan vaqti",
+    "Order created": "Buyurtma qilingan",
+    "Order will be delivered in 30 minutes": "Buyurtma 30 daqiqada yetkazib beriladi",
+    "Chat": "Chat",
+    "Call": "Qo'ng'iroq qilish",
+    "Order content": "Buyurtma tarkibi",
+    "Order details": "Buyurtma ma'lumotlari",
+    "Created At": "Qilingan vaqti",
+    "Payment Type": "To'lov turi",
+    "Cash": "Naqd pul",
+    "Comment": "Izoh",
+    "Dont Call": "Qo'ng'iroq qilmaslik",
+    "Delivery Type": "Yetkazib berish turi",
+    "Delivery details": "Yetkazib berish ma'lumotlari",
+    "Call when delivered": "Yetkazib berilganda qo'ng'iroq qilish",
+    "Courier": "Kuryer",
+    "Delivery": "Yetkazib berish",
+    "Pickup": "Olib ketish",
+    "Order created at ": "Buyurtma qilingan vaqti",
+    "delivered": "Yetkazib berildi",
+    "canceled by admin": "Admin tomonidan bekor qilindi",
+    "canceled by client": "Mijoz tomonidan bekor qilindi"
+  },
+  "Address": {
+    "Are you sure to delete Address": "Manzilni o'chirishga ishonchingiz komilmi?",
+    "After confirm address will be deleted from the list of addresses": "Tasdiqlanganidan so'ng manzil manzillar ro'yxatidan o'chiriladi"
+  },
+  "Confirm Modal": {
+    "Confirm": "Tasdiqlash",
+    "Cancel": "Bekor qilish"
+  },
+  "Errors": {
+    "Error occurred when deleting card!": "Karta o'chirilganda xatolik yuz berdi!",
+    "Error occurred when deleting address!": "Manzil o'chirilganda xatolik yuz berdi!"
+  },
+  "ConfirmModal": {
+    "Confirm": "Tasdiqlash",
+    "Cancel": "Bekor qilish"
   }
 }

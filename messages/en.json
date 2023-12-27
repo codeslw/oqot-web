@@ -1,8 +1,229 @@
 {
-  "HomeContent" : {
-    "more" : "More"
+  "HomeContent": {
+    "more": "More"
   },
-  "Authentication" : {
-    "Authentication" : "Authentication"
+  "Authentication": {
+    "Authentication": "Authentication",
+    "Authentication_text": "To log in or register, use your phone number",
+    "PhoneNumber": "Phone Number",
+    "Continue": "Continue",
+    "Confirm PhoneNumber": "Confirm Phone Number",
+    "Resend Code": "Resend Code",
+    "SendCode_text": "Code sent to the number",
+    "Code": "Code",
+    "Confirm": "Confirm",
+    "ConfirmCode_text": "Confirm the code",
+    "ResendCode_text": "Resend code",
+    "ResendCode": "Resend Code",
+    "WrongCode": "Wrong code",
+    "Registration": "Registration",
+    "Register": "Register",
+    "Upload a photo": "Upload a photo",
+    "Registration_text": "Faster order processing, track and find favorite products in OQ-OT",
+    "FirstName": "First Name",
+    "LastName": "Last Name",
+    "Birthday": "Birthday",
+    "Required": "Required field"
+  },
+  "Date": {
+    "Su": "Sun",
+    "Mo": "Mon",
+    "Tu": "Tue",
+    "We": "Wed",
+    "Th": "Thu",
+    "Fr": "Fri",
+    "Sa": "Sat"
+  },
+  "Cart": {
+    "Cart": "Cart",
+    "Clear cart": "Clear Cart",
+    "Main": "Main",
+    "In your order": "In Your Order",
+    "Total": "Total",
+    "sum": "sum",
+    "Create order": "Create Order",
+    "Delivery info_text": "Delivery in 30-40 minutes",
+    "Discount": "Discount",
+    "goods": "goods",
+    "good": "good",
+    "gooda": "goods",
+    "Delivery": "Delivery",
+    "Free": "Free",
+    "Cart is empty now": "Cart is empty now",
+    "Cart empty_text": "Go to the catalog to place a new order",
+    "Go to purchases": "Go to Purchases",
+    "Favorites": "Favorites",
+    "Cart is cleared": "Cart is cleared",
+    "Recover goods": "Recover goods",
+    "Clear all?": "Delete all items from the cart?",
+    "DeleteAllConfirmation_text": "Double-check, just in case you accidentally pressed the button",
+    "Delete": "Delete",
+    "Cancel": "Cancel",
+    "Cheque": "Print Receipt"
+  },
+  "CreateOrder": {
+    "Create order": "Create Order",
+    "Main": "Main",
+    "Apartment": "Apartment/Office",
+    "Entrance": "Entrance",
+    "Floor": "Floor",
+    "Domophone": "Intercom",
+    "App/Office": "Apartment/Office",
+    "Choose address": "Choose Address",
+    "Choose address_text": "Choose Address",
+    "Private home": "Private Home",
+    "Delivery address": "Delivery Address",
+    "Comment": "Comment",
+    "Call": "Call",
+    "Chat": "Chat",
+    "Don't call": "Don't Call",
+    "Payment": "Payment",
+    "Payment_text": "Freeze the order amount on your card and debit it after delivery",
+    "Choose payment method": "Choose Payment Method",
+    "Apply": "Apply",
+    "Support": "Support",
+    "Support_text": "If you have any questions, contact us",
+    "Delivery date and time": "Delivery Date and Time",
+    "Date": "Date",
+    "Time": "Time",
+    "Promocode": "Promocode",
+    "My addresses": "My Addresses",
+    "Add Address": "Add Address",
+    "Apartment": "Apartment",
+    "Pickup point": "Pickup Point",
+    "Tashkent": "Tashkent",
+    "Delivery soon": "Soonest Delivery",
+    "Cart": "Cart",
+    "Choose date": "Choose Date",
+    "Choose time": "Choose Time",
+    "Something went wrong": "Something went wrong!"
+  },
+  "Common": {
+    "More": "More",
+    "Tashkent": "Tashkent",
+    "Pickup point": "Pickup Point",
+    "Choose address": "Choose Address"
+  },
+  "Payment": {
+    "Payment methods": "Payment Methods",
+    "Cash to courier": "Cash to Courier",
+    "Terminal": "Terminal",
+    "Online card": "Online Card",
+    "Add card": "Add Card",
+    "Adding Card": "Adding Card",
+    "Add Card_text": "Add a Uzcard or Humo card for quick order payment",
+    "Save for next purchases": "Save for Next Purchases",
+    "mm/yy": "mm/yy",
+    "Add": "Add",
+    "Save": "Save",
+    "Card Number": "Card Number",
+    "expiryDate": "Expiry Date",
+    "Choose payment method": "Choose Payment Method",
+    "Expiry": "Card Expiry",
+    "Cards not found": "No cards found",
+    "Cards not found_text": "By adding a card, you can instantly pay for orders without worrying about cash",
+    "My Cards": "My Cards"
+  },
+  "Product": {
+    "You may need": "You may need",
+    "More": "More",
+    "Add to Cart": "Add to Cart",
+    "sum": "sum",
+    "Contains": "Contains"
+  },
+  "Category": {
+    "Main": "Main"
+  },
+  "Footer": {
+    "Accessible in": "Accessible in",
+    "Google Play": "Google Play",
+    "App Store": "App Store",
+    "OQ-OT 2023_text": "© OQ-OT. All rights reserved 2023",
+    "Tech support": "Tech Support"
+  },
+  "OrderList": {
+    "All": "All",
+    "Completed": "Completed",
+    "Cancled by Admin": "Canceled by Admin",
+    "Canceled by Client": "Canceled by Client",
+    "Collecting": "Collecting",
+    "Delivering": "Delivering",
+    "Accepted": "Accepted",
+    "My Orders": "My Orders",
+    "Main": "Main",
+    "Order": "Order",
+    "Pickup": "Pickup",
+    "Delivery": "Delivery",
+    "Order list is empty": "Order list is empty",
+    "Order list is empty_text": "Here will display the history of your purchases"
+  },
+  "OrderCard": {
+    "sum": "sum",
+    "Order No": "Order No"
+  },
+  "Favourites": {
+    "Favourites": "Favorites",
+    "Main": "Main"
+  },
+  "Profile": {
+    "My orders": "My Orders",
+    "Favorites": "Favorites",
+    "My Addresses": "My Addresses",
+    "My bank cards": "My Cards",
+    "My promos": "My Promos",
+    "Vacancies": "Vacancies",
+    "About service": "About Service",
+    "My orders": "My Orders",
+    "Favorites": "Favorites",
+    "My Addresses": "My Addresses",
+    "My bank cards": "My Cards",
+    "My promos": "My Promos",
+    "Vacancies": "Vacancies",
+    "About service": "About Service",
+    "Verified": "Verified",
+    "Logout": "Logout"
+  },
+  "Order": {
+    "Main": "Main",
+    "My Orders": "My Orders",
+    "Order No": "Order No",
+    "Order created at": "Order created at",
+    "Order created": "Order created",
+    "Order will be delivered in 30 minutes": "Order will be delivered in 30 minutes",
+    "Chat": "Chat",
+    "Call": "Call",
+    "Order content": "Order Content",
+    "Order details": "Order Details",
+    "Created At": "Created At",
+    "Payment Type": "Payment Type",
+    "Cash": "Cash",
+    "Comment": "Comment",
+    "Dont Call": "Don't Call",
+    "Delivery Type": "Delivery Type",
+    "Delivery details": "Delivery Details",
+    "Call when delivered": "Call when delivered",
+    "Courier": "Courier",
+    "Delivery": "Delivery",
+    "Pickup": "Pickup",
+    "Order created at ": "Order created at",
+    "delivered": "Delivered",
+    "canceled by admin": "Canceled by Admin",
+    "canceled by client": "Canceled by Client"
+  },
+  "Address": {
+    "Are you sure to delete Address": "Are you sure you want to delete the Address",
+    "After confirm address will be deleted from the list of addresses": "Once confirmed, the address will be deleted from the list of addresses"
+  },
+  "Confirm Modal": {
+    "Confirm": "Confirm",
+    "Cancel": "Cancel"
+  },
+  "Errors": {
+    "Error occurred when deleting card!": "An error occurred while deleting the card!",
+    "Error occurred when deleting address!": "An error occurred while deleting the address!"
+  },
+  "ConfirmModal": {
+    "Confirm": "Confirm",
+    "Cancel": "Cancel"
   }
 }
