@@ -148,7 +148,7 @@ export const Product :React.FC<IProduct>  = memo(observer(({
                     </div>
                  }
                 {discountPercent ? <div
-                    className="px-2 py-0.5 rounded-2xl flex-center text-xs text-white absolute z-20 bottom-1 left-1 md:bottom-2 md:left-2 bg-orange-default">{`-${discountPercent * 100}%`}</div> : null}
+                    className="px-2 py-0.5 rounded-2xl flex-center text-xs text-white absolute z-20 bottom-1 left-1 md:bottom-2 md:left-2 bg-orange-default">{`-${parseInt((discountPercent * 100)?.toString())}%`}</div> : null}
             </div>
             <Tooltip
                 placement={"bottom"}

@@ -168,7 +168,7 @@ export const ProductContent : React.FC<IProductContent> = observer(({open, onClo
                         <div className="absolute top-1 flex justify-between items-center !z-50 w-full px-4">
                             {good.data?.discount ? <div
                                 className="w-16 h-7 rounded-2xl flex-center text-base-bold text-white bg-orange-default">
-                                {`-${good.data?.discount ? good.data.discount * 100 : 0}`}
+                                {`-${good.data?.discount ? parseInt((good.data.discount * 100).toString()) : 0}%`}
                             </div> : <div></div>}
                             <div
                                 onClick={handleLikeClick}
