@@ -52,7 +52,7 @@ export const PICKUP_COORDINATES = [41.318495, 69.287357]
 export const PROMO_CATEGORY_GOODS_PAGE_SIZE = 5;
 export const FOOTER_HEIGHT = 188;
 export const HEADER_HEIGHT = 88;
-export const  SUPPORT_PHONE_NUMBER = "+998 (00) 000-00-00"
+export const  SUPPORT_PHONE_NUMBER = "+998 (55) 508-89-89"
 
 export const PaymentTypes : {[key : number] : string} = {
     0 : 'Cash',

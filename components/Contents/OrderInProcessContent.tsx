@@ -7,7 +7,7 @@ import {useMemo} from "react";
 import {useParams, useRouter} from "next/navigation";
 import {OrderProcessStatus} from "@/components/Puzzles/OrderProcessStatus";
 import {YandexMap} from "@/components/Customs/YandexMap";
-import {PaymentTypes, PICKUP_COORDINATES} from "@/utils/constants";
+import {PaymentTypes, PICKUP_COORDINATES, SUPPORT_PHONE_NUMBER} from "@/utils/constants";
 import ChatIcon from "@/public/icons/chat.svg";
 import RightChevron from "@/public/icons/right-chevron.svg";
 import PhoneIcon from "@/public/icons/phone.svg";
@@ -22,6 +22,7 @@ import Cheque from "@/components/Puzzles/Cheque";
 import {CustomBadge} from "@/components/Customs/CustomBadge";
 import Finish from "@/public/icons/finish.svg"
 import CircleX from "@/public/icons/circle-x.svg"
+import Link from "next/link";
 
 
 
@@ -106,7 +107,7 @@ export const OrderInProcessContent = () => {
                 :  <CustomBadge Icon={<CircleX className ="fill-white"/>} title={t("canceled by client")} color={"#FF2C45"}/>
             }
             <div className="w-full flex space-x-4">
-                <div className={"w-full rounded-2xl border border-gray-default px-6 py-4 flex justify-between cursor-pointer"}>
+                <Link href={"https://t.me/oqotbot"} target={"_blank"} className={"w-full rounded-2xl border border-gray-default px-6 py-4 flex justify-between cursor-pointer"}>
                     <div className="flex space-x-4">
                         <ChatIcon className={"fill-gray-secondary"}/>
                         <div className="text-base-bold">
@@ -114,12 +115,12 @@ export const OrderInProcessContent = () => {
                         </div>
                     </div>
                     <RightChevron className={"fill-gray-secondary"}/>
-                </div>
+                </Link>
                 <div className={"w-full rounded-2xl border border-gray-default px-6 py-4 flex justify-between cursor-pointer"}>
                     <div className="flex space-x-4">
                         <PhoneIcon className={"fill-gray-secondary"}/>
                         <div className="text-base-bold">
-                            {t("Call")}
+                            {SUPPORT_PHONE_NUMBER}
                         </div>
                     </div>
                     <RightChevron className={"fill-gray-secondary"}/>

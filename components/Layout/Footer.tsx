@@ -22,16 +22,16 @@ export const Footer = () => {
             </Link>
             <div className="flex space-x-4">
                 <Button theme={"tertiary"} text={""} startIcon={<Playmarket/>}>{
-                    <div className={"flex flex-col -space-y-1"}>
+                    <Link target={"_blank"} href={"https://play.google.com/store/apps/details?id=uz.oqot.app&hl=ru&gl=US"} className={"flex flex-col -space-y-1"}>
                         <div className="text-xs-light">{t("Accessible in")}</div>
                         <div className="text-base-bold">{t("Google Play")}</div>
-                    </div>
+                    </Link>
                 }</Button>
-                <Button theme={"tertiary"} text={""} startIcon={<AppSotre/>}>{
-                    <div className={"flex flex-col -space-y-1"}>
+                <Button  theme={"tertiary"} text={""} startIcon={<AppSotre/>}>{
+                    <Link target={"_blank"} href={"https://apps.apple.com/uz/app/oq-ot-delivery-in-tashkent/id6443429151"} className={"flex flex-col -space-y-1"}>
                         <div className="text-xs-light">{t("Accessible in")}</div>
                         <div className="text-base-bold">{t("App Store")}</div>
-                    </div>
+                    </Link>
                 }</Button>
             </div>
         </div>
@@ -49,13 +49,13 @@ export const Footer = () => {
                 </div>
             </div>
             <div className="flex items-center space-x-2">
-                <Link href={''} className={'p-4 flex-center'}>
+                <Link href={'https://www.instagram.com/oqotuz?igsh=NnlxemprNDhidGRl'} className={'p-4 flex-center'} target={"_blank"}>
                     <InstagramIcon/>
                 </Link>
-                <Link href={''} className={'p-4 flex-center'}>
+                <Link href={'https://t.me/oqotbot'} target={"_blank"} className={'p-4 flex-center'}>
                     <TelegramIcon/>
                 </Link>
-                <Link href={''} className={'p-4 flex-center'}>
+                <Link href={'https://www.facebook.com/oqot.uz?locale=ru_RU'} className={'p-4 flex-center'} target={"_blank"}>
                     <FacebookIcon/>
                 </Link>
             </div>

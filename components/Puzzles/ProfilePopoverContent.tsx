@@ -21,6 +21,7 @@ import {el} from "date-fns/locale";
 import {Text} from "domelementtype";
 import {useRouter} from "next/navigation";
 import UIStore from "@/utils/stores/UIStore";
+import Link from "next/link";
 
 
 interface IProfile {
@@ -64,7 +65,8 @@ export const ProfilePopoverContent = (props : IProps) => {
                 },
                 {
                     title : t("Favourites"),
-                    icon : <Heart className={"fill-inherit"}/>
+                    icon : <Heart className={"fill-inherit"}/>,
+                    path:  "/favourites",
                 },
                 {
                     title : t("My Addresses"),
@@ -76,17 +78,19 @@ export const ProfilePopoverContent = (props : IProps) => {
                     icon : <CreditCard className={"fill-inherit"}/>,
                     handler : () => UIStore.setIsCardListOpen(true)
                 },
-                {
-                    title : t("My promos"),
-                    icon : <Ticket className={"fill-inherit"}/>
-                },
+                // {
+                //     title : t("My promos"),
+                //     icon : <Ticket className={"fill-inherit"}/>
+                // },
                 {
                     title : t("Vacancies"),
-                    icon : <Users className={"fill-inherit"}/>
+                    icon : <Users className={"fill-inherit"}/>,
+                    link : "https://oqot.uz/ru/vacancies"
                 },
                 {
                     title : t("About service"),
-                    icon : <CirclePin className={"fill-inherit"}/>
+                    icon : <CirclePin className={"fill-inherit"}/>,
+                    link : "https://oqot.uz/ru"
                 }
 
             ]
@@ -141,9 +145,9 @@ export const ProfilePopoverContent = (props : IProps) => {
     //     <CircularProgress className={"text-orange-default"} />
     // </div>
 
-    return <Stack spacing={0} className={"no-scrollbar"}>
+    return <Stack spacing={0} className={"no-scrollbar w-[250px]"}>
         <div className="flex space-x-4 items-start px-4 py-3">
-            <Avatar src={profile?.data?.data?.user?.avatarPhotoPath} className={"w-14 h14"}/>
+            <Avatar src={"/broken-image.jpg"} alt={""}/>
             <div className="flex flex-col space-y-2">
                 <div className="flex flex-col">
                     <div className="text-base-bold">
@@ -153,25 +157,37 @@ export const ProfilePopoverContent = (props : IProps) => {
                         {profile.data?.data?.phoneNumber}
                     </div>
                 </div>
-                <div className={`flex space-x-0 items-center ${verificationStatus.status === 0 ? "fill-green-text" : verificationStatus.status === 1 ? "fill-orange-default" : "fill-red-default"}`}>
-                    {verificationStatus.icon}
-                    <div className={verificationStatus.textClassName}>
-                        {verificationStatus.title}
-                    </div>
-                </div>
+                {/*<div className={`flex space-x-0 items-center ${verificationStatus.status === 0 ? "fill-green-text" : verificationStatus.status === 1 ? "fill-orange-default" : "fill-red-default"}`}>*/}
+                {/*    {verificationStatus.icon}*/}
+                {/*    <div className={verificationStatus.textClassName}>*/}
+                {/*        {verificationStatus.title}*/}
+                {/*    </div>*/}
+                {/*</div>*/}
             </div>
         </div>
 
         {
             profileMenu.map((item, index : number) => {
-                return <div
-                    onClick={() => item.path ? router.push(item.path) : item.handler ?  item.handler() : null}
+                return <Link
+                    href={item.link ?? item.path ?? ""}
+                    target={item.link ? "_blank" : undefined}
+                    onClick={(e) => {
+                        if(!item.link) {
+                            e.stopPropagation()
+                            if(item.path) {
+                                router.push(item.path)
+                            }
+                            else if(item.handler) {
+                                item.handler()
+                            }
+                        }
+                    }}
                     className={"flex px-4 py-3 cursor-pointer space-x-4 text-black-primary hover:text-blue-text fill-black-primary hover:fill-blue-text"}>
                     {item.icon}
                     <div className="text-base-bold text-inherit">
                         {item.title}
                     </div>
-                </div>
+                </Link>
             })
         }
         <div className="px-4 py-3">

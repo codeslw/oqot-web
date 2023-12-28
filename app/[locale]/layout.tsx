@@ -23,6 +23,7 @@ const inter = Inter({ subsets: ['latin'] })
 export const metadata: Metadata = {
   title: 'OQ-OT',
   description: 'Делайте базар, не выходя из дома!',
+  icons : ['/app_logo.svg']
 }
 
 

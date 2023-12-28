@@ -14,6 +14,7 @@ import {ADDRESS_LIST_URL, DELETE_ADDRESS_URL} from "@/utils/constants";
 import {useQueryClient} from "@tanstack/react-query";
 import {ConfirmModal} from "@/components/Shared/ConfirmModal";
 import {useTranslations} from "use-intl";
+import UIStore from "@/utils/stores/UIStore";
 
 
 interface PickAddressPopupContent {
@@ -39,7 +40,9 @@ export const PickAddressPopupContent: React.FC<PickAddressPopupContent> = observ
     const t = useTranslations("Address")
     const handleAddNewAddress = () => {
         onClose();
-        uistore.closeMobileAddressPopup()
+        UIStore.closeMobileAddressPopup()
+        UIStore.setIsPickAddressModalOpen(true)
+
     }
 
     const handleDeleteAddress = async (id : string) => {

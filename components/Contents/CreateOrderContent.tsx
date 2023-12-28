@@ -51,6 +51,8 @@ import CartStore from "@/utils/stores/CartStore";
 import {useCart} from "@/hooks/useCart";
 import {useRouter} from "next/navigation";
 import {CustomBreadCrumb} from "@/components/Customs/CustomBreadCumb";
+import {SUPPORT_PHONE_NUMBER} from "@/utils/constants";
+import Link from "next/link";
 
 
 export const CreateOrderContent = observer(() => {
@@ -465,7 +467,7 @@ export const CreateOrderContent = observer(() => {
                        <div className="text-xs-light-gray">{t("Support_text")}</div>
                    </Stack>
                    <div className="w-full flex space-x-4">
-                       <div className={"w-full rounded-2xl border border-gray-default px-6 py-4 flex justify-between cursor-pointer"}>
+                       <Link href={"https://t.me/oqotbot"} target={"_blank"} className={"w-full rounded-2xl border border-gray-default px-6 py-4 flex justify-between cursor-pointer"}>
                            <div className="flex space-x-4">
                                <ChatIcon className={"fill-gray-secondary"}/>
                                <div className="text-base-bold">
@@ -473,12 +475,12 @@ export const CreateOrderContent = observer(() => {
                                </div>
                            </div>
                            <RightChevron className={"fill-gray-secondary"}/>
-                       </div>
+                       </Link>
                        <div className={"w-full rounded-2xl border border-gray-default px-6 py-4 flex justify-between cursor-pointer"}>
                            <div className="flex space-x-4">
                                <PhoneIcon className={"fill-gray-secondary"}/>
                                <div className="text-base-bold">
-                                   {t("Call")}
+                                   {SUPPORT_PHONE_NUMBER}
                                </div>
                            </div>
                            <RightChevron className={"fill-gray-secondary"}/>
