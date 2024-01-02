@@ -65,7 +65,7 @@ export const CreateOrderContent = observer(() => {
     const [promoMessage, setPromoMessage] = useState("");
     const [deliveryPrice, setDeliveryPrice] = useState(0);
     const [openPaymentMethods, setOpenPaymentMethods] = useState(false);
-    const [deliverySoon, setDeliverySoon] = useState(false);
+    const [deliverySoon, setDeliverySoon] = useState(true);
     const [calculatedTotalPrice, setCalculatedTotalPrice] = useState<null | number>(null);
     const [calculatedTotalDiscount, setCalculatedTotalDiscount] = useState<null | number>(null);
     const [calculatedTotalGoodPrice, setCalculatedTotalGoodPrice] = useState<null | number>(null);

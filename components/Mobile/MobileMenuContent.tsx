@@ -21,11 +21,11 @@ export const MobileMenuContent:React.FC<IMobileMenuContent> = ({handleLocationCl
     const menuOptions = useMemo(() => {
         return [
 
-            {Icon : FlagUzIcon, title : "Язык", path : "/languages", handler : handleLanguageClick },
-            {Icon : HeartIcon, title : "Избранные", path : "/favourites"},
-            {Icon : CartIcon, title : "Корзина", path : "/cart"},
-            {Icon : ProfileIcon, title : "Избранные", path : "/profile"},
-            {Icon : PointerIcon, title : "Локация", path : "/location", handler : handleLocationClick},
+            {Icon : FlagUzIcon, title : "Язык", path : "/languages", handler : handleLanguageClick, key : "language" },
+            {Icon : HeartIcon, title : "Избранные", path : "/favourites", key : "favourites"},
+            {Icon : CartIcon, title : "Корзина", path : "/cart", key : "cart"},
+            {Icon : ProfileIcon, title : "Избранные", path : "/favourites", key : "favourites"},
+            {Icon : PointerIcon, title : "Локация", path : "/location", handler : handleLocationClick, key : "location"},
 
         ];
     }, []);
@@ -33,7 +33,7 @@ export const MobileMenuContent:React.FC<IMobileMenuContent> = ({handleLocationCl
 
     return (
         <Stack gap={1}>
-            {menuOptions.map(({Icon, title, path, handler}) => {
+            {menuOptions.map(({Icon, title, path, handler , key}) => {
                 return (<Link
                     onClick = {(e) => {
                         if (handler) {
@@ -43,7 +43,7 @@ export const MobileMenuContent:React.FC<IMobileMenuContent> = ({handleLocationCl
                         }
                     }}
                     href={path} className={`w-full space-x-4 p-3 flex no-underline`}>
-                    <Icon className={"dark:fill-black-primary"}/>
+                    <Icon className={`dark:fill-black-primary fill-gray-secondary ${key === "language" ? "rounded-full" : ""}`}/>
                     <div className="text-base-bold dark:text-black-primary">
                         {title}
                     </div>

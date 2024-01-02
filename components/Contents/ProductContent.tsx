@@ -156,11 +156,11 @@ export const ProductContent : React.FC<IProductContent> = observer(({open, onClo
 
 
 
-    return<Modal open={open} onCloseIconClicked={onClose} extraClassName={'p-10 max-w-[928px] w-[928px] min-w-[928px] max-h-[800px] min-h-[800px] overflow-y-auto no-scrollbar overflow-x-hidden'}>
+    return<Modal open={open} onCloseIconClicked={onClose} extraClassName={'p-10 max-w-[1000px] w-[1000px] min-w-[1000px] max-h-[900px] min-h-[900px] overflow-y-auto no-scrollbar overflow-x-hidden'}>
             <AnimateModalContentWrapper>
             {good.isLoading ? <div className={"w-full h-full flex-center"}>
                 <CircularProgress/>
-            </div> : <Stack direction={"column"} spacing={7}>
+            </div> : <Stack direction={"column"} spacing={1}>
             <Grid container>
                 <Grid item xs={12} md={6} lg={4}>
                     <div className={"w-[320px] h-[320px] relative p-2"}>

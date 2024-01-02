@@ -209,8 +209,8 @@ export const Header : React.FC<IHeader> = observer(({categories}) => {
     return (
         <>
         <div className={"sm:px-4 md:px-6 lg:px-8 py-4 w-full fixed top-0 z-50  bg-white dark:bg-black-primary sm:space-x-4 lg:space-x-6 xl:space-x-8 flex justify-between sm:justify-stretch px-6 items-center"}>
-            <Link href={"/"}>
-                <LogoIcon className = "hidden md:block fill-black-primary dark:fill-white text-white dark:text-black-primary cursor-pointer"/>
+            <Link href={"/"} className="hidden md:block">
+                <LogoIcon className = "hidden md:block lg:w-auto sm:w-[4rem] h-auto fill-black-primary dark:fill-white text-white dark:text-black-primary cursor-pointer"/>
             </Link>
             <div className={`hidden sm:block`} >
                 <Button
@@ -221,7 +221,7 @@ export const Header : React.FC<IHeader> = observer(({categories}) => {
                     startIcon={<BurgerMenuIcon className = "fill-black-primary dark:fill-white"/>}/>
                 <NestedMenu onClose={() => handleToggleCatalog()} open={!!catalogAnchor} options={formatCategories(categories)} id={"catalog"} anchorElement={catalogAnchor}/>
             </div>
-            <div aria-describedby={"search"} className={"flex xs:sm:flex-grow  lg:flex-grow xs:w-max relative"}>
+            <div aria-describedby={"search"} className={"flex sm:flex-grow  lg:flex-grow xs:w-max relative"}>
                 <Input id={"header_search_field"} aria-describedby={"search"}
                        //onClick={handleOpenSearch}
                        ref={searchRef}
