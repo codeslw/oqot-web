@@ -38,6 +38,11 @@ import {ProfilePopoverContent} from "@/components/Puzzles/ProfilePopoverContent"
 import {ProductSearchPopoverContent} from "@/components/Puzzles/ProductSearchPopoverContent";
 import {AddressToClient, IAddressToClientData} from "@/types/common";
 import {LanguagesPopovercontent} from "@/components/Puzzles/LanguagesPopovercontent";
+import {MobileLanguageContent} from "@/components/Mobile/MobileLanguageContent";
+import {usePathname, useRouter} from "@/navigation";
+import {MobileAddressContent} from "@/components/Mobile/MobileAddressContent";
+import {Modal} from "@/components/Modal";
+import {AddressModalContent} from "@/components/Puzzles/AddressModalContent";
 
 interface IAddressItem {
     name : string,
@@ -74,6 +79,10 @@ export const Header : React.FC<IHeader> = observer(({categories}) => {
     const t = useTranslations("Common");
 
     const  locale = useLocale();
+    const router = useRouter();
+    const pathname = usePathname();
+
+    const pathsArray = pathname.split("/");
 
 
     const [openDrawer, setOpenDrawer] = useState(false);
@@ -87,6 +96,7 @@ export const Header : React.FC<IHeader> = observer(({categories}) => {
     const [search, setSearch] = useState("");
     const {isUserAuthenticated} = useAuth();
     const [catalogAnchor, setCatalogAnchor] = useState<HTMLButtonElement | null>(null);
+
 
     const formatCategories = (categories : any[]) => {
         let main =[]
@@ -145,6 +155,7 @@ export const Header : React.FC<IHeader> = observer(({categories}) => {
     };
 
     const handleLanguageClick = () => {
+        setOpenDrawer(false)
         uistore.openMobileLanguagePopup();
     };
 
@@ -206,9 +217,16 @@ export const Header : React.FC<IHeader> = observer(({categories}) => {
     }
 
 
+
+
+    const handleChangeLanguage = (key : string) => {
+        router.push(pathname, {locale : key as any})
+        uistore.closeMobileLanguagePopup()
+    };
+
     return (
         <>
-        <div className={"sm:px-4 md:px-6 lg:px-8 py-4 w-full fixed top-0 z-50  bg-white dark:bg-black-primary sm:space-x-4 lg:space-x-6 xl:space-x-8 flex justify-between sm:justify-stretch px-6 items-center"}>
+        <div className={"max-w-[100vw] sm:px-4 md:px-6 lg:px-8 py-4 w-full fixed top-0 z-50  bg-white dark:bg-black-primary sm:space-x-4 lg:space-x-6 xl:space-x-8 flex justify-between sm:justify-stretch px-6 items-center"}>
             <Link href={"/"} className="hidden md:block">
                 <LogoIcon className = "hidden md:block lg:w-auto sm:w-[4rem] h-auto fill-black-primary dark:fill-white text-white dark:text-black-primary cursor-pointer"/>
             </Link>
@@ -246,6 +264,7 @@ export const Header : React.FC<IHeader> = observer(({categories}) => {
                    open={openDrawer}
                    anchor={"bottom"}>
                 <div className="flex flex-col space-y-4 p-4 rounded-2xl">
+
                     <MobileMenuContent
                     handleLocationClick={handleAddressClick}
                     handleLanguageClick={handleLanguageClick}
@@ -336,6 +355,32 @@ export const Header : React.FC<IHeader> = observer(({categories}) => {
                 </Menu>
             </nav>
         </div>
+
+
+            <Popup
+                className={"sm:hidden"}
+                anchor={"bottom"}
+                onOpen={() => uistore.openMobileAddressPopup()}
+                onClose={() => uistore.closeMobileAddressPopup()}
+                open={uistore.isMobileAddressPopupOpen}>
+                <MobileAddressContent/>
+            </Popup>
+            <Popup
+                className={"sm:hidden"}
+                anchor={"bottom"}
+                onOpen={() => uistore.openMobileLanguagePopup()}
+                onClose={() => uistore.closeMobileLanguagePopup()}
+                open={uistore.isMobileLanguagePopupOpen}>
+                <MobileLanguageContent onChange={handleChangeLanguage}/>
+            </Popup>
+            <Modal
+                open={uistore.isMobileAddressPopupOpen}
+                className={"hidden sm:block"}
+                onCloseIconClicked={() => uistore.closeMobileAddressPopup()}
+                onClose={() => uistore.closeMobileAddressPopup()}
+            >
+                <AddressModalContent onClose={() => uistore.closeMobileAddressPopup()}/>
+            </Modal>
 
             </>
     );

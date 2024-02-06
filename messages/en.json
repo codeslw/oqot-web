@@ -225,5 +225,8 @@
   "ConfirmModal": {
     "Confirm": "Confirm",
     "Cancel": "Cancel"
+  },
+  "General" : {
+    "Save" : "Save"
   }
 }

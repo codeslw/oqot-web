@@ -3,6 +3,7 @@ import React, {memo, useEffect, useState} from "react";
 import Image from "next/image";
 import {IconButton, Tooltip} from "@mui/material";
 import PlusIcon from  "@/public/icons/plus.svg";
+import PlusIconMini from  "@/public/icons/plus-mini.svg";
 import MinusIcon from  "@/public/icons/minus.svg";
 import {Button} from "@/components/Button";
 import  Heart from  "@/public/icons/heart.svg";
@@ -130,8 +131,10 @@ export const Product :React.FC<IProduct>  = memo(observer(({
             <div className={`relative w-full aspect-square flex-center overflow-hidden px-2 py-1 xl:px-[30px] xl:py-5 bg-white rounded-2xl`}>
                 {(innerCount === 0 || innerCount === null)  ? <IconButton
                     onClick={handleIncrement}
-                    className={"flex justify-center items-center absolute z-20 top-2 right-2 !p-[6px] w-9 !h-9  rounded-xl bg-gray-background hover:bg-gray-focus"}>
-                    <PlusIcon className ="fill-black-primary"/>
+                    className={"flex justify-center items-center absolute z-20 top-2 right-2  !p-[3px] sm:!p-[6px] w-6 !h-6 sm:w-9 sm:!h-9 rounded-lg  sm:rounded-xl bg-gray-background hover:bg-gray-focus"}>
+
+                    <PlusIcon className ="fill-black-primary hidden sm:block"/>
+                    <PlusIconMini className ="fill-black-primary sm:hidden"/>
                 </IconButton> : <CustomProductCounterButton count={innerCount ?? 0} handleIncrement={handleIncrement} handleDecrement={handleDecrement}/>}
                 <div className="relative w-full h-full">
                 <Image src={photoPath} alt={""} fill={true} className="rounded-2xl object-contain bg-white overflow-hidden"/>

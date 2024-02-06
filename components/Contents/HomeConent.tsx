@@ -27,6 +27,7 @@ import {useQueryApi} from "@/hooks/useQueryApi";
 import {useSynchronizeCart} from "@/hooks/useSynchronizeCart";
 import {ProductContent} from "@/components/Contents/ProductContent";
 import {GoodListWrapper} from "@/components/Wrappers/GoodListWrapper";
+import {usePathname, useRouter} from "@/navigation";
 
 interface  IHomeContent {
     categories : TCategories,
@@ -36,6 +37,8 @@ interface  IHomeContent {
 export const HomeConent : React.FC<IHomeContent> = observer(({categories, promoCategoryGoods}) => {
 
     const t = useTranslations("HomeContent");
+    const router = useRouter();
+    const pathname = usePathname();
 
     const [activeTab, setActiveTab] = useState<null | string>(null);
     const [openPickLocationModal, setOpenPickLocationModal] = useState(true);
@@ -61,9 +64,7 @@ export const HomeConent : React.FC<IHomeContent> = observer(({categories, promoC
 
 
 
-    const handleChangeLanguage = (key : string) => {
 
-    };
 
     return (
         <>
@@ -104,30 +105,7 @@ export const HomeConent : React.FC<IHomeContent> = observer(({categories, promoC
 
                 }
             </div>
-            <Popup
-                className={"sm:hidden"}
-                anchor={"bottom"}
-                onOpen={() => uistore.openMobileAddressPopup()}
-                onClose={() => uistore.closeMobileAddressPopup()}
-                open={uistore.isMobileAddressPopupOpen}>
-                <MobileAddressContent/>
-            </Popup>
-            <Popup
-                className={"sm:hidden"}
-                anchor={"bottom"}
-                onOpen={() => uistore.openMobileLanguagePopup()}
-                onClose={() => uistore.closeMobileLanguagePopup()}
-                open={uistore.isMobileLanguagePopupOpen}>
-                <MobileLanguageContent onChange={handleChangeLanguage}/>
-            </Popup>
-            <Modal
-                open={uistore.isMobileAddressPopupOpen}
-                className={"hidden sm:block"}
-                onCloseIconClicked={() => uistore.closeMobileAddressPopup()}
-                onClose={() => uistore.closeMobileAddressPopup()}
-            >
-            <AddressModalContent onClose={() => uistore.closeMobileAddressPopup()}/>
-            </Modal>
+
             {/*{!!activeGoodId && <ProductContent open={!!activeGoodId} onClose={() => setActiveGoodId(null)} goodId={activeGoodId ?? ""}/>}*/}
         </>
     );

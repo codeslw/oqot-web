@@ -1,8 +1,11 @@
 "use client"
 import {Modal} from "@/components/Modal";
-import {Stack} from "@mui/material";
+import {Stack, useMediaQuery} from "@mui/material";
 import {Button} from "@/components/Button";
 import {useTranslations} from "use-intl";
+import {useTheme} from "@mui/material/styles";
+import uistore from "@/utils/stores/UIStore";
+import {Popup} from "@/components/Customs/Popup";
 
 interface IConfirmModal {
     open : boolean;
@@ -17,17 +20,38 @@ interface IConfirmModal {
 }
 export const ConfirmModal:React.FC<IConfirmModal> = ({open, onConfirm, onCancel, onClose, message, title, confirmLoading, confirmText, cancelText}) => {
     const t = useTranslations("ConfirmModal");
-
-    return <Modal open={open} onClose={onClose} onCloseIconClicked={onClose}>
+    const theme = useTheme();
+    const matches = useMediaQuery(theme.breakpoints.up('sm'));
+    return matches ?
+    <Modal open={open} onClose={onClose} onCloseIconClicked={onClose}>
         <Stack spacing={3}>
             <Stack spacing={2}>
                 <div className="text-3xl-bold">{title}</div>
                 <div className="text-base-light">{message}</div>
             </Stack>
             <div className="w-full flex space-x-4 items-center">
-                <Button loading={confirmLoading} theme={"secondary"} text={confirmText ?? t("Confirm")} onClick={onConfirm}/>
+                <Button loading={confirmLoading} theme={"secondary"} text={confirmText ?? t("Confirm")}
+                        onClick={onConfirm}/>
                 <Button theme={"tertiary"} text={cancelText ?? t("Cancel")} onClick={onCancel}/>
             </div>
         </Stack>
-    </Modal>
+    </Modal> :   <Popup
+                className={"sm:hidden"}
+                anchor={"bottom"}
+                onOpen={() => {}}
+                onClose={onClose}
+                open={open}>
+            <Stack spacing={3} className={"px-3"}>
+                <Stack spacing={2}>
+                    <div className="text-3xl-bold">{title}</div>
+                    <div className="text-base-light">{message}</div>
+                </Stack>
+                <div className="w-full flex space-x-4 items-center">
+                    <Button loading={confirmLoading} theme={"secondary"} text={confirmText ?? t("Confirm")}
+                            onClick={onConfirm}/>
+                    <Button theme={"tertiary"} text={cancelText ?? t("Cancel")} onClick={onCancel}/>
+                </div>
+            </Stack>
+
+            </Popup>
 }

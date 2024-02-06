@@ -28,11 +28,6 @@ export const MobileLanguageContent :React.FC<IMobileLanguageContent> = ({onChang
                     </div>
                 })}
             </Stack>
-            <div className="mt-auto flex space-x-4 w-full">
-                <Button theme={"secondary"} text={"Назад"} extraClasses={"w-1/2"}/>
-                <Button theme={"primary"} text={"Сохранить"} extraClasses={"w-1/2"}/>
-
-            </div>
         </Stack>
     );
 };

@@ -14,7 +14,7 @@ export const Footer = () => {
 
     const t = useTranslations("Footer")
 
-    return <footer className="px-8 py-5 flex flex-col space-y-6">
+    return <footer className="max-w-[100vw] px-8 py-5 flex flex-col space-y-6 overflow-hidden">
         <div className="w-full flex justify-between items-center">
             <Link href={"/"}>
                 <LogoIcon
@@ -41,14 +41,14 @@ export const Footer = () => {
                     {t("OQ-OT 2023_text")}
                 </div>
                 <div className={"w-1 h-1 rounded-full bg-black-primary"}></div>
-                <div className="flex space-x-3">
+                <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0  sm:space-x-3">
                     <div className="text-base-light">
                         {t("Tech support")}
                     </div>
                     <div className={"text-base-bold"}>{SUPPORT_PHONE_NUMBER}</div>
                 </div>
             </div>
-            <div className="flex items-center space-x-2">
+            <div className="flex flex-col sm:flex-row items-center space-y-2 sm:space-x-2 sm:space-y-0">
                 <Link href={'https://www.instagram.com/oqotuz?igsh=NnlxemprNDhidGRl'} className={'p-4 flex-center'} target={"_blank"}>
                     <InstagramIcon/>
                 </Link>

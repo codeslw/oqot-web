@@ -1,5 +1,5 @@
 "use client";
-import {Grid, Link, Stack} from "@mui/material";
+import {Grid, Link, Stack, useMediaQuery} from "@mui/material";
 import {useTranslations} from "use-intl";
 import BreadCrumbsIcon from "@/public/icons/right-chevron-mini.svg";
 import TrashIcon from "@/public/icons/trashbin.svg";
@@ -25,6 +25,7 @@ import {ProductsHeader} from "@/components/Shared/ProductsHeader";
 import {localize} from "@/utils/services";
 import {DeleteCartItemsModal} from "@/components/Puzzles/DeleteCartItemsModal";
 import {CustomBreadCrumb} from "@/components/Customs/CustomBreadCumb";
+import {CartItemMobile} from "@/components/Customs/CartItemMobile";
 
 export const CartCotnent = observer(() => {
     const t = useTranslations("Cart");
@@ -32,7 +33,8 @@ export const CartCotnent = observer(() => {
     const deleteAllCart = useMutationApi(CART_DELETE_ALL_URL, "delete", {});
     const deliveryPrice = 0;
     const router = useRouter()
-    const {cartItems} = useSynchronizeCart()
+    const {cartItems} = useSynchronizeCart();
+
 
     const [deleting, setDeleting] = useState(false);
 
@@ -131,7 +133,7 @@ export const CartCotnent = observer(() => {
                 <Stack spacing={4} width={"95%"}>
                     <Stack spacing={3}>
                        <CustomBreadCrumb options={breadCrums}/>
-                        <div className="flex w-full space-x-6 items-center justify-between">
+                        <div className="flex w-full sm:space-x-6 items-center justify-between">
                             <div className="text-3xl-bold">
                                 {t("Cart")}
                             </div>
@@ -146,17 +148,34 @@ export const CartCotnent = observer(() => {
                     </Stack>
                     {((!cartItems.isLoading && cartStore.cart.length === 0) || deleting) ? null : <Stack spacing={0}>
                         {cartItems.isLoading ? <CartItemsSkeleton/>
-                            : cartStore.cart?.map((item: ICartState) => <CartItem
-                                name={item.goodName}
-                                price={item.goodPrice}
-                                key={item.goodId}
-                                id={item.id}
-                                discount={item.goodDiscount}
-                                photoPath={item.goodPhotoPath}
-                                goodId={item.goodId}
-                                count={item.count}
-                                maxCount={item.maxCount}
-                            />)
+                            : cartStore.cart?.map((item: ICartState) =>  <><div className={"hidden sm:block"}>
+                                <CartItem
+                                    name={item.goodName}
+                                    price={item.goodPrice}
+                                    key={item.goodId}
+                                    id={item.id}
+                                    discount={item.goodDiscount}
+                                    photoPath={item.goodPhotoPath}
+                                    goodId={item.goodId}
+                                    count={item.count}
+                                    maxCount={item.maxCount}
+                                />
+                            </div>
+                                <div className={"sm:hidden"}>
+                                <CartItemMobile
+                                    name={item.goodName}
+                                    price={item.goodPrice}
+                                    key={item.goodId}
+                                    id={item.id}
+                                    discount={item.goodDiscount}
+                                    photoPath={item.goodPhotoPath}
+                                    goodId={item.goodId}
+                                    count={item.count}
+                                    maxCount={item.maxCount}
+                                />
+                            </div>
+
+                            </>)
                         }
 
                     </Stack>}

@@ -218,5 +218,8 @@
   "ConfirmModal": {
     "Confirm": "Tasdiqlash",
     "Cancel": "Bekor qilish"
+  },
+  "General" : {
+    "Save" : "Saqlash"
   }
 }
