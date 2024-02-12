@@ -85,7 +85,7 @@ export const CartPriceInfoPanel:React.FC<ICartPriceInfoPanel> = ({goodCount, tot
         }
     };
 
-    return <Box className={"w-full mt-20 xl:mt-0 xl:w-[87%] ml-auto p-8 rounded-3xl border border-gray-default spacing sticky top-[88px]"}>
+    return <Box className={"w-full mt-10 lg:mt-5 xl:mt-0 xl:w-[87%] ml-auto p-8 rounded-3xl border border-gray-default spacing sticky top-[88px]"}>
         <Stack spacing={3}>
             <div className="text-xl-bold">
                 {t("In your order")}

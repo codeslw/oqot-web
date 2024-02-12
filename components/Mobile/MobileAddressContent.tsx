@@ -102,6 +102,7 @@ export const MobileAddressContent = () => {
 
             if (response.status < 400) {
                 UIStore.closeMobileAddressPopup()
+                UIStore.setOpenedMobileAddressList(true)
                 queryClient.invalidateQueries(["/addresstoclient"])
                 //   const lastAddress : any = (queryClient.getQueryData(['/addresstoclient']) as any)?.data?.addressToClients?.find((item : any) => item.id === response.data);
                 //  console.log(lastAddress, "lastAddress")

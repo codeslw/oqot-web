@@ -221,6 +221,9 @@
     "Cancel" : "Отмена"
   },
   "General" : {
+    "Address list is empty" : "Список адресов пуст",
+    "Address list is empty_text" : "Добавьте адрес, чтобы быстрее оформлять заказы",
+    "Add Address" : "Добавить адрес",
     "Save" : "Сохранить"
   }
 }

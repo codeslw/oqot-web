@@ -43,6 +43,7 @@ import {usePathname, useRouter} from "@/navigation";
 import {MobileAddressContent} from "@/components/Mobile/MobileAddressContent";
 import {Modal} from "@/components/Modal";
 import {AddressModalContent} from "@/components/Puzzles/AddressModalContent";
+import {MobileAddressList} from "@/components/Mobile/MobileAddressList";
 
 interface IAddressItem {
     name : string,
@@ -151,7 +152,8 @@ export const Header : React.FC<IHeader> = observer(({categories}) => {
     }
 
     const handleAddressClick = () => {
-        uistore.openMobileAddressPopup();
+        setOpenDrawer(false)
+        uistore.setOpenedMobileAddressList(true);
     };
 
     const handleLanguageClick = () => {
@@ -364,6 +366,14 @@ export const Header : React.FC<IHeader> = observer(({categories}) => {
                 onClose={() => uistore.closeMobileAddressPopup()}
                 open={uistore.isMobileAddressPopupOpen}>
                 <MobileAddressContent/>
+            </Popup>
+            <Popup
+                className={"sm:hidden"}
+                anchor={"bottom"}
+                onOpen={() => uistore.setOpenedMobileAddressList(true)}
+                onClose={() => uistore.setOpenedMobileAddressList(false)}
+                open={uistore.isMobileAddressListOpen}>
+                <MobileAddressList/>
             </Popup>
             <Popup
                 className={"sm:hidden"}

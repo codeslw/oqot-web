@@ -24,7 +24,7 @@ export const MobileMenuContent:React.FC<IMobileMenuContent> = ({handleLocationCl
             {Icon : FlagUzIcon, title : "Язык", path : "/languages", handler : handleLanguageClick, key : "language" },
             {Icon : HeartIcon, title : "Избранные", path : "/favourites", key : "favourites"},
             {Icon : CartIcon, title : "Корзина", path : "/cart", key : "cart"},
-            {Icon : ProfileIcon, title : "Избранные", path : "/favourites", key : "favourites"},
+            {Icon : ProfileIcon, title : "Профиль", path : "", key : "favourites"},
             {Icon : PointerIcon, title : "Локация", path : "/location", handler : handleLocationClick, key : "location"},
 
         ];

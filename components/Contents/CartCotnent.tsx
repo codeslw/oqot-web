@@ -206,9 +206,9 @@ export const CartCotnent = observer(() => {
                                                                                       onButtonClicked={handleEmptyButtonClicked}
         /> : null}
 
-        {favourites.isLoading ? <div>Loading...</div> : favourites.data?.data?.favoriteGoods.length === 0 ? null
+        {favourites.isLoading ? <div>Loading...</div> : favourites.data?.data?.favoriteGoods?.length === 0 ? null
 
-            : <Stack spacing={3} width={"100%"}>
+            : <Stack spacing={3} width={"100%"} className={"mt-10 xl:mt-auto"}>
                 <ProductsHeader title={t("Favourites")} link={"/favourites"}/>
                 <div
                     className={"grid grid-cols-3 sm:grid-cols-4 xl:grid-cols-5 gap-2 md:gap-3 lg:gap-4 xl:gap-5 mt-6"}>{

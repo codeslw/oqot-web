@@ -9,6 +9,7 @@ class UIStore {
     //States
     isMobileAddressPopupOpen = false;
     isMobileLanguagePopupOpen = false;
+    isMobileAddressListOpen = false;
     isTokenWrong = false;
     isAddressListOpen = false;
     isCardListOpen = false;
@@ -73,6 +74,10 @@ class UIStore {
 
     setGeneralError(generalError: string) {
         this.generalError = generalError
+    }
+
+    setOpenedMobileAddressList(isOpen: boolean) {
+        this.isMobileAddressListOpen = isOpen;
     }
 
 }

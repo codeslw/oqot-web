@@ -41,7 +41,7 @@ export const ConfirmModal:React.FC<IConfirmModal> = ({open, onConfirm, onCancel,
                 onOpen={() => {}}
                 onClose={onClose}
                 open={open}>
-            <Stack spacing={3} className={"px-3"}>
+            <Stack spacing={3} className={"px-3 py-4"}>
                 <Stack spacing={2}>
                     <div className="text-3xl-bold">{title}</div>
                     <div className="text-base-light">{message}</div>
